@@ -25,7 +25,7 @@ total, else 2.85. Two Poisson scores with a shared component (0.10) and Dixon-Co
 
 ## 3. Tournament engine (`sim/season.py`, `sim/standings.py`, `sim/liguilla.py`, `sim/markets.py`)
 200,000 simulations, seed 20260. One rating draw per club per simulation (sd 0.15); real results locked; remaining league
-fixtures in date order with drift 0.01 x surprise. Table: points, goal difference, goals for, coin.
+fixtures in date order with drift 0.01 x surprise. Table: points, goal difference, goals for, away goals for, coin.
 **Liguilla**: top 8, no play-in; 1 v 8, 2 v 7, 3 v 6, 4 v 5; two legs, lower seed hosts the first; a quarter-final or
 semi-final level on aggregate goes to the higher seed; semis re-seeded; the final level on aggregate plays extra time (a
 mini-match at a third of the goal means) then a coin. Played legs are locked to their score; a leg with a fresh Pinnacle
@@ -36,5 +36,6 @@ line is priced off it. Markets: champion, reach final, reach semis, Liguilla, se
 - Bracket: `scripts/backtest_liguilla.py` (26 Liguillas, 182 ties).
 
 ## 5. Pipeline (`scripts/weekly.py`)
-fetch_history -> fetch_schedule (ESPN) -> fetch_pinnacle (guest API, league 2242) -> run_sim -> site_data -> build_site ->
-check_site, then publish `outputs/latest/site.html`. No scheduled task exists yet.
+fetch_history -> fetch_schedule (ESPN) -> fetch_pinnacle (guest API, league 2242) -> close_fallback -> apply_site_settings ->
+run_sim -> morning -> site_data -> build_site -> check_site, then publish `outputs/latest/site.html`. Run every day at 08:16 ET
+by the "Liga MX morning" task; one-shot tasks run `close_capture.py` ten minutes before each kickoff (CLAUDE.md section 8).
