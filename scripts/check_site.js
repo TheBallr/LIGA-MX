@@ -7,7 +7,7 @@ const { chromium } = require('playwright'); const path = require('path'); const 
     const p = await b.newPage({ viewport: { width: w, height: 900 } });
     p.on('pageerror', e => errs.push(String(e))); p.on('console', m => { if (m.type() === 'error' && !/fonts\.g/.test(m.text())) errs.push(m.text()); });
     await p.goto('file://' + path.join(root, 'site_local.html')); await p.waitForTimeout(400);
-    for (const t of ['morning', 'table', 'games', 'bracket', 'model']) {
+    for (const t of ['morning', 'table', 'games', 'bracket']) {
       await p.click(`[data-tab=${t}]`); await p.waitForTimeout(150);
       if (await p.evaluate('document.documentElement.scrollWidth > document.documentElement.clientWidth + 1')) errs.push(`${t}: page scrolls sideways at ${w}px`);
       if (await p.evaluate(`document.querySelector('#tab-${t}').innerText.trim().length`) < 40) errs.push(`${t}: empty`);
@@ -33,7 +33,7 @@ const { chromium } = require('playwright'); const path = require('path'); const 
       await p.screenshot({ path: path.join(root, 'shots', 'game_if.png'), fullPage: true });
       if (fx != null) { await p.click(`#gm .ifb button[data-fx="${fx}"][data-o="A"]`); await p.waitForTimeout(600); }
       if (await p.evaluate("document.querySelectorAll('#ifChg tbody tr').length") !== 0) errs.push('games: clicking the same If again did not clear it');
-      await p.click('[data-tab=table]'); await p.click('#colSum'); await p.check('#col-band'); await p.check('#col-top4'); await p.waitForTimeout(150);
+      await p.click('[data-tab=table]'); await p.click('#colSum'); await p.check('#col-band'); await p.check('#col-top4'); await p.check('#col-rec'); await p.waitForTimeout(150);
       if (!(await p.evaluate("document.querySelector('#tbl thead').innerText.includes('95% BAND') || document.querySelector('#tbl thead').innerText.includes('95% band')"))) errs.push('table: the Columns menu did not add a column');
       await p.screenshot({ path: path.join(root, 'shots', 'columns.png') }); await p.click('#colSum');
       await p.click('#tbl tr.clk td.team'); await p.click('#drawer [data-rg="runs"]'); await p.click('#drawer [data-mk="reach_final"]'); await p.waitForTimeout(150);
@@ -51,5 +51,5 @@ const { chromium } = require('playwright'); const path = require('path'); const 
     await p.close();
   }
   await b.close();
-  console.log(errs.length ? 'check_site: FAILED\n' + errs.join('\n') : 'check_site: clean (5 tabs, 2 widths, Run, drawer, columns, game detail, If, bracket pick)'); process.exit(errs.length ? 1 : 0);
+  console.log(errs.length ? 'check_site: FAILED\n' + errs.join('\n') : 'check_site: clean (4 tabs, 2 widths, Run, drawer, columns, game detail, If, bracket pick)'); process.exit(errs.length ? 1 : 0);
 })();

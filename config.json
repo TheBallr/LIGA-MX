@@ -15,8 +15,8 @@
       "note": "league home edge = mean implied margin of the last 306 closes (two tournaments) before the match; no look-ahead"
     },
     "avg_total_goals": {
-      "value": 2.85,
-      "note": "PROVISIONAL 2026-11-15: realised goals per match over the last five tournaments (A2024-A2026) 2.86; football-data carries no totals, so no Pinnacle totals history. Re-set from the Pinnacle captures once 100 totals are on file. A fixture with a posted total uses it."
+      "value": 3.0,
+      "note": "RE-SET 2.85 -> 3.00 on 2026-11-15 (full review; Zac: optimise as needed). The base total of an unlined game. This tournament has averaged 3.02 goals a game (143 games) and Pinnacle's nine round-17 totals average 3.12; 2.85 was the five-tournament average (2.86). Quarter-final legs have run 0.11 above their tournaments' league average, semi-final and final legs below it (liguilla_total_adj). A game with a posted total uses it. Re-check against the Liguilla totals as they are captured."
     },
     "shared_goals_mean": {
       "value": 0.1,

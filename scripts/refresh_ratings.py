@@ -63,6 +63,10 @@ def build(asof: dt.date, kn: dict, use_posted: bool = True, now=None) -> dict:
     if len(posted):
         pm = posted.copy(); pm["y"] = pm["gd_fit"] - he - pm["home"].map(deltas).fillna(0.0)
         stq = data.load("schedule").set_index(["date", "home", "away"])["stage"].to_dict()
+        fin = data.load("schedule"); fin = fin[(fin["status"] == "final") & (fin["stage"] != "regular")]
+        legs1 = {(r.home, r.away): (r.date, float(r.hg), float(r.ag)) for r in fin.itertuples()}
+        pm["stage"] = [stq.get((r.date, r.home, r.away), "regular") for r in pm.itertuples(index=False)]
+        pm["y"] -= rl.leg2_shift(pm.assign(hg=np.nan, ag=np.nan), kn, legs1)
         pm["y"] -= [rl.status_factor(status.get(r.home, "live"), status.get(r.away, "live"), kn) if stq.get((r.date, r.home, r.away)) == "regular" else 0.0 for r in pm.itertuples(index=False)]
         # a posted line of the last regular rounds is as weak a reading of strength as their closes (late_rounds)
         sch = data.load("schedule"); sch = sch[sch["stage"] == "regular"].sort_values("kickoff_utc"); sch["tournament"] = "x"

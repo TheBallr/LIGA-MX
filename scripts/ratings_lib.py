@@ -53,12 +53,12 @@ def closes(kn: dict) -> pd.DataFrame:
         h = pd.concat([h, cl[h.columns.intersection(cl.columns)]], ignore_index=True)
     h["rk"] = h["book"].map(BOOK_RANK).fillna(-1)
     h["dd"] = pd.to_datetime(h["date"])
-    # the same match can sit a day apart in two sources (UK v ET dating): key on the pair inside a 3-day bucket
+    # the same match can sit a day apart in two sources (UK v ET dating): key on the pair, one day apart at most
     h = h.sort_values(["dd", "home", "rk"]).reset_index(drop=True)
     keep = []; last = {}
     for i, r in enumerate(h.itertuples(index=False)):
         k = (r.home, r.away); j = last.get(k)
-        if j is not None and (r.dd - h.at[j, "dd"]).days <= 3:
+        if j is not None and (r.dd - h.at[j, "dd"]).days <= 1:
             if r.rk >= h.at[j, "rk"]:
                 keep[keep.index(j)] = i; last[k] = i
             continue
@@ -107,7 +107,7 @@ def measurements(cl: pd.DataFrame, kn: dict, deltas: dict | None = None) -> pd.D
         if tn != "C2020":
             st = statuses(g, cut_of(tn), 18 if tn == "A2019" else 17)
             df.loc[st.index, "st_h"] = st["st_h"]; df.loc[st.index, "st_a"] = st["st_a"]
-    df["fac"] = status_factor(df["st_h"], df["st_a"], kn)
+    df["fac"] = status_factor(df["st_h"], df["st_a"], kn) + leg2_shift(df, kn)
     df["y"] = df["gd_fit"] - df["he"] - df["delta"] - df["fac"]
     df["sd"] = np.where(df["book"] == "avg_close", float(kn["kalman_s_avg"]), float(kn["kalman_s"]))
     df["round"] = round_numbers(df)
@@ -117,6 +117,25 @@ def measurements(cl: pd.DataFrame, kn: dict, deltas: dict | None = None) -> pd.D
         late = df["round"].notna() & (df["round"] > total - n_late) & (df["tournament"] != "C2020")
         df.loc[late, "sd"] = np.maximum(df.loc[late, "sd"], float(kn["late_round_sd"]))
     return df
+
+
+def leg2_shift(df: pd.DataFrame, kn: dict, results: dict | None = None) -> np.ndarray:
+    """Goals on the home margin of a Liguilla second leg from the first leg's score: leg2_state x the host's first-leg lead
+    (the sim applies the same shift, so a second-leg line is read net of it). A second leg = a knockout row whose reversed
+    pairing was played in the 8 days before it. `results` adds first legs not in df: {(home, away): (date, hg, ag)}."""
+    st = float(kn.get("leg2_state", 0.0) or 0.0); out = np.zeros(len(df))
+    if not st:
+        return out
+    seen = dict(results or {})
+    for i, r in enumerate(df.itertuples(index=False)):
+        if r.stage != "regular":
+            p = seen.get((r.away, r.home))
+            if p is not None and 0 < (pd.Timestamp(r.date) - pd.Timestamp(p[0])).days <= 8:
+                out[i] = st * (p[2] - p[1])          # the first leg's away side hosts now: its lead = away goals - home goals
+            hg, ag = getattr(r, "hg", np.nan), getattr(r, "ag", np.nan)
+            if hg == hg and ag == ag:
+                seen[(r.home, r.away)] = (r.date, float(hg), float(ag))
+    return out
 
 
 def round_numbers(df: pd.DataFrame) -> np.ndarray:
@@ -157,10 +176,8 @@ def walk(obs: pd.DataFrame, kn: dict, lags=(0, 7)) -> pd.DataFrame:
             k = len(snaps) - 1
             if l > 0:
                 lim = dts[i] - np.timedelta64(l, "D")
-                while k >= 0 and snaps[k][0] > lim:
+                while k > 0 and snaps[k - 1][0] > lim:      # the morning of the first match date after d - lag: every close dated d - lag or earlier
                     k -= 1
-                # the state on the morning of the first match date after (d - lag): everything strictly before d - lag + 1
-                k += 1 if (k + 1 < len(snaps) and snaps[k + 1][0] <= lim) else 0
             if k >= 0:
                 r, seen = snaps[k][1], snaps[k][2]
                 ok = seen[H[i:j]] & seen[A[i:j]]

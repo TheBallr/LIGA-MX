@@ -6,7 +6,7 @@ import numpy as np
 
 def rank_table(points, gd, gf, away_gf, coin):
     """(N, T) arrays -> order (N, T) team indices best first, pos (N, T) 1-based position of each team."""
-    key = points.astype(np.float64) * 1e11 + (gd.astype(np.float64) + 500.0) * 1e8 + gf.astype(np.float64) * 1e5 + away_gf.astype(np.float64) * 1e2 + (coin % 100)
+    key = points.astype(np.float64) * 1e11 + (gd.astype(np.float64) + 500.0) * 1e8 + gf.astype(np.float64) * 1e5 + away_gf.astype(np.float64) * 1e2 + coin.astype(np.float64) / float(1 << 20) * 99.0
     order = np.argsort(-key, axis=1, kind="stable")
     pos = np.empty_like(order)
     rows = np.arange(order.shape[0])[:, None]

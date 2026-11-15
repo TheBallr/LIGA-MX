@@ -69,7 +69,7 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
 - The page engine (Run on the Table tab) has no draw correction, so its prices are shown as the run plus the change.
 - The page's Save has not been exercised by a real click yet; the database answers and is empty (checked 2026-11-15).
 - Second-leg game state is a single slope on the margin (`leg2_state`); the total is not moved by the state.
-- ESPN's stage label for Liguilla games is unseen; `run_sim` treats any match after `regular_season_end` as a Liguilla leg.
+- ESPN's stage label for Liguilla games is unseen; `fetch_schedule.py` falls back to the order after the last round.
 - Extra time in a locked final: only ESPN's winner flag on the second leg is read.
 - Club home deltas are fitted on every season (in sample for past seasons).
 - History before 2021 used away goals as the first tie-break; the backtest scores those ties under today's rule.
@@ -215,6 +215,28 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   Page: Clear ifs removed (click the letter again); Status row and Pinnacle team totals in the game detail.
   Run 20261115T233510Z: Toluca 26.1, Cruz Azul 25.5, América 22.6, Guadalajara 19.5, Monterrey 2.7.
 
+- 2026-11-15 **Full review** (Zac: check the logic, the confidence of the prices, clean the page, cut what does not
+  help a decision, optimise). An independent reviewer read the engine, ratings, run, ranges and the page engine: no error
+  in today's prices; two issues that would bite once second legs are played, fixed the same night:
+  (1) Second-leg closes and posted lines entered the ratings without the game-state shift the sim applies. `leg2_shift`
+  now nets leg2_state x the host's first-leg lead from them: second-leg closes v the ratings 0.2137 -> 0.1819, the next
+  round's first legs 0.1875 -> 0.1791. (2) Liguilla rows are told from league rows by stage only; `fetch_schedule.py` sets
+  the stage (ESPN's label, else by order after the last round, keeping a postponed league game regular).
+  Also fixed: the page engine's extra time ran at a ninth of the goal means (now a third); `closes()` dropped one real match
+  (de-dup within 1 day, not 3: 4,798 lines); the week-out state in `walk()` missed the closes of its own cut-off date
+  (yardstick 0.2088 -> 0.2036 from this alone); table coin collisions; total clip order in the page engine.
+  Left as known: forced What-if results score 1-0 / 1-1 / 0-1; a real Liguilla leg is keyed on the pairing, so a table
+  tie beyond away goals could seed two clubs differently from the league in some simulations.
+  Settings: `avg_total_goals` 2.85 -> 3.00; club home edges refitted with the factors on (no delta moved 0.02).
+  Page: Model tab, Morning tiles and Results, and the drawer's model-change list removed; default columns cut to Rating,
+  Hand, Opta, Pts, Liguilla, Seed 1, Semis, Final, Champion, Range (the rest in Columns); last 8 closes in the drawer;
+  Games tab grouped by round label.
+  Numbers on the final recipe: yardstick a week out 0.202 (match morning 0.195); real results 1.0290 v the close 1.0210
+  v home edge only 1.0715 (84% of what the close knows); Liguilla ties priced 0.634 v happened 0.637, log-loss 0.599 v
+  0.655; champion prices 20-35% happened 30.6% (n 85). `weekly.py` end to end: 97 s, every step exit 0.
+  Run 20261115T234617Z: Toluca 25.9 (24.2-27.8, +-3.1), Cruz Azul 25.4 (24.4-26.4, +-3.8), América 22.5 (21.2-23.6,
+  +-3.5), Guadalajara 19.4 (19.1-20.3, +-2.6), Monterrey 2.9.
+
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):
   (1) Real results, three-way log-loss 2013-2026 (n 4,456): ours on match morning 1.0294, the close 1.0210, home edge only
@@ -259,8 +281,8 @@ https://claude.ai/artifact/2LU82uyW7PsndHocs7CoVX (private). `site_data.py` -> `
 (a fragment; the publish tool wraps it) -> `node scripts/check_site.js`. Republish the same file path; from another session
 pass the URL as `url`. Tabs: Table (rating, hand, table, Liguilla / Seed 1 / Semis / Final / Champion with deltas v the
 previous archived run; a hand box per club with Run / Reset / Save; click a club for its drawer), Games (Pinnacle fair v ours
-by round with a No lines / With lines switch, a detail row per game and If result buttons), Liguilla (matchup cards with what-if picks, seed grid), Model (checks, method), Morning (first tab: tiles, Games v Pinnacle,
-Results, Today = data checks + hand review + least sure ratings, Moved). Capabilities `db` + `user`; `settings` is readable
+by round with a No lines / With lines switch, a detail row per game and If result buttons), Liguilla (matchup cards with what-if picks, seed grid), Morning (first tab: Moved, Games v Pinnacle,
+Today = data checks + hand review + least sure ratings). Capabilities `db` + `user`; `settings` is readable
 by viewers and writable by the owner and editors only. Republish with capabilities omitted so they carry forward.
 
 ## 8. Automations (created 2026-11-15, all firing into session_01SB1THFCBLMkmYPHNpyuQtf, which holds the repo and push access)

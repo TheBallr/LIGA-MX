@@ -1,5 +1,5 @@
 {
- "stamp": "20261115T233510Z",
+ "stamp": "20261115T234617Z",
  "asof": "2026-11-15",
  "n_seasons": 200000,
  "seed": 20260,
@@ -28,7 +28,7 @@
   "rating_sd": 0.15,
   "drift_k_sim": 0.01,
   "dc_rho": -0.05,
-  "avg_total_goals": 2.85,
+  "avg_total_goals": 3.0,
   "shared_goals_mean": 0.1,
   "kalman_q_day": 0.03,
   "kalman_s": 0.25,

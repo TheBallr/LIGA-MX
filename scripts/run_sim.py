@@ -27,7 +27,7 @@ def inputs(asof: dt.date, kn: dict, cfg: dict, ratings: dict | None = None, now=
     T = b["teams"]; idx = {t: i for i, t in enumerate(T)}
     sch = data.load("schedule")
     end = cfg["liga_mx"]["regular_season_end"]
-    is_ko = sch["stage"].isin(KO) | (sch["date"] > end)                      # ESPN's stage slug, or simply after the last round
+    is_ko = sch["stage"].isin(KO)                      # fetch_schedule sets the stage (ESPN's label, else by order after the last round)
     reg = sch[~is_ko]; ko = sch[is_ko]
     fin = reg[reg["status"] == "final"]
     played = table_from_results(T, [(r.home, r.away, r.hg, r.ag) for r in fin.itertuples(index=False)])

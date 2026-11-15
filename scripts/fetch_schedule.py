@@ -76,7 +76,16 @@ if __name__ == "__main__":
     if len(old) and len(new):
         old = old[~old["espn_id"].isin(set(new["espn_id"]))]
     out = pd.concat([old, new], ignore_index=True).sort_values(["kickoff_utc", "home"]).reset_index(drop=True)
-    # Liguilla legs: number the meetings of a pair inside the knockout stages (qf1/qf2 ...)
+    # Liguilla stage when ESPN's label does not say: by order after the last league round (8 quarter-final legs, 4 semi-final, 2 final)
+    end = load_config()["liga_mx"]["regular_season_end"]; ko = out[(out["date"] > end) & ~out["status"].isin(["canceled", "postponed"])].sort_values("kickoff_utc")
+    if len(ko) and not ko["stage"].isin(["qf", "sf", "final"]).all():
+        rounds = int(load_config()["liga_mx"]["rounds"]); early = out[(out["date"] <= end) & ~out["status"].isin(["canceled"])]
+        n = (early["home"].value_counts().add(early["away"].value_counts(), fill_value=0)).to_dict(); k = 0
+        for i in ko.index:
+            h, a = out.at[i, "home"], out.at[i, "away"]
+            if n.get(h, 0) < rounds or n.get(a, 0) < rounds:      # a league game played late, not a Liguilla leg
+                out.at[i, "stage"] = "regular"; n[h] = n.get(h, 0) + 1; n[a] = n.get(a, 0) + 1; continue
+            out.at[i, "stage"] = "qf" if k < 8 else ("sf" if k < 12 else "final"); k += 1
     data.save("schedule", out)
     fin = out[out["status"] == "final"]
     print(f"fetch_schedule: {len(out)} matches on file ({len(fin)} final, {(out.status == 'scheduled').sum()} to play; stages {out.stage.value_counts().to_dict()})" + (f"; FAILED days {failed}" if failed else ""))
