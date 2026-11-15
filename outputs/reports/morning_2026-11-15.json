@@ -1,6 +1,6 @@
 {
  "date": "2026-11-15",
- "built": "2026-11-15T22:54:33Z",
+ "built": "2026-11-15T23:12:51Z",
  "run": "20261115T225409Z",
  "head": [
   "Data: all checks ok",
@@ -53,7 +53,8 @@
    "move": 0.0,
    "verdict": "ok",
    "why": "Pin last 4 on PUE -0.12 · Pin last 4 on ASL +0.08",
-   "fetched_at": "2026-11-15T18:51:57Z"
+   "fetched_at": "2026-11-15T18:51:57Z",
+   "maybe_us": false
   },
   {
    "date": "2026-11-20",
@@ -68,7 +69,8 @@
    "move": 0.0,
    "verdict": "ok",
    "why": "Pin last 4 on JUA -0.17",
-   "fetched_at": "2026-11-15T18:51:57Z"
+   "fetched_at": "2026-11-15T18:51:57Z",
+   "maybe_us": false
   },
   {
    "date": "2026-11-20",
@@ -83,7 +85,8 @@
    "move": 0.0,
    "verdict": "big",
    "why": "Pin last 4 on TIJ +0.11",
-   "fetched_at": "2026-11-15T18:51:57Z"
+   "fetched_at": "2026-11-15T18:51:57Z",
+   "maybe_us": false
   },
   {
    "date": "2026-11-21",
@@ -98,7 +101,8 @@
    "move": 0.0,
    "verdict": "big",
    "why": "Pin last 4 on PAC +0.13",
-   "fetched_at": "2026-11-15T18:51:57Z"
+   "fetched_at": "2026-11-15T18:51:57Z",
+   "maybe_us": false
   },
   {
    "date": "2026-11-21",
@@ -113,7 +117,8 @@
    "move": 0.0,
    "verdict": "ok",
    "why": "Pin last 4 on SAN +0.09",
-   "fetched_at": "2026-11-15T18:51:57Z"
+   "fetched_at": "2026-11-15T18:51:57Z",
+   "maybe_us": false
   },
   {
    "date": "2026-11-21",
@@ -128,7 +133,8 @@
    "move": 0.0,
    "verdict": "ok",
    "why": "Pin last 4 on UNAM +0.16",
-   "fetched_at": "2026-11-15T18:51:57Z"
+   "fetched_at": "2026-11-15T18:51:57Z",
+   "maybe_us": false
   },
   {
    "date": "2026-11-21",
@@ -143,7 +149,8 @@
    "move": 0.0,
    "verdict": "watch",
    "why": "Pin last 4 on UANL -0.37",
-   "fetched_at": "2026-11-15T18:51:57Z"
+   "fetched_at": "2026-11-15T18:51:57Z",
+   "maybe_us": false
   },
   {
    "date": "2026-11-22",
@@ -158,7 +165,8 @@
    "move": 0.0,
    "verdict": "watch",
    "why": "Pin last 4 on GDL +0.08 · Pin last 4 on CAZ +0.12 · hand CAZ +0.06",
-   "fetched_at": "2026-11-15T18:51:57Z"
+   "fetched_at": "2026-11-15T18:51:57Z",
+   "maybe_us": false
   },
   {
    "date": "2026-11-22",
@@ -173,7 +181,8 @@
    "move": 0.0,
    "verdict": "watch",
    "why": "",
-   "fetched_at": "2026-11-15T18:51:57Z"
+   "fetched_at": "2026-11-15T18:51:57Z",
+   "maybe_us": false
   }
  ],
  "results": [

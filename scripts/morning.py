@@ -85,7 +85,8 @@ def main():
             if abs(mv) >= 0.05:
                 why.append(f"line {mv:+.2f} since posted, {'toward' if (mv > 0) == (gap > 0) else 'away from'} us")
             games.append({"date": r.date, "ko": r.kickoff_utc, "stage": r.stage, "home": r.home, "away": r.away, "pin": round(last["gd_fit"], 3), "ours": round(ours, 3), "gap": round(gap, 3),
-                          "total": round(last["T_fit"], 2), "move": round(mv, 3), "verdict": "big" if abs(gap) >= BIG else ("watch" if abs(gap) >= WATCH else "ok"), "why": " · ".join(why), "fetched_at": x.iloc[-1]["fetched_at"]})
+                          "total": round(last["T_fit"], 2), "move": round(mv, 3), "verdict": "big" if abs(gap) >= BIG else ("watch" if abs(gap) >= WATCH else "ok"), "why": " · ".join(why), "fetched_at": x.iloc[-1]["fetched_at"],
+                          "maybe_us": bool(abs(gap) >= WATCH and abs(mv) >= 0.05 and (mv > 0) == (gap > 0))})
     # --- results since the previous report
     since = prev["date"] if prev else (today - dt.timedelta(days=8)).isoformat()
     results = []
@@ -113,6 +114,16 @@ def main():
                 if abs(bb - a) >= 0.01:
                     moved.append({"kind": lab, "team": t, "was": round(100 * a, 1), "now": round(100 * bb, 1), "move": round(100 * (bb - a), 1)})
         moved.sort(key=lambda m: (m["kind"] != "Champion", -abs(m["move"])))
+    # line moves of 0.05+ since the previous report
+    if prev:
+        pg = {(g["home"], g["away"], g["date"]): g for g in prev.get("games", [])}; lm = []
+        for g in games:
+            q = pg.get((g["home"], g["away"], g["date"]))
+            if q and abs(g["pin"] - q["pin"]) >= 0.05:
+                d = g["pin"] - q["pin"]
+                lm.append({"kind": "line", "team": g["home"], "away": g["away"], "date": g["date"], "was": q["pin"], "now": g["pin"], "move": round(d, 3),
+                           "note": f"ours {g['ours']:+.2f} · {'toward' if abs(g['ours'] - g['pin']) < abs(g['ours'] - q['pin']) else 'away from'} us"})
+        moved = lm + moved
     # --- hands in force, judged on the closes since each was set
     hl = data.load("hand_log"); hrev = []
     for t, g in hd.items():
@@ -121,7 +132,8 @@ def main():
         rows = hl[(hl["team"] == t)].sort_values("saved_at"); set_on = rows.iloc[-1]["saved_at"][:10] if len(rows) else ""
         ms = [e for d, _, e in miss.get(t, []) if d >= set_on]   # closes after the hand: miss is close minus the market rating only
         left = (np.mean(ms) - g) if ms else None                 # what the closes say beyond the hand
-        verdict = "too early" if len(ms) < 2 else ("keep" if abs(left) < 0.05 else ("raise" if (left > 0) == (g > 0) else "trim"))
+        to = round(0.5 * float(np.mean(ms)), 2) if ms else None      # half of what the closes since say (how hands are sized)
+        verdict = "too early" if len(ms) < 2 else ("keep" if abs(to - g) < 0.03 else (("raise" if abs(to) > abs(g) and (to > 0) == (g > 0) else "trim") + f" to {to:+.2f}"))
         hrev.append({"team": t, "hand": g, "set": set_on, "n": len(ms), "closes_say": None if not ms else round(float(np.mean(ms)), 3), "verdict": verdict})
     # --- least sure ratings: clubs with a live title price whose recent closes sit away from us
     unsure = []

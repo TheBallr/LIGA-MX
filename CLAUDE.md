@@ -172,6 +172,21 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   footballdatabase +0.65, Pachuca v Toluca line 0.28 against us); revisit after its Nov 21 close. Tijuana +0.05 not made
   (moves no title price by 0.1).
 
+- 2026-11-15 **Page brought up to the MLS page's features** (Zac sent five screenshots of the MLS page: add what is
+  missing and make things clearer). Nothing in the model changed. Added: Morning: a report-date picker (last 14), "N of M
+  lined", gaps under 0.10 folded, a "maybe us" flag when the line has moved toward us, Pinnacle line moves in Moved, the
+  hand review's raise / trim target (half of what the closes since say), data checks folded to one line when ok. Table: a
+  Columns menu (remembered per browser; 95% band and Top 4 are off by default), the hand week shown as a date range.
+  Games: No lines / With lines switch for our price (default without, as in MLS), round labels, a detail row per game
+  (fair and raw prices, gap per outcome, both versions of our price, what makes up the home margin, the line's history
+  since posted), and If buttons (H / D / A) on unplayed league games: the page engine reruns with those results forced
+  (a win 1-0, a draw 1-1) and lists Liguilla / Seed 1 / Title changes; the Table tab shows the same preview. Drawer:
+  seed now, 95% band and sources in the header; range buttons; the Published series (the rating each run used) beside
+  Each morning and Pinnacle close; numbered dashed lines for model changes; a market picker for the price chart
+  (Liguilla, Seed 1, Semis, Final, Champion); the model-change list. Header stamp: Refreshed / Last close.
+  Left out on purpose: match-day factors (absences, rest; not modelled here), the injury rows of MLS's Moved card (no
+  injury source), a bracket tree with connectors (the cards already carry the same numbers).
+
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):
   (1) Real results, three-way log-loss 2013-2026 (n 4,456): ours on match morning 1.0294, the close 1.0210, home edge only
@@ -216,7 +231,7 @@ https://claude.ai/artifact/2LU82uyW7PsndHocs7CoVX (private). `site_data.py` -> `
 (a fragment; the publish tool wraps it) -> `node scripts/check_site.js`. Republish the same file path; from another session
 pass the URL as `url`. Tabs: Table (rating, hand, table, Liguilla / Seed 1 / Semis / Final / Champion with deltas v the
 previous archived run; a hand box per club with Run / Reset / Save; click a club for its drawer), Games (Pinnacle fair v ours
-by round), Liguilla (matchup cards with what-if picks, seed grid), Model (checks, method), Morning (first tab: tiles, Games v Pinnacle,
+by round with a No lines / With lines switch, a detail row per game and If result buttons), Liguilla (matchup cards with what-if picks, seed grid), Model (checks, method), Morning (first tab: tiles, Games v Pinnacle,
 Results, Today = data checks + hand review + least sure ratings, Moved). Capabilities `db` + `user`; `settings` is readable
 by viewers and writable by the owner and editors only. Republish with capabilities omitted so they carry forward.
 

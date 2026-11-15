@@ -55,17 +55,40 @@ def main():
     w = w[w["tournament"] == cfg["season"]]; wk = {(r.home, r.away): r for r in w.itertuples(index=False)}
     sch = data.load("schedule"); pk = {(r.home, r.away, r.date): r for r in preds.itertuples(index=False)} if len(preds) else {}
     games = []; f, s, rho = kn["goal_floor"], kn["shared_goals_mean"], kn["dc_rho"]
+    from scripts.refresh_ratings import build as build_ratings
+    from sim.ratings import gd_fit_row
+    b0 = build_ratings(_dt.date.fromisoformat(summ["asof"]), kn, use_posted=False); i0 = {t: i for i, t in enumerate(b0["teams"])}
+    co = data.load("current_round_odds"); co = co[co["book"] == "pinnacle"].sort_values("fetched_at") if len(co) else co
+    sreg = sch[sch["stage"] == "regular"].sort_values("kickoff_utc").copy(); sreg["tournament"] = "x"
+    rnd_of = dict(zip(sreg["espn_id"], rl.round_numbers(sreg))); legs = {}
+    def gline(row):
+        v = {k: (float(row[k]) if str(row[k]) != "" else None) for k in ("h", "d", "a", "ah_line", "ah_home", "ah_away", "total_line", "over", "under")}
+        return gd_fit_row(**v, avg_total=kn["avg_total_goals"], floor=f, shared=s, rho=rho)
     for r in sch.sort_values("kickoff_utc").itertuples(index=False):
         g = {"date": r.date, "ko": r.kickoff_utc, "stage": r.stage, "home": r.home, "away": r.away, "status": r.status, "hg": r.hg, "ag": r.ag}
+        if r.espn_id in rnd_of:
+            g["rnd"] = f"Round {int(rnd_of[r.espn_id])}"
+        else:
+            k = "|".join(sorted((r.home, r.away))); legs[k] = legs.get(k, 0) + 1
+            g["rnd"] = {"qf": "Quarter-final", "sf": "Semi-final", "final": "Final"}.get(r.stage, "Liguilla") + f" leg {legs[k]}"
+        g["he"] = round(float(summ["home_edge"]), 3); g["delta"] = round(float(dl.get(r.home, 0.0)), 3)
         x = wk.get((r.home, r.away))
         if r.status == "final" and x is not None and x.pred_0 == x.pred_0:
             gm = float(x.pred_0 + x.he + x.delta); p = hda(gm, float(x.T_fit), f, s, rho)
-            g.update(pin=[x.ph, x.pd, x.pa], model=list(p), g_pin=float(x.gd_fit), g_model=gm, book=x.book)
+            g.update(pin=[x.ph, x.pd, x.pa], model=list(p), g_pin=float(x.gd_fit), g_model=gm, book=x.book, raw=[float(x.h), float(x.d), float(x.a)], total=round(float(x.T_fit), 2))
         y = pk.get((r.home, r.away, r.date))
         if y is not None:
             p = hda(float(y.g_model), float(y.total), f, s, rho); g.update(model=list(p), g_model=float(y.g_model))
+            if r.home in i0 and r.away in i0:
+                g0 = float(b0["rating"][i0[r.home]] - b0["rating"][i0[r.away]] + b0["home_edge"] + dl.get(r.home, 0.0))
+                g.update(g_nolines=g0, model_nolines=list(hda(g0, float(y.total), f, s, rho)))
             if y.lined:
                 g.update(pin=list(hda(float(y.g_pinn), float(y.total), f, s, rho)), g_pin=float(y.g_pinn), total=float(y.total), book="pinnacle")
+                c = co[(co["date"] == r.date) & (co["home"] == r.home) & (co["away"] == r.away)] if len(co) else co
+                if len(c):
+                    a0, a1 = c.iloc[0], c.iloc[-1]; gs = [round(gline(q)["gd_fit"], 3) for _, q in c.iterrows()]
+                    g["raw"] = [float(a1["h"]), float(a1["d"]), float(a1["a"])] if str(a1["h"]) != "" else None
+                    g["line"] = {"posted": gs[0], "posted_at": et(a0["fetched_at"]), "last": gs[-1], "last_at": et(a1["fetched_at"]), "moves": int(sum(abs(gs[i] - gs[i - 1]) >= 0.01 for i in range(1, len(gs)))), "n": len(gs)}
         games.append(g)
     # bracket: who fills each quarter-final slot, and how each pairing goes
     br = {"cards": {}, "slots": [], "locked": False}
@@ -92,6 +115,7 @@ def main():
     # model checks: the yardstick over the last 60 days and all time
     wa = rl.walk(rl.measurements(cl, kn, dl), kn)
     chk = {"all": rl.score(wa, 7), "season": rl.score(wa[wa["tournament"] == cfg["season"]], 7, "2026-07-01"), "all0": rl.score(wa, 0)}
+    clf = data.load("closing_lines")
     # club drawer: the rating on every match morning of the tournament, each close from the club's side, the title price at every run
     obs = rl.measurements(cl, kn, dl); TT = [t["team"] for t in teams]
     hist = rl.ratings_by_date(obs, kn, TT, min(g["date"] for g in games))
@@ -107,27 +131,35 @@ def main():
                 clubs[t]["closes"].append({"date": r.date, "opp": opp, "ha": ha, "close": round(sgn * float(r.gd_fit), 2), "ours": round(sgn * ours, 2), "miss": round(sgn * e, 2),
                                            "score": (f"{int(r.hg)}-{int(r.ag)}" if ha == "H" else f"{int(r.ag)}-{int(r.hg)}") if r.hg == r.hg else "", "book": r.book})
     for p in runs:
-        j = json.load(open(p))
+        j = json.load(open(p)); rrun = pd.read_csv(os.path.join(os.path.dirname(p), "ratings.csv")).set_index("team")["rating"].round(3).to_dict()
         for t in TT:
-            clubs[t]["runs"].append([j["stamp"], {k: round(j["markets"][k].get(t, 0), 4) for k in ("champion", "reach_final", "reach_sf", "liguilla")}])
+            clubs[t]["runs"].append([j["stamp"], {k: round(j["markets"][k].get(t, 0), 4) for k in ("champion", "reach_final", "reach_sf", "liguilla", "seed1")}, rrun.get(t)])
+    order = sorted(teams, key=lambda t: (-t["pts"], -t["gd"], -t["gf"]))
     for t in teams:
-        t["delta"] = round(dl.get(t["team"], 0.0), 3)
+        t["delta"] = round(dl.get(t["team"], 0.0), 3); t["seed_now"] = order.index(t) + 1
+    for g in games:   # the page engine's fixture index, for the Games tab's what-if result buttons
+        g["fx"] = None
+    mlog = data.load("method_log").to_dict("records")
     # the page engine's inputs (Run on the Table tab): the run's own fixtures, table and Liguilla state
     from scripts.run_sim import inputs as run_inputs
     inp, bb, pl_, _ = run_inputs(_dt.date.fromisoformat(summ["asof"]), kn, cfg)
     eng = {"teams": inp.teams, "market": [round(float(x), 4) for x in bb["base"]], "hand": [round(float(x), 4) for x in bb["hand"]],
            "played": {k: [int(x) for x in pl_[k]] for k in ("points", "gd", "gf", "away_gf")}, "fixtures": [[f.home, f.away, round(f.adj, 4), f.s, round(f.g_pinn, 4), round(f.T, 3)] for f in inp.fixtures],
            "he": round(inp.home_edge, 4), "club": [round(float(x), 4) for x in inp.club_home], "lig_played": [list(map(int, x)) for x in inp.liguilla_played], "lig_lines": [[int(h), int(a), round(g, 4), round(t, 3)] for h, a, g, t in inp.liguilla_lines],
-           "winner": inp.final_winner, "kn": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "drift_cap", "goal_floor", "shared_goals_mean", "avg_total_goals", "dc_rho")}, "seed": int(kn["seed"]), "week": week_of(today_et())}
+           "winner": inp.final_winner, "fx_names": [[inp.teams[f.home], inp.teams[f.away]] for f in inp.fixtures], "kn": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "drift_cap", "goal_floor", "shared_goals_mean", "avg_total_goals", "dc_rho")}, "seed": int(kn["seed"]), "week": week_of(today_et())}
+    fxi = {(a, b): i for i, (a, b) in enumerate(eng["fx_names"])}
+    for g in games:
+        if g["status"] != "final":
+            g["fx"] = fxi.get((g["home"], g["away"]))
+    lc = clf[clf["book"].isin(["pinnacle_last", "pinnacle_lastposted"])]["kickoff_utc"].max() if len(data.load("closing_lines")) else ""
     reps = []
     for f in sorted(glob.glob(os.path.join(ROOT, "outputs", "reports", "morning_*.json")))[-14:][::-1]:
         reps.append(json.load(open(f)))
     cur = data.load("current_round_odds"); last_odds = cur["fetched_at"].max() if len(cur) else ""
-    clf = data.load("closing_lines")
     out = {"header": {"run_at": et(summ["stamp"][:4] + "-" + summ["stamp"][4:6] + "-" + summ["stamp"][6:11] + ":" + summ["stamp"][11:13] + ":" + summ["stamp"][13:15] + "Z"), "asof": summ["asof"], "n": summ["n_seasons"],
                       "odds_at": et(last_odds), "closes_through": summ["closes_through"], "home_edge": summ["home_edge"], "season": cfg["season"], "fixtures_left": summ["fixtures_left"],
-                      "pinnacle_closes": int(len(clf)), "prev_run": et(prev["stamp"][:4] + "-" + prev["stamp"][4:6] + "-" + prev["stamp"][6:11] + ":" + prev["stamp"][11:13] + ":" + prev["stamp"][13:15] + "Z") if prev else ""},
-           "teams": teams, "games": games, "bracket": br, "clubs": clubs, "opta": opta, "risk": risk, "engine": eng, "morning": reps, "checks": chk, "knobs": summ["knobs"], "format": cfg["liga_mx"]}
+                      "pinnacle_closes": int(len(clf)), "last_close": et(lc) if isinstance(lc, str) and lc else "", "prev_run": et(prev["stamp"][:4] + "-" + prev["stamp"][4:6] + "-" + prev["stamp"][6:11] + ":" + prev["stamp"][11:13] + ":" + prev["stamp"][13:15] + "Z") if prev else ""},
+           "teams": teams, "games": games, "bracket": br, "clubs": clubs, "method": mlog, "opta": opta, "risk": risk, "engine": eng, "morning": reps, "checks": chk, "knobs": summ["knobs"], "format": cfg["liga_mx"]}
     json.dump(out, open(os.path.join(LATEST, "site_data.json"), "w"), separators=(",", ":"), ensure_ascii=False, default=float)
     print(f"site_data: {os.path.getsize(os.path.join(LATEST, 'site_data.json')) // 1024} KB, {len(teams)} clubs, {len(games)} games, yardstick a week out {chk['all']['rmse']:.3f} (this tournament {chk['season']['rmse']:.3f})")
 

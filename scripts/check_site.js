@@ -23,6 +23,21 @@ const { chromium } = require('playwright'); const path = require('path'); const 
       await p.fill('#hand-TOL', '0.10'); await p.dispatchEvent('#hand-TOL', 'change'); await p.click('#hRun'); await p.waitForTimeout(2500);
       if (await p.evaluate("Array.from(document.querySelectorAll('#tbl .d')).length") < 3) errs.push('table: a Run with Toluca +0.10 moved nothing');
       await p.screenshot({ path: path.join(root, 'shots', 'run.png') });
+      await p.click('#hReset'); await p.click('[data-tab=games]'); await p.waitForTimeout(150);
+      await p.click('#gm tr.clk'); await p.waitForTimeout(150);
+      if (await p.evaluate("document.querySelectorAll('#gm tr.det table').length") < 2) errs.push('games: the detail row did not open');
+      await p.screenshot({ path: path.join(root, 'shots', 'game_detail.png'), fullPage: true });
+      await p.click('#gm tr.clk'); const fx = await p.evaluate("(window.DATA.games.find(g=>g.fx!=null&&window.DATA.teams.find(t=>t.team===g.home).m.seed1>0.05)||window.DATA.games.find(g=>g.fx!=null)||{}).fx");
+      if (fx == null) { errs.push('games: no unplayed league game to test If on'); } else { await p.click(`#gm .ifb button[data-fx="${fx}"][data-o="A"]`); await p.waitForTimeout(3000); }
+      if (fx != null && await p.evaluate("document.querySelectorAll('#ifChg tbody tr').length") < 2) errs.push('games: an If result moved nothing');
+      await p.screenshot({ path: path.join(root, 'shots', 'game_if.png'), fullPage: true });
+      await p.click('#ifClear'); await p.waitForTimeout(300);
+      if (await p.evaluate("document.querySelectorAll('#ifChg tbody tr').length") !== 0) errs.push('games: Clear ifs left changes');
+      await p.click('[data-tab=table]'); await p.click('#colSum'); await p.check('#col-band'); await p.check('#col-top4'); await p.waitForTimeout(150);
+      if (!(await p.evaluate("document.querySelector('#tbl thead').innerText.includes('95% BAND') || document.querySelector('#tbl thead').innerText.includes('95% band')"))) errs.push('table: the Columns menu did not add a column');
+      await p.screenshot({ path: path.join(root, 'shots', 'columns.png') }); await p.click('#colSum');
+      await p.click('#tbl tr.clk td.team'); await p.click('#drawer [data-rg="runs"]'); await p.click('#drawer [data-mk="reach_final"]'); await p.waitForTimeout(150);
+      await p.screenshot({ path: path.join(root, 'shots', 'drawer2.png') }); await p.keyboard.press('Escape');
       await p.click('[data-tab=bracket]'); await p.waitForTimeout(200);
       if (await p.evaluate("document.querySelectorAll('#brg .mc').length") !== 7) errs.push('bracket: expected 7 matchup cards');
       if (await p.evaluate("document.querySelectorAll('#brg .mc-g span').length") < 7 * 12) errs.push('bracket: leg prices missing');
@@ -36,5 +51,5 @@ const { chromium } = require('playwright'); const path = require('path'); const 
     await p.close();
   }
   await b.close();
-  console.log(errs.length ? 'check_site: FAILED\n' + errs.join('\n') : 'check_site: clean (5 tabs, 2 widths, Run, drawer, bracket pick)'); process.exit(errs.length ? 1 : 0);
+  console.log(errs.length ? 'check_site: FAILED\n' + errs.join('\n') : 'check_site: clean (5 tabs, 2 widths, Run, drawer, columns, game detail, If, bracket pick)'); process.exit(errs.length ? 1 : 0);
 })();
