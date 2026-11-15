@@ -13,18 +13,7 @@ from sim.teams import ROOT
 from scripts import ratings_lib as rl
 
 
-def xg_fit(m, teams, asof, hl, ridge):
-    d = m[m["date"] < asof]
-    if len(d) < 60:
-        return None
-    idx = {t: i for i, t in enumerate(teams)}; n = len(teams)
-    age = (pd.Timestamp(asof) - pd.to_datetime(d["date"])).dt.days.values; w = 0.5 ** (age / hl)
-    X = np.zeros((len(d), n + 1)); r = np.arange(len(d))
-    hi = d["home"].map(idx); ai = d["away"].map(idx); ok = hi.notna().values & ai.notna().values
-    X[r[ok], hi[ok].astype(int)] = 1; X[r[ok], ai[ok].astype(int)] -= 1; X[:, n] = 1
-    sw = np.sqrt(w * ok); A = np.vstack([X * sw[:, None], np.hstack([np.eye(n) * np.sqrt(ridge), np.zeros((n, 1))])]); b = np.concatenate([d["xgd"].values * sw, np.zeros(n)])
-    beta = np.linalg.lstsq(A, b, rcond=None)[0][:n]
-    return beta - beta.mean()
+xg_fit = rl.shots_fit
 
 
 if __name__ == "__main__":

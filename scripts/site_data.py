@@ -37,7 +37,7 @@ def main():
     for r in rat.to_dict("records"):
         t = r["team"]; logo = os.path.join(ROOT, "data", "logos", codes[t] + ".png")
         teams.append({"team": t, "code": codes[t], "hex": cols.get(t, ""), "logo": "data:image/png;base64," + base64.b64encode(open(logo, "rb").read()).decode() if os.path.exists(logo) else "",
-                      "rating": r["rating"], "market": r["market"], "hand": r["hand"], "sd": r["sd"], "pl": r["played"], "pts": r["points"], "gd": r["gd"], "gf": r["gf"], "w": r["w"], "d": r["d"], "l": r["l"],
+                      "rating": r["rating"], "market": r["market"], "shots": (None if r["shots"] != r["shots"] else r["shots"]), "base": round(r["rating"] - r["hand"], 4), "hand": r["hand"], "sd": r["sd"], "pl": r["played"], "pts": r["points"], "gd": r["gd"], "gf": r["gf"], "w": r["w"], "d": r["d"], "l": r["l"],
                       "xpts": M["points"][t]["mean"], "m": {k: M[k][t] for k in ("liguilla", "seed1", "top4", "reach_sf", "reach_final", "champion")}, "seeds": M["seeds"][t],
                       "prev": ({"rating": prat.get(t), "m": {k: prev["markets"][k][t] for k in ("liguilla", "seed1", "top4", "reach_sf", "reach_final", "champion")}} if prev else None)})
     # games: every match of the tournament; a played game's model price is the ratings on match morning (walk-forward)
@@ -96,7 +96,7 @@ def main():
     # the page engine's inputs (Run on the Table tab): the run's own fixtures, table and Liguilla state
     from scripts.run_sim import inputs as run_inputs
     inp, bb, pl_, _ = run_inputs(_dt.date.fromisoformat(summ["asof"]), kn, cfg)
-    eng = {"teams": inp.teams, "market": [round(float(x), 4) for x in bb["market"]], "hand": [round(float(x), 4) for x in bb["hand"]],
+    eng = {"teams": inp.teams, "market": [round(float(x), 4) for x in bb["base"]], "hand": [round(float(x), 4) for x in bb["hand"]],
            "played": {k: [int(x) for x in pl_[k]] for k in ("points", "gd", "gf", "away_gf")}, "fixtures": [[f.home, f.away, round(f.adj, 4), f.s, round(f.g_pinn, 4), round(f.T, 3)] for f in inp.fixtures],
            "he": round(inp.home_edge, 4), "club": [round(float(x), 4) for x in inp.club_home], "lig_played": [list(map(int, x)) for x in inp.liguilla_played], "lig_lines": [[int(h), int(a), round(g, 4), round(t, 3)] for h, a, g, t in inp.liguilla_lines],
            "winner": inp.final_winner, "kn": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "drift_cap", "goal_floor", "shared_goals_mean", "avg_total_goals")}, "seed": int(kn["seed"]), "week": week_of(today_et())}

@@ -74,14 +74,14 @@ def main():
     # the bracket view: how often each pairing occurs and who wins it
     stamp = now_utc().strftime("%Y%m%dT%H%M%SZ")
     os.makedirs(LATEST, exist_ok=True)
-    rat = pd.DataFrame({"team": T, "rating": np.round(b["rating"], 4), "market": np.round(b["market"], 4), "hand": np.round(b["hand"], 4), "sd": np.round(b["sd"], 4),
+    rat = pd.DataFrame({"team": T, "rating": np.round(b["rating"], 4), "market": np.round(b["market"], 4), "shots": np.round(b["shots"], 4), "hand": np.round(b["hand"], 4), "sd": np.round(b["sd"], 4),
                         "played": played["played"], "points": played["points"], "gd": played["gd"], "gf": played["gf"], "w": played["wins"], "d": played["draws"], "l": played["losses"]})
     rat.to_csv(os.path.join(LATEST, "ratings.csv"), index=False); preds.to_csv(os.path.join(LATEST, "predictions.csv"), index=False)
     data.save("blend", pd.DataFrame({"team": T, "rating": np.round(b["rating"], 4), "market": np.round(b["market"], 4), "hand": np.round(b["hand"], 4), "sd": np.round(b["sd"], 4), "n_closes": b["n_closes"], "generated": utc_iso(now_utc())}))
     json.dump({"stamp": stamp, "asof": asof.isoformat(), "n": N, "markets": mk}, open(os.path.join(LATEST, "markets.json"), "w"), indent=1, ensure_ascii=False)
     summ = {"stamp": stamp, "asof": asof.isoformat(), "n_seasons": N, "seed": int(kn["seed"]), "home_edge": round(b["home_edge"], 4), "fixtures_left": len(inp.fixtures),
             "lined": int(preds["lined"].sum()) if len(preds) else 0, "liguilla_legs_played": len(inp.liguilla_played), "liguilla_legs_lined": len(inp.liguilla_lines),
-            "closes_through": b["last_close"], "knobs": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "dc_rho", "avg_total_goals", "shared_goals_mean", "kalman_q_day", "kalman_s", "kalman_off_shrink", "posted_line_shrink")}}
+            "closes_through": b["last_close"], "knobs": {k: kn[k] for k in ("shots_weight", "rating_sd", "drift_k_sim", "dc_rho", "avg_total_goals", "shared_goals_mean", "kalman_q_day", "kalman_s", "kalman_off_shrink", "posted_line_shrink")}}
     json.dump(summ, open(os.path.join(LATEST, "run_summary.json"), "w"), indent=1)
     np.savez_compressed(os.path.join(LATEST, "seasons.npz"), **{k: out[k] for k in ("points", "pos", "stage", "seeds", "sf", "final", "teams")})
     if not a.no_archive and not a.quick:

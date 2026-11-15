@@ -1,11 +1,11 @@
 {
  "date": "2026-11-15",
- "built": "2026-11-15T19:12:51Z",
- "run": "20261115T185359Z",
+ "built": "2026-11-15T19:26:34Z",
+ "run": "20261115T192632Z",
  "head": [
   "Data: all checks ok",
-  "Games: 9 lined, 5 off Pinnacle by 0.15+: Puebla v Atlético San Luis -0.22, Tijuana v Atlante -0.44, Pachuca v Toluca -0.32, Tigres v América +0.17, Guadalajara v Cruz Azul +0.32",
-  "Title: Toluca 26.4%, Cruz Azul 23.5%, América 21.3%, Guadalajara 21.2%"
+  "Games: 9 lined, 5 off Pinnacle by 0.15+: Tijuana v Atlante -0.55, Pachuca v Toluca -0.27, Tigres v América +0.19, Guadalajara v Cruz Azul +0.29, Querétaro v Necaxa -0.21",
+  "Title: Toluca 25.0%, Cruz Azul 23.9%, América 22.7%, Guadalajara 20.8%"
  ],
  "checks": [
   {
@@ -35,7 +35,7 @@
   {
    "name": "Run",
    "ok": true,
-   "note": "run 20261115T185359Z on 200,000 simulations",
+   "note": "run 20261115T192632Z on 200,000 simulations",
    "level": "ok"
   }
  ],
@@ -47,11 +47,11 @@
    "home": "Puebla",
    "away": "Atlético San Luis",
    "pin": 0.061,
-   "ours": -0.156,
-   "gap": -0.217,
+   "ours": -0.067,
+   "gap": -0.128,
    "total": 2.97,
    "move": 0.0,
-   "verdict": "watch",
+   "verdict": "ok",
    "why": "Pin last 4 on PUE -0.12 · Pin last 4 on ASL +0.08",
    "fetched_at": "2026-11-15T18:51:57Z"
   },
@@ -62,8 +62,8 @@
    "home": "Juárez",
    "away": "Atlas",
    "pin": -0.421,
-   "ours": -0.499,
-   "gap": -0.078,
+   "ours": -0.515,
+   "gap": -0.094,
    "total": 2.96,
    "move": 0.0,
    "verdict": "ok",
@@ -77,8 +77,8 @@
    "home": "Tijuana",
    "away": "Atlante",
    "pin": 0.938,
-   "ours": 0.496,
-   "gap": -0.442,
+   "ours": 0.391,
+   "gap": -0.547,
    "total": 3.02,
    "move": 0.0,
    "verdict": "big",
@@ -92,8 +92,8 @@
    "home": "Pachuca",
    "away": "Toluca",
    "pin": -0.17,
-   "ours": -0.486,
-   "gap": -0.316,
+   "ours": -0.436,
+   "gap": -0.267,
    "total": 3.42,
    "move": 0.0,
    "verdict": "big",
@@ -107,8 +107,8 @@
    "home": "Santos Laguna",
    "away": "León",
    "pin": 0.041,
-   "ours": 0.153,
-   "gap": 0.112,
+   "ours": 0.104,
+   "gap": 0.063,
    "total": 3.28,
    "move": 0.0,
    "verdict": "ok",
@@ -122,8 +122,8 @@
    "home": "Pumas",
    "away": "Monterrey",
    "pin": 0.0,
-   "ours": 0.018,
-   "gap": 0.018,
+   "ours": -0.009,
+   "gap": -0.009,
    "total": 3.05,
    "move": 0.0,
    "verdict": "ok",
@@ -137,8 +137,8 @@
    "home": "Tigres",
    "away": "América",
    "pin": -0.417,
-   "ours": -0.252,
-   "gap": 0.165,
+   "ours": -0.224,
+   "gap": 0.193,
    "total": 3.05,
    "move": 0.0,
    "verdict": "watch",
@@ -152,8 +152,8 @@
    "home": "Guadalajara",
    "away": "Cruz Azul",
    "pin": 0.032,
-   "ours": 0.353,
-   "gap": 0.321,
+   "ours": 0.323,
+   "gap": 0.291,
    "total": 3.22,
    "move": 0.0,
    "verdict": "big",
@@ -167,11 +167,11 @@
    "home": "Querétaro",
    "away": "Necaxa",
    "pin": 0.648,
-   "ours": 0.56,
-   "gap": -0.088,
+   "ours": 0.437,
+   "gap": -0.211,
    "total": 3.15,
    "move": 0.0,
-   "verdict": "ok",
+   "verdict": "watch",
    "why": "",
    "fetched_at": "2026-11-15T18:51:57Z"
   }
@@ -266,27 +266,27 @@
  "unsure": [
   {
    "team": "Santos Laguna",
-   "ours": -0.276,
+   "ours": -0.28,
    "last4": 0.089,
    "last8": 0.155,
    "could_be": [
     -0.28,
-    -0.12
+    -0.13
    ]
   },
   {
    "team": "Pachuca",
-   "ours": 0.082,
+   "ours": 0.081,
    "last4": 0.134,
    "last8": -0.037,
    "could_be": [
     0.04,
-    0.22
+    0.21
    ]
   },
   {
    "team": "Cruz Azul",
-   "ours": 0.639,
+   "ours": 0.638,
    "last4": 0.124,
    "last8": 0.105,
    "could_be": [
@@ -296,32 +296,32 @@
   },
   {
    "team": "Guadalajara",
-   "ours": 0.724,
+   "ours": 0.693,
    "last4": 0.085,
    "last8": -0.039,
    "could_be": [
-    0.69,
-    0.81
+    0.65,
+    0.78
    ]
   },
   {
    "team": "Atlas",
-   "ours": -0.038,
+   "ours": -0.067,
    "last4": -0.07,
    "last8": 0.072,
    "could_be": [
-    -0.11,
-    0.03
+    -0.14,
+    0.01
    ]
   },
   {
    "team": "América",
-   "ours": 0.619,
+   "ours": 0.637,
    "last4": -0.009,
    "last8": 0.065,
    "could_be": [
-    0.61,
-    0.68
+    0.63,
+    0.7
    ]
   }
  ]

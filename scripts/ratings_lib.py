@@ -181,3 +181,41 @@ def ratings_by_date(obs: pd.DataFrame, kn: dict, teams: list, since: str) -> lis
             last = r.date
         kf.observe(r.home, r.away, float(r.y), float(r.sd))
     return out
+
+
+SHOTS = os.path.join(ROOT, "data", "ratings", "shots_history.csv")
+
+
+def shots_matches(kn: dict) -> pd.DataFrame:
+    """ESPN shot stats per game with the proxy's margin (xgd): a x shots off target + b x shots on target per side."""
+    if not os.path.exists(SHOTS):
+        return pd.DataFrame(columns=["date", "home", "away", "xgd"])
+    s = pd.read_csv(SHOTS); a, b = kn["shots_coef"]
+    s["xgd"] = (a * (s.h_shots - s.h_sot) + b * s.h_sot) - (a * (s.a_shots - s.a_sot) + b * s.a_sot)
+    return s
+
+
+def shots_fit(m: pd.DataFrame, teams: list, asof: str, hl: float, ridge: float):
+    """Proxy ratings on the morning of `asof`: weighted ridge least squares on the proxy margins (half-life hl days, a fitted
+    home term), centred. None with fewer than 60 games on file."""
+    d = m[m["date"] < asof]
+    if len(d) < 60:
+        return None
+    idx = {t: i for i, t in enumerate(teams)}; n = len(teams)
+    age = (pd.Timestamp(asof) - pd.to_datetime(d["date"])).dt.days.values; w = 0.5 ** (age / hl)
+    X = np.zeros((len(d), n + 1)); r = np.arange(len(d))
+    hi = d["home"].map(idx); ai = d["away"].map(idx); ok = hi.notna().values & ai.notna().values
+    X[r[ok], hi[ok].astype(int)] = 1; X[r[ok], ai[ok].astype(int)] -= 1; X[:, n] = 1
+    sw = np.sqrt(w * ok); A = np.vstack([X * sw[:, None], np.hstack([np.eye(n) * np.sqrt(ridge), np.zeros((n, 1))])]); b = np.concatenate([d["xgd"].values * sw, np.zeros(n)])
+    beta = np.linalg.lstsq(A, b, rcond=None)[0][:n]
+    return beta - beta.mean()
+
+
+def blend(market: np.ndarray, kn: dict, teams: list, asof: str):
+    """(1 - w) x market + w x the shots proxy rescaled to the market's spread, re-centred. Returns (blend, proxy or None)."""
+    w = float(kn.get("shots_weight", 0.0) or 0.0)
+    xr = shots_fit(shots_matches(kn), teams, asof, float(kn["shots_half_life"]), float(kn["shots_ridge"])) if w > 0 else None
+    if xr is None or xr.std() == 0:
+        return market.copy(), None
+    xr = xr * market.std() / xr.std(); b = (1 - w) * market + w * xr
+    return b - b.mean(), xr

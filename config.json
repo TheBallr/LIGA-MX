@@ -97,6 +97,25 @@
     "posted_fresh_days": {
       "value": 3,
       "note": "a posted line older than this is ignored"
+    },
+    "shots_weight": {
+      "value": 0.15,
+      "note": "SET 2026-11-15 on Zac's word (\"Only do 1\"): 15% of each rating comes from the shots proxy, 85% from the market filter (the MLS model's xG share). scripts/calib_shots.py, 666 closes Jul 2024 - Nov 2026 scored a week out: 0.2506 at 0, 0.2469 at 0.05, 0.2449 at 0.10, 0.2446 at 0.15, 0.2489 at 0.25; better than 0 in A2025, C2025, A2026, level in C2026 (0.2609 v 0.2622). 0 = off."
+    },
+    "shots_coef": {
+      "value": [
+        -0.021,
+        0.341
+      ],
+      "note": "proxy goals per side = a x shots off target + b x shots on target, fitted on 821 games (ESPN match stats, Jul 2024 - Nov 2026); penalties left in"
+    },
+    "shots_half_life": {
+      "value": 45,
+      "note": "days; the MLS xG half-life. 90 is worse (0.2466 v 0.2446 a week out at 15%)."
+    },
+    "shots_ridge": {
+      "value": 0.5,
+      "note": "ridge toward zero in the proxy fit, in weight units (the MLS value)"
     }
   },
   "liga_mx": {

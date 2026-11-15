@@ -1,5 +1,5 @@
 {
- "stamp": "20261115T185359Z",
+ "stamp": "20261115T192632Z",
  "asof": "2026-11-15",
  "n_seasons": 200000,
  "seed": 20260,
@@ -10,6 +10,7 @@
  "liguilla_legs_lined": 0,
  "closes_through": "2026-11-08",
  "knobs": {
+  "shots_weight": 0.15,
   "rating_sd": 0.15,
   "drift_k_sim": 0.01,
   "dc_rho": -0.05,

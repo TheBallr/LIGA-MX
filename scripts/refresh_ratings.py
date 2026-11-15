@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Rebuild data/ratings/blend.csv (generated, never edited) for a date: the Kalman filter on every close on file, the fresh
-posted Pinnacle lines as extra measurements, centred over the 18 clubs, plus this week's hand adjustments.
+posted Pinnacle lines as extra measurements, centred over the 18 clubs (market); blended with the shots proxy (shots_weight);
+plus this week's hand adjustments.
 Usage: python3 scripts/refresh_ratings.py [--asof YYYY-MM-DD] [--no-posted]"""
 from __future__ import annotations
 import argparse, datetime as dt, os, sys
@@ -62,9 +63,10 @@ def build(asof: dt.date, kn: dict, use_posted: bool = True, now=None) -> dict:
     kf, uni = rl.state_at(obs, kn, asof.isoformat(), pm)
     T = team_list()
     market = kf.ratings(T); sd = kf.sds(T)
+    base, shots = rl.blend(market, kn, T, asof.isoformat())
     hd = hands(asof); hand = np.array([hd.get(t, 0.0) for t in T])
     n = obs[obs["date"] < asof.isoformat()]; cnt = (n["home"].value_counts().add(n["away"].value_counts(), fill_value=0)).to_dict()
-    return {"teams": T, "market": market, "hand": hand, "rating": market + hand, "sd": sd, "home_edge": he, "deltas": deltas, "posted": posted,
+    return {"teams": T, "market": market, "shots": shots if shots is not None else np.full(len(T), np.nan), "base": base, "hand": hand, "rating": base + hand, "sd": sd, "home_edge": he, "deltas": deltas, "posted": posted,
             "n_closes": [int(cnt.get(t, 0)) for t in T], "last_close": str(n["date"].max())}
 
 

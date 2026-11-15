@@ -17,7 +17,9 @@ over the 18 clubs.
   tournament break: strengths revert 10% to the mean, variance grows by 0.05. A new club starts at -0.25.
 - **Posted lines**: Pinnacle lines fetched within 3 days enter as measurements (sd 0.40).
 - **Hand**: Zac's adjustments in goals, by week (Tue-Mon ET), `data/ratings/hand_log.csv`; a week carries the last saved one.
-- No xG source yet (MLS runs 85/15 market/xG; American Soccer Analysis does not cover Liga MX).
+- **Shots proxy (15%)**: no xG feed covers Liga MX, so ESPN shot stats stand in: proxy goals = 0.341 x shots on target
+  - 0.021 x shots off target; ratings by weighted ridge least squares (half-life 45 days), rescaled to the market's spread.
+  Rating = 0.85 x market + 0.15 x proxy, re-centred, plus the hand.
 
 ## 2. Match engine (`sim/engine.py`, unchanged from MLS)
 g = R_home - R_away + home edge + club delta; a fixture with a fresh Pinnacle line is priced off the line. Total: the posted

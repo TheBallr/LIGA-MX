@@ -14,8 +14,8 @@ const { chromium } = require('playwright'); const path = require('path'); const 
       await p.screenshot({ path: path.join(root, 'shots', `${t}_${w}.png`), fullPage: true });
     }
     if (w === 1400) {
-      await p.click('[data-tab=table]'); await p.click('#hRun'); await p.waitForTimeout(2500);
-      const moved = await p.evaluate("Array.from(document.querySelectorAll('#tbl .d')).length");
+      await p.click('[data-tab=table]'); await p.click('#dlt'); await p.click('#hRun'); await p.waitForTimeout(2500);
+      const moved = await p.evaluate("Array.from(document.querySelectorAll('#tbl .d')).length");   // deltas v the previous run are off; a Run turns deltas on v the run itself
       if (moved > 0) errs.push(`table: a Run with no edit moved ${moved} cells`);
       await p.click('#tbl tr.clk td.team'); await p.waitForTimeout(200);
       if (await p.evaluate("document.querySelector('#drawer').hidden || !document.querySelector('#drawer svg')")) errs.push('drawer: did not open with a chart');

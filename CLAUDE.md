@@ -77,6 +77,21 @@ Not tested yet: an xG source (ASA has no Liga MX), an injury source, a futures-o
   Guadalajara v Cruz Azul +0.32, Pachuca v Toluca -0.32). With those lines in the ratings (the MLS rule, on) v without:
   Toluca 26.3 v 27.7, Cruz Azul 23.5 v 21.8, Guadalajara 21.3 v 23.0, América 21.2 v 20.2. Not changed; put to Zac.
 
+- 2026-11-15 **Shots proxy ON at 15%** (Zac: "Only do 1"; proposal 2, final-round lines out of the ratings, NOT taken).
+  rating = 0.85 x market filter + 0.15 x shots proxy (rescaled to the market's spread, re-centred) + hand; knobs
+  `shots_weight`, `shots_coef`, `shots_half_life`, `shots_ridge`; `fetch_shots.py` runs in `weekly.py` (last 10 days).
+  Run 20261115T192632Z v 20261115T185359Z: Toluca 26.4 -> 25.0, Cruz Azul 23.5 -> 23.9, América 21.3 -> 22.7, Guadalajara
+  21.2 -> 20.8, Monterrey 3.5 -> 3.5. Ratings: Toluca +0.86 -> +0.81, León -0.07 -> -0.02, Tigres -0.02 -> +0.03.
+  The walk-forward prices (Games tab played games, the drawer, the morning report's misses and track record, the Model
+  tab's yardstick) are still the market filter alone; only today's ratings and upcoming games carry the proxy.
+- 2026-11-15 **MLS v Liga MX gap review** (Zac asked what MLS has that this lacks and what to add). Measured for it:
+  (a) Liguilla closes v the ratings (2013 on, mean miss from the home side): QF leg 1 -0.059 (se 0.019, n 96), QF leg 2
+  +0.059 (se 0.024), SF and final legs within 1 se of zero: Pinnacle rates the higher seed about 0.06 goals above us in
+  both quarter-final legs. (b) Series carry: a first-leg gap carries 0.09 (se 0.09, n 168) into the second leg, against
+  0.8 in MLS: not worth porting. (c) Regular-season miss by round: 0.225 rounds 1-3, 0.188 rounds 4-8, 0.183 rounds 9-14,
+  0.222 rounds 15-16, 0.254 round 17: the last rounds are priced on something the ratings do not hold (MLS's eliminated /
+  rotation factors). Proposals in chat; nothing applied.
+
 ## 6. Measurements (2026-11-15)
 - **Close tracking** (4,451 closes, 2013-07 on): 0.215 goals rmse a week out, 0.202 on match morning, slope 0.98. This
   tournament (market-average closes): 0.254 a week out. MLS for comparison: 0.243.
@@ -89,7 +104,7 @@ Not tested yet: an xG source (ASA has no Liga MX), an injury source, a futures-o
   28% of ties were level on aggregate. Title pool of the eight: log-loss 1.62 v 2.08 for 1/8; the champion was seed 1 or 2 in
   14 of 26, seed 8 in 4. rating_sd 0 / 0.10 / 0.15 / 0.25 cannot be told apart (0.5960 / 0.5963 / 0.5968 / 0.5978).
 - **Shots proxy for xG** (`scripts/fetch_shots.py`, `scripts/calib_shots.py`; 821 games Jul 2024 - Nov 2026 from ESPN match
-  summaries; NOT in the model, proposed to Zac): goals = 0.341 x shots on target - 0.021 x shots off target; ratings from the
+  summaries; ON at 15% since 2026-11-15, section 5): goals = 0.341 x shots on target - 0.021 x shots off target; ratings from the
   proxy (half-life 45, ridge 0.5, rescaled to the market's spread) blended with the market ratings, scored on 666 closes a
   week out: w 0 0.2506, 0.05 0.2469, 0.10 0.2449, 0.15 0.2446, 0.25 0.2489, proxy alone 0.4287; match morning 0.2331 /
   0.2274 at 0.10-0.15. By tournament a week out (w 0 / 0.10 / 0.15): C2025 0.2709 / 0.2640 / 0.2627, A2025 0.2120 / 0.2066 /
