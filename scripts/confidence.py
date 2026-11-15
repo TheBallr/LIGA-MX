@@ -32,7 +32,7 @@ def results(kn, w):
     d = w[w["pred_0"].notna() & w["hg"].notna() & (w["date"] >= "2013-07-01")].copy()
     f, s, rho = kn["goal_floor"], kn["shared_goals_mean"], kn["dc_rho"]
     res = np.where(d["hg"] > d["ag"], 0, np.where(d["hg"] == d["ag"], 1, 2)); idx = np.arange(len(d))
-    P = np.array([hda(g, T, f, s, rho) for g, T in zip(d["pred_0"] + d["he"] + d["delta"], d["T_fit"])])
+    P = np.array([hda(g, T, f, s, rho) for g, T in zip(d["pred_0"] + d["he"] + d["delta"] + d["fac"], d["T_fit"])])
     B = np.array([hda(g, T, f, s, rho) for g, T in zip(d["he"], d["T_fit"])]); C = d[["ph", "pd", "pa"]].values
     ll = lambda Q, m: float(-np.log(Q[idx[m], res[m]]).mean())
     say("| span | n | ours (ratings, match morning) | the close | home edge only |"); say("|---|---|---|---|---|")

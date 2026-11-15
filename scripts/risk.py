@@ -35,13 +35,13 @@ if __name__ == "__main__":
     base = price(a["rating"]); scen = {}
     scen["no lines"] = price(b["rating"])
     for w, name in ((0.0, "shots 0%"), (0.30, "shots 30%")):
-        bl, *_ = rl.blend(a["market"], dict(kn, shots_weight=w), T, asof.isoformat()); scen[name] = price(bl + a["hand"])
+        bl, *_ = rl.blend(a["market"], dict(kn, shots_weight=w), T, asof.isoformat()); scen[name] = price(bl + a["hand"] + a["inj"])
     for w, name in ((0.0, "Opta 0%"), (0.20, "Opta 20%")):
-        bl, *_ = rl.blend(a["market"], dict(kn, opta_weight=w), T, asof.isoformat()); scen[name] = price(bl + a["hand"])
+        bl, *_ = rl.blend(a["market"], dict(kn, opta_weight=w), T, asof.isoformat()); scen[name] = price(bl + a["hand"] + a["inj"])
     for nl, name in ((0, "late rounds full weight"),):
         b2 = build(asof, dict(kn, late_rounds=nl), True); scen[name] = price(b2["rating"])
     for f, name in ((1.06, "spread +6%"), (0.94, "spread -6%")):
-        scen[name] = price(a["base"] * f + a["hand"])
+        scen[name] = price(a["base"] * f + a["hand"] + a["inj"])
     live = [i for i, t in enumerate(T) if mk["champion"][t] >= 0.005]
     own = {}
     for i in live:

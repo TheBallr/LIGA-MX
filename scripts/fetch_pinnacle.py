@@ -38,13 +38,15 @@ def fetch_lines(league_id: int) -> list[dict] | None:
         mid = mk.get("matchupId")
         if mid not in by_id or mk.get("period") != 0:
             continue
-        r = rows.setdefault(mid, {"ml": None, "spreads": [], "totals": []})
+        r = rows.setdefault(mid, {"ml": None, "spreads": [], "totals": [], "tt_home": [], "tt_away": []})
         prices = {p.get("designation"): p for p in mk.get("prices", [])}
         t = mk.get("type")
         if t == "moneyline" and {"home", "draw", "away"} <= set(prices):
             r["ml"] = (prices["home"]["price"], prices["draw"]["price"], prices["away"]["price"])
         elif t == "spread" and {"home", "away"} <= set(prices):
             r["spreads"].append((prices["home"].get("points"), prices["home"]["price"], prices["away"]["price"]))
+        elif t == "team_total" and mk.get("side") in ("home", "away") and {"over", "under"} <= set(prices):
+            r["tt_" + mk["side"]].append((prices["over"].get("points"), prices["over"]["price"], prices["under"]["price"]))
         elif t == "total" and {"over", "under"} <= set(prices):
             r["totals"].append((prices["over"].get("points"), prices["over"]["price"], prices["under"]["price"]))
     out = []
@@ -90,6 +92,9 @@ def fetch_lines(league_id: int) -> list[dict] | None:
         tl = main_line(r["totals"])
         if tl:
             row["total_line"], row["over"], row["under"] = tl[1], round(tl[2], 4), round(tl[3], 4)
+        for side in ("home", "away"):
+            tt = main_line(r["tt_" + side])
+            row[f"tt_{side}_line"], row[f"tt_{side}_over"], row[f"tt_{side}_under"] = (tt[1], round(tt[2], 4), round(tt[3], 4)) if tt else ("", "", "")
         if row["h"] or row["ah_line"]:
             row["_spreads"] = r["spreads"]; row["_totals"] = r["totals"]
             out.append(row)

@@ -5,3 +5,5 @@ time,area,change
 2026-11-15T21:29:05Z,ratings,"Opta Power Rankings 0 -> 10% of each rating (market 75, shots 15, Opta 10)"
 2026-11-15T21:29:05Z,display,Stated rating sd x 0.55 (filter uncertainty was 1.8x too wide); ratings unchanged
 2026-11-15T22:54:05Z,hand,Hands week 2026-11-10: Cruz Azul +0.00 -> +0.06
+2026-11-15T23:36:56Z,ratings,"Status factors on: out -0.13, in -0.05, fade -0.07, must +0.14, netted from every league line and added back to league games"
+2026-11-15T23:36:56Z,sim,"Second-leg state -0.08 per goal of lead; semi-final totals -0.3, final -0.4; per-club totals from Pinnacle; injury layer on"

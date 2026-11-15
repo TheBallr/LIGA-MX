@@ -57,9 +57,13 @@ def build(asof: dt.date, kn: dict, use_posted: bool = True, now=None) -> dict:
     obs = rl.measurements(cl, kn, deltas)
     he = rl.home_edge_now(cl[cl["date"] < asof.isoformat()], int(kn["home_edge_window"]))
     posted = posted_lines(kn, asof, now) if (use_posted and kn["posted_in_fit"]) else pd.DataFrame()
+    from sim.knobs import load_config as _lc
+    status = rl.schedule_status(kn, _lc())
     pm = None
     if len(posted):
         pm = posted.copy(); pm["y"] = pm["gd_fit"] - he - pm["home"].map(deltas).fillna(0.0)
+        stq = data.load("schedule").set_index(["date", "home", "away"])["stage"].to_dict()
+        pm["y"] -= [rl.status_factor(status.get(r.home, "live"), status.get(r.away, "live"), kn) if stq.get((r.date, r.home, r.away)) == "regular" else 0.0 for r in pm.itertuples(index=False)]
         # a posted line of the last regular rounds is as weak a reading of strength as their closes (late_rounds)
         sch = data.load("schedule"); sch = sch[sch["stage"] == "regular"].sort_values("kickoff_utc"); sch["tournament"] = "x"
         rn = dict(zip(zip(sch["date"], sch["home"], sch["away"]), rl.round_numbers(sch))); nl = int(kn.get("late_rounds", 0) or 0)
@@ -70,8 +74,9 @@ def build(asof: dt.date, kn: dict, use_posted: bool = True, now=None) -> dict:
     market = kf.ratings(T); sd = kf.sds(T) * float(kn.get("kalman_sd_scale", 1.0))
     base, shots, opta = rl.blend(market, kn, T, asof.isoformat())
     hd = hands(asof); hand = np.array([hd.get(t, 0.0) for t in T])
+    inj, inj_rows = rl.injury_adjust(kn, T, obs, asof.isoformat())
     n = obs[obs["date"] < asof.isoformat()]; cnt = (n["home"].value_counts().add(n["away"].value_counts(), fill_value=0)).to_dict()
-    return {"teams": T, "market": market, "shots": shots if shots is not None else np.full(len(T), np.nan), "opta": opta if opta is not None else np.full(len(T), np.nan), "base": base, "hand": hand, "rating": base + hand, "sd": sd, "home_edge": he, "deltas": deltas, "posted": posted,
+    return {"teams": T, "market": market, "shots": shots if shots is not None else np.full(len(T), np.nan), "opta": opta if opta is not None else np.full(len(T), np.nan), "base": base, "hand": hand, "inj": inj, "inj_rows": inj_rows, "rating": base + hand + inj, "status": status, "sd": sd, "home_edge": he, "deltas": deltas, "posted": posted,
             "n_closes": [int(cnt.get(t, 0)) for t in T], "last_close": str(n["date"].max())}
 
 

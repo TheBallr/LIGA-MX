@@ -136,6 +136,63 @@
     "kalman_sd_scale": {
       "value": 0.55,
       "note": "SET 2026-11-15: the filter's stated uncertainty is 1.8x too wide. One-step-ahead errors of 4,463 closes divided by the filter's own predicted sd have sd 0.546 (1.00 = honest; 0.62 since 2023); only 0.2% beyond 2 sd. The close-tracking grid pins the ratio q/s, not their level (config note on kalman_q_day), so the ratings are right and their stated sd is not. Reported rating sd = filter sd x this (0.15 -> 0.08 goals). Ratings and prices are unchanged by it."
+    },
+    "factors_enabled": {
+      "value": true,
+      "note": "ON 2026-11-15 (Zac: find what the lines price that the ratings do not, and fix it). Full-health ratings for status, as in the MLS model: every regular-season close and posted line enters the filter net of the two clubs' status on match morning (factor_out, factor_in), and each remaining league fixture gets its own status added back. scripts/calib_factors.py. Four flags since the same evening: out, in, fade, must. Rest days (+0.001, se 0.003), a short week (-0.004, se 0.011) and the first round back after a break of 11+ days (0.2016 v 0.2019) are priced at nothing."
+    },
+    "factor_out": {
+      "value": -0.13,
+      "note": "goals on a club's side once it cannot reach the last post-season place. SET 2026-11-15 from scripts/calib_factors.py, 3,975 regular closes 2013-2026, one regression of the close's miss v the ratings on the home-minus-away status flags: out -0.128 (se 0.017, n 198), in -0.049 (se 0.015, n 238), fade -0.069 (se 0.015, n 190), must +0.140 (se 0.025, n 92); rmse of the miss 0.2019 -> 0.1977. Status on match morning from the table as it stood; post-season cut by era (8; 12 in the repechaje years; 10 in the play-in years)."
+    },
+    "factor_in": {
+      "value": -0.05,
+      "note": "goals on a club's side once it cannot fall out of the post-season places. See factor_out."
+    },
+    "factor_fade": {
+      "value": -0.07,
+      "note": "a club still alive that needs 60% or more of the points it can still win to reach the cut line, with five rounds or fewer left. See factor_out."
+    },
+    "factor_must": {
+      "value": 0.14,
+      "note": "a club still alive (neither in nor out) going into its last game. Adds to fade when both hold. See factor_out."
+    },
+    "leg2_state": {
+      "value": -0.08,
+      "note": "SET 2026-11-15 (Zac: do second leg game state). Goals on the second leg's expected margin per goal of its host's first-leg lead: the side ahead eases off, the side behind chases. 182 ties 2012-2026: Pinnacle's second-leg close moves -0.077 per goal of lead v the ratings (se 0.010; quarter-finals and semis; final -0.044, se 0.026); real second-leg margins move -0.27 (se 0.08). Set at the market's number. Pricing whole ties from the start it changes nothing measurable (tie log-loss 0.5981 -> 0.5980, se 0.0011; priced 0.638 v happened 0.637); it matters once a first leg is played and no second-leg line is posted yet (a posted line overrides it)."
+    },
+    "liguilla_total_adj": {
+      "value": {
+        "qf": 0.0,
+        "sf": -0.3,
+        "final": -0.4
+      },
+      "note": "SET 2026-11-15: goals added to an unlined Liguilla leg's total. Real totals 2012-2026 v the same tournaments' league games (2.66): quarter-finals 2.77 (n 208, se 0.12: no change), semi-finals 2.37 (n 104, se 0.16), finals 2.25 (n 52, se 0.21)."
+    },
+    "club_totals_enabled": {
+      "value": true,
+      "note": "ON 2026-11-15 (Zac: use per-club totals and Pinnacle's team totals). An unlined game's total = avg_total_goals + both clubs' offsets (clipped 2.0-4.0); offsets are a ridge fit (club_totals_ridge) on Pinnacle's totals on file (posted lines and captured closes; a missing main total is read from the two team totals). Realised goals are NOT used: offsets fitted on goals predict the next total worse than a constant (rmse 1.636 v 1.630 at half-life 180, ridge 20; 1,243 games). Only 9 Pinnacle totals are on file on day one, so offsets start near zero and firm up through the Liguilla."
+    },
+    "club_totals_ridge": {
+      "value": 2.0,
+      "note": "pseudo-observations shrinking each club's total offset toward zero"
+    },
+    "injury_layer_enabled": {
+      "value": true,
+      "note": "ON 2026-11-15 (Zac: do injuries). Each open row of data/ratings/injuries.csv costs its club value x chance out x the share the ratings have not yet absorbed (injury_absorb ^ the club's closes since the row was first seen), on every remaining game while the row is open. Rows come from sportsgambler.com's Liga MX page each morning (fetch_injuries.py); rows already listed on the first import (2026-11-15) are dated 28 days back, so they cost nothing. NOT measured: there is no injury history to backtest (the MLS model measured its tier layer and found it double-counted once lines were in the ratings; the absorption share is what guards against that here)."
+    },
+    "injury_tiers": {
+      "value": {
+        "star": 0.2,
+        "key": 0.1,
+        "starter": 0.05,
+        "squad": 0.02
+      },
+      "note": "goals per match (the MLS values). A doubt counts half. Tier from ESPN lineups: starter = started 60%+ of the club's games this tournament, else squad; star and key only on Zac's word (edit the tier in injuries.csv; it is kept)."
+    },
+    "injury_absorb": {
+      "value": 0.55,
+      "note": "share of an absence still unpriced after each close of the club since it began (the filter takes about 45% of a gap per close; MLS note on series_carry_played)."
     }
   },
   "liga_mx": {

@@ -74,13 +74,15 @@ def main():
         g["he"] = round(float(summ["home_edge"]), 3); g["delta"] = round(float(dl.get(r.home, 0.0)), 3)
         x = wk.get((r.home, r.away))
         if r.status == "final" and x is not None and x.pred_0 == x.pred_0:
-            gm = float(x.pred_0 + x.he + x.delta); p = hda(gm, float(x.T_fit), f, s, rho)
+            gm = float(x.pred_0 + x.he + x.delta + x.fac); p = hda(gm, float(x.T_fit), f, s, rho); g.update(fac=round(float(x.fac), 3), st=[x.st_h, x.st_a])
             g.update(pin=[x.ph, x.pd, x.pa], model=list(p), g_pin=float(x.gd_fit), g_model=gm, book=x.book, raw=[float(x.h), float(x.d), float(x.a)], total=round(float(x.T_fit), 2))
         y = pk.get((r.home, r.away, r.date))
         if y is not None:
             p = hda(float(y.g_model), float(y.total), f, s, rho); g.update(model=list(p), g_model=float(y.g_model))
             if r.home in i0 and r.away in i0:
-                g0 = float(b0["rating"][i0[r.home]] - b0["rating"][i0[r.away]] + b0["home_edge"] + dl.get(r.home, 0.0))
+                fc = rl.status_factor(b0["status"].get(r.home, "live"), b0["status"].get(r.away, "live"), kn) if r.stage == "regular" else 0.0
+                g.update(fac=round(float(fc), 3), st=[b0["status"].get(r.home, "live"), b0["status"].get(r.away, "live")])
+                g0 = float(b0["rating"][i0[r.home]] - b0["rating"][i0[r.away]] + b0["home_edge"] + dl.get(r.home, 0.0) + fc)
                 g.update(g_nolines=g0, model_nolines=list(hda(g0, float(y.total), f, s, rho)))
             if y.lined:
                 g.update(pin=list(hda(float(y.g_pinn), float(y.total), f, s, rho)), g_pin=float(y.g_pinn), total=float(y.total), book="pinnacle")
@@ -125,7 +127,7 @@ def main():
     for r in wt.itertuples(index=False):
         if r.pred_0 != r.pred_0:
             continue
-        ours = float(r.pred_0 + r.he + r.delta); e = float(r.gd_fit - ours)
+        ours = float(r.pred_0 + r.he + r.delta + r.fac); e = float(r.gd_fit - ours)
         for t, opp, sgn, ha in ((r.home, r.away, 1, "H"), (r.away, r.home, -1, "A")):
             if t in clubs:
                 clubs[t]["closes"].append({"date": r.date, "opp": opp, "ha": ha, "close": round(sgn * float(r.gd_fit), 2), "ours": round(sgn * ours, 2), "miss": round(sgn * e, 2),
@@ -134,19 +136,28 @@ def main():
         j = json.load(open(p)); rrun = pd.read_csv(os.path.join(os.path.dirname(p), "ratings.csv")).set_index("team")["rating"].round(3).to_dict()
         for t in TT:
             clubs[t]["runs"].append([j["stamp"], {k: round(j["markets"][k].get(t, 0), 4) for k in ("champion", "reach_final", "reach_sf", "liguilla", "seed1")}, rrun.get(t)])
+    from scripts.run_sim import inputs as run_inputs
+    inp, bb, pl_, _ = run_inputs(_dt.date.fromisoformat(summ["asof"]), kn, cfg)
     order = sorted(teams, key=lambda t: (-t["pts"], -t["gd"], -t["gf"]))
     for t in teams:
-        t["delta"] = round(dl.get(t["team"], 0.0), 3); t["seed_now"] = order.index(t) + 1
+        t["delta"] = round(dl.get(t["team"], 0.0), 3); t["seed_now"] = order.index(t) + 1; t["status"] = b0["status"].get(t["team"], "live")
+    ptt = rl.pinnacle_totals(kn); ptt = {(r.date, r.home, r.away): r for r in ptt.itertuples(index=False)}
+    for g in games:
+        q = ptt.get((g["date"], g["home"], g["away"]))
+        if q is not None and q.mu_h == q.mu_h and q.mu_a == q.mu_a:
+            g["tt"] = [round(float(q.mu_h), 2), round(float(q.mu_a), 2)]
+    for t in teams:
+        t["inj"] = round(float(bb["inj"][inp.teams.index(t["team"])]), 3) if "inj" in bb else 0.0
+        clubs[t["team"]]["absences"] = [{k: x[k] for k in ("player", "type", "status", "expected_return", "first_seen", "tier", "closes_since", "unpriced", "cost", "source")} for x in bb.get("inj_rows", []) if x["team"] == t["team"]]
     for g in games:   # the page engine's fixture index, for the Games tab's what-if result buttons
         g["fx"] = None
     mlog = data.load("method_log").to_dict("records")
     # the page engine's inputs (Run on the Table tab): the run's own fixtures, table and Liguilla state
-    from scripts.run_sim import inputs as run_inputs
-    inp, bb, pl_, _ = run_inputs(_dt.date.fromisoformat(summ["asof"]), kn, cfg)
-    eng = {"teams": inp.teams, "market": [round(float(x), 4) for x in bb["base"]], "hand": [round(float(x), 4) for x in bb["hand"]],
+    eng = {"teams": inp.teams, "market": [round(float(x), 4) for x in bb["base"] + bb["inj"]], "hand": [round(float(x), 4) for x in bb["hand"]],
            "played": {k: [int(x) for x in pl_[k]] for k in ("points", "gd", "gf", "away_gf")}, "fixtures": [[f.home, f.away, round(f.adj, 4), f.s, round(f.g_pinn, 4), round(f.T, 3)] for f in inp.fixtures],
            "he": round(inp.home_edge, 4), "club": [round(float(x), 4) for x in inp.club_home], "lig_played": [list(map(int, x)) for x in inp.liguilla_played], "lig_lines": [[int(h), int(a), round(g, 4), round(t, 3)] for h, a, g, t in inp.liguilla_lines],
-           "winner": inp.final_winner, "fx_names": [[inp.teams[f.home], inp.teams[f.away]] for f in inp.fixtures], "kn": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "drift_cap", "goal_floor", "shared_goals_mean", "avg_total_goals", "dc_rho")}, "seed": int(kn["seed"]), "week": week_of(today_et())}
+           "winner": inp.final_winner, "fx_names": [[inp.teams[f.home], inp.teams[f.away]] for f in inp.fixtures], "tot": {"base": bb["club_totals"]["base"], "off": [round(bb["club_totals"]["offsets"].get(t, 0.0), 4) for t in inp.teams]},
+           "kn": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "drift_cap", "goal_floor", "shared_goals_mean", "avg_total_goals", "dc_rho", "leg2_state", "liguilla_total_adj")}, "seed": int(kn["seed"]), "week": week_of(today_et())}
     fxi = {(a, b): i for i, (a, b) in enumerate(eng["fx_names"])}
     for g in games:
         if g["status"] != "final":

@@ -73,8 +73,11 @@ def main():
                 v = {k: (float(row[k]) if str(row[k]) != "" else None) for k in ("h", "d", "a", "ah_line", "ah_home", "ah_away", "total_line", "over", "under")}
                 return gd_fit_row(**v, avg_total=kn["avg_total_goals"], floor=kn["goal_floor"], shared=kn["shared_goals_mean"], rho=kn["dc_rho"])
             last = g_of(x.iloc[-1]); first = g_of(x.iloc[0])
-            ours = float(b0["rating"][idx[r.home]] - b0["rating"][idx[r.away]] + b0["home_edge"] + dl.get(r.home, 0.0)); gap = ours - last["gd_fit"]
+            fac = rl.status_factor(b0["status"].get(r.home, "live"), b0["status"].get(r.away, "live"), kn) if r.stage == "regular" else 0.0
+            ours = float(b0["rating"][idx[r.home]] - b0["rating"][idx[r.away]] + b0["home_edge"] + dl.get(r.home, 0.0) + fac); gap = ours - last["gd_fit"]
             why = []
+            if fac:
+                why.append(f"status {fac:+.2f} ({code_of()[r.home]} {b0['status'].get(r.home)}, {code_of()[r.away]} {b0['status'].get(r.away)})")
             for t, sgn in ((r.home, 1), (r.away, -1)):
                 m4 = [e for *_, e in miss.get(t, [])[:4]]
                 if len(m4) == 4 and abs(np.mean(m4)) >= 0.08:
@@ -91,7 +94,7 @@ def main():
     since = prev["date"] if prev else (today - dt.timedelta(days=8)).isoformat()
     results = []
     for r in wt[(wt["date"] >= since) & wt["hg"].notna()].itertuples(index=False):
-        ours = float(r.pred_0 + r.he + r.delta) if r.pred_0 == r.pred_0 else None
+        ours = float(r.pred_0 + r.he + r.delta + r.fac) if r.pred_0 == r.pred_0 else None
         results.append({"date": r.date, "home": r.home, "away": r.away, "hg": int(r.hg), "ag": int(r.ag), "close": round(float(r.gd_fit), 3), "ours": None if ours is None else round(ours, 3),
                         "miss": None if ours is None else round(ours - float(r.gd_fit), 3), "book": r.book})
     # --- track record: our match-morning price v the close
@@ -124,6 +127,15 @@ def main():
                 lm.append({"kind": "line", "team": g["home"], "away": g["away"], "date": g["date"], "was": q["pin"], "now": g["pin"], "move": round(d, 3),
                            "note": f"ours {g['ours']:+.2f} · {'toward' if abs(g['ours'] - g['pin']) < abs(g['ours'] - q['pin']) else 'away from'} us"})
         moved = lm + moved
+    # --- injury list changes today
+    ip = os.path.join(ROOT, "data", "ratings", "injuries.csv")
+    if os.path.exists(ip):
+        inj = pd.read_csv(ip, dtype=str, keep_default_na=False); cost = {(x["team"], x["player"]): x["cost"] for x in b0.get("inj_rows", [])}
+        for x in inj.to_dict("records"):
+            if x["first_seen"] == today.isoformat() and x["closed"] == "":
+                moved.insert(0, {"kind": "injury", "team": x["team"], "player": x["player"], "note": f"new · {x['status']} · {x['type']} · {x['tier']}", "move": -float(cost.get((x["team"], x["player"]), 0.0))})
+            elif x["closed"] == today.isoformat():
+                moved.insert(0, {"kind": "injury", "team": x["team"], "player": x["player"], "note": "back or off the list", "move": 0.0})
     # --- hands in force, judged on the closes since each was set
     hl = data.load("hand_log"); hrev = []
     for t, g in hd.items():

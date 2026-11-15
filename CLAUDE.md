@@ -62,12 +62,13 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
 - No Pinnacle close on file after Oct 2025: 361 matches (all of A2026) are rated off the market-average close. Our own
   captures start with the Nov 20-22 round, and only if a capture is run ten minutes before each kickoff (no task exists).
 - The filter's absolute noise levels (q, s) are 1.8x too large; only the reported sd is corrected (`kalman_sd_scale`).
-- Not ported from MLS: full-health factors (absences, rest, eliminated), team totals, the dead-club dock, CLV log.
+- Not modelled: international call-ups (a one-game effect the line carries); the dead-club dock inside the sim; CLV log.
+- The injury layer is unmeasured (no history) and its tiers are defaults from lineups; `watch` rows cost nothing.
+- Club total offsets rest on very few Pinnacle totals until the Liguilla lines accumulate.
 - The bracket what-if forces a picked club through its round whatever the scores; it does not condition the legs' scores.
 - The page engine (Run on the Table tab) has no draw correction, so its prices are shown as the run plus the change.
 - The page's Save has not been exercised by a real click yet; the database answers and is empty (checked 2026-11-15).
-- Liguilla legs are simulated as two independent matches; second-leg game state is not modelled. The backtest does not show a
-  problem at tie level (section 6).
+- Second-leg game state is a single slope on the margin (`leg2_state`); the total is not moved by the state.
 - ESPN's stage label for Liguilla games is unseen; `run_sim` treats any match after `regular_season_end` as a Liguilla leg.
 - Extra time in a locked final: only ESPN's winner flag on the second leg is read.
 - Club home deltas are fitted on every season (in sample for past seasons).
@@ -186,6 +187,33 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   (Liguilla, Seed 1, Semis, Final, Champion); the model-change list. Header stamp: Refreshed / Last close.
   Left out on purpose: match-day factors (absences, rest; not modelled here), the injury rows of MLS's Moved card (no
   injury source), a bracket tree with connectors (the cards already carry the same numbers).
+
+- 2026-11-15 **Why the round-17 gaps were so big, and the fix** (Zac: gaps over 5 points on several games; back out what
+  the market prices that we do not; then: do injuries, per-club and Pinnacle team totals, second-leg state, drop Clear ifs).
+  Cause 1, fixed: club status. `scripts/calib_factors.py`, 3,975 league closes: a club that cannot reach the post-season is
+  priced -0.13 goals (se 0.017), one that cannot fall out of it -0.05 (0.015), one alive but needing 60%+ of what is left
+  -0.07 (0.015), one alive going into its last game +0.14 (0.025). `factors_enabled`: every league close and posted line is
+  read net of both clubs' status (full-health ratings, as MLS) and league fixtures get it added back. Yardstick a week out
+  0.2135 -> 0.2088; last two rounds 0.2602 -> 0.2318; Liguilla closes 0.2131 -> 0.2105. Rest days, short weeks and the first
+  round after an international break are priced at nothing. Round 17 gaps (ours minus Pinnacle, goals), before -> after:
+  Tijuana v Atlante -0.50 -> -0.25, Pachuca v Toluca -0.28 -> -0.09, Querétaro v Necaxa -0.25 -> -0.09, Tigres v América
+  +0.24 -> +0.16, Guadalajara v Cruz Azul +0.21 (unchanged); rms over the nine 0.26 -> 0.14.
+  Cause 2, not modelled: international call-ups. Guadalajara has six players away (five with Mexico, back Wed/Thu before
+  Sunday's game) against Cruz Azul's three (El Futbolero, Nov 13). A one-game effect; the line carries it, the rating should not.
+  Cause 3, open: Tijuana. Opta and footballdatabase both rate it 0.3-0.4 above us; put to Zac as a hand.
+  Injuries: `scripts/fetch_injuries.py` (sportsgambler's Liga MX page + ESPN lineups for a default tier; in `weekly.py`),
+  `data/ratings/injuries.csv`, `injury_layer_enabled`: cost = tier value x chance out x 0.55^(closes since first seen), on the
+  rating; a drawer card and Moved rows. First import: 11 rows dated 28 days back (cost 0). Three Guadalajara starters
+  (Ledezma, F. González, Aguirre) reported with knocks are listed as `watch` (cost 0) until confirmed. Unmeasured: no
+  injury history exists to backtest.
+  Totals: `fetch_pinnacle.py` captures each side's team total; `club_totals_enabled`: an unlined game's total = 2.85 + club
+  offsets fitted on Pinnacle's totals (9 on file: offsets within 0.07); offsets from real goals were tested and rejected.
+  `liguilla_total_adj`: semi-final legs -0.3, final legs -0.4 (real totals 2.37 and 2.25 v 2.66). Pinnacle's round-17 totals
+  average 3.12 against our base of 2.85: put to Zac.
+  Second leg: `leg2_state` -0.08 goals per goal of the host's first-leg lead (the market's number; real margins say -0.27,
+  se 0.08). Whole-tie pricing unchanged (0.5981 -> 0.5980); it bites once a first leg is played.
+  Page: Clear ifs removed (click the letter again); Status row and Pinnacle team totals in the game detail.
+  Run 20261115T233510Z: Toluca 26.1, Cruz Azul 25.5, América 22.6, Guadalajara 19.5, Monterrey 2.7.
 
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):

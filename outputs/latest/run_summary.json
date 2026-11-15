@@ -1,5 +1,5 @@
 {
- "stamp": "20261115T225409Z",
+ "stamp": "20261115T233510Z",
  "asof": "2026-11-15",
  "n_seasons": 200000,
  "seed": 20260,
@@ -10,6 +10,17 @@
  "liguilla_legs_lined": 0,
  "closes_through": "2026-11-08",
  "knobs": {
+  "injury_layer_enabled": true,
+  "leg2_state": -0.08,
+  "liguilla_total_adj": {
+   "qf": 0.0,
+   "sf": -0.3,
+   "final": -0.4
+  },
+  "club_totals_enabled": true,
+  "factors_enabled": true,
+  "factor_out": -0.13,
+  "factor_in": -0.05,
   "shots_weight": 0.15,
   "opta_weight": 0.1,
   "late_rounds": 2,

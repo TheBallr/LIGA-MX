@@ -31,8 +31,8 @@ const { chromium } = require('playwright'); const path = require('path'); const 
       if (fx == null) { errs.push('games: no unplayed league game to test If on'); } else { await p.click(`#gm .ifb button[data-fx="${fx}"][data-o="A"]`); await p.waitForTimeout(3000); }
       if (fx != null && await p.evaluate("document.querySelectorAll('#ifChg tbody tr').length") < 2) errs.push('games: an If result moved nothing');
       await p.screenshot({ path: path.join(root, 'shots', 'game_if.png'), fullPage: true });
-      await p.click('#ifClear'); await p.waitForTimeout(300);
-      if (await p.evaluate("document.querySelectorAll('#ifChg tbody tr').length") !== 0) errs.push('games: Clear ifs left changes');
+      if (fx != null) { await p.click(`#gm .ifb button[data-fx="${fx}"][data-o="A"]`); await p.waitForTimeout(600); }
+      if (await p.evaluate("document.querySelectorAll('#ifChg tbody tr').length") !== 0) errs.push('games: clicking the same If again did not clear it');
       await p.click('[data-tab=table]'); await p.click('#colSum'); await p.check('#col-band'); await p.check('#col-top4'); await p.waitForTimeout(150);
       if (!(await p.evaluate("document.querySelector('#tbl thead').innerText.includes('95% BAND') || document.querySelector('#tbl thead').innerText.includes('95% band')"))) errs.push('table: the Columns menu did not add a column');
       await p.screenshot({ path: path.join(root, 'shots', 'columns.png') }); await p.click('#colSum');

@@ -1,6 +1,6 @@
 {
  "asof": "2026-11-15",
- "stamp": "20261115T225409Z",
+ "stamp": "20261115T233510Z",
  "n": 50000,
  "scenarios": [
   "no lines",
@@ -16,465 +16,465 @@
  "clubs": {
   "América": {
    "champion": {
-    "p": 0.223565,
-    "lo": 0.21072500000000002,
-    "hi": 0.23466499999999998,
+    "p": 0.226385,
+    "lo": 0.213605,
+    "hi": 0.238705,
     "alt": {
-     "no lines": 0.2165,
-     "shots 0%": 0.2107,
-     "shots 30%": 0.2347,
-     "Opta 0%": 0.2277,
-     "Opta 20%": 0.2179,
-     "late rounds full weight": 0.2156,
-     "spread +6%": 0.2237,
-     "spread -6%": 0.2218
+     "no lines": 0.2226,
+     "shots 0%": 0.2136,
+     "shots 30%": 0.2387,
+     "Opta 0%": 0.231,
+     "Opta 20%": 0.2224,
+     "late rounds full weight": 0.2204,
+     "spread +6%": 0.2279,
+     "spread -6%": 0.2249
     },
     "wide": false,
-    "err": 0.0338,
-    "plus": 0.2601,
-    "minus": 0.1899
+    "err": 0.0366,
+    "plus": 0.2645,
+    "minus": 0.19
    },
    "reach_final": {
-    "p": 0.447365,
-    "lo": 0.434025,
-    "hi": 0.45964499999999997,
+    "p": 0.456115,
+    "lo": 0.44169500000000006,
+    "hi": 0.4692949999999999,
     "alt": {
-     "no lines": 0.4398,
-     "shots 0%": 0.434,
-     "shots 30%": 0.4596,
-     "Opta 0%": 0.4511,
-     "Opta 20%": 0.4429,
-     "late rounds full weight": 0.4419,
-     "spread +6%": 0.4506,
-     "spread -6%": 0.4429
+     "no lines": 0.4503,
+     "shots 0%": 0.4417,
+     "shots 30%": 0.4693,
+     "Opta 0%": 0.4601,
+     "Opta 20%": 0.4514,
+     "late rounds full weight": 0.4526,
+     "spread +6%": 0.459,
+     "spread -6%": 0.4521
     },
     "wide": false,
-    "err": 0.0353,
-    "plus": 0.4868,
-    "minus": 0.4085
+    "err": 0.0362,
+    "plus": 0.4954,
+    "minus": 0.4159
    },
    "reach_sf": {
-    "p": 0.76727,
-    "lo": 0.7570300000000001,
-    "hi": 0.7769700000000002,
+    "p": 0.774385,
+    "lo": 0.7644249999999999,
+    "hi": 0.7833649999999999,
     "alt": {
-     "no lines": 0.7657,
-     "shots 0%": 0.7611,
-     "shots 30%": 0.7725,
-     "Opta 0%": 0.7696,
-     "Opta 20%": 0.7644,
-     "late rounds full weight": 0.7651,
-     "spread +6%": 0.777,
-     "spread -6%": 0.757
+     "no lines": 0.7726,
+     "shots 0%": 0.769,
+     "shots 30%": 0.7787,
+     "Opta 0%": 0.7771,
+     "Opta 20%": 0.7716,
+     "late rounds full weight": 0.775,
+     "spread +6%": 0.7834,
+     "spread -6%": 0.7644
     },
     "wide": false,
-    "err": 0.0234,
-    "plus": 0.7934,
-    "minus": 0.7398
+    "err": 0.0227,
+    "plus": 0.7977,
+    "minus": 0.7477
    }
   },
   "Atlas": {
    "champion": {
-    "p": 0.014455,
-    "lo": 0.012295,
-    "hi": 0.016695,
+    "p": 0.012355,
+    "lo": 0.010535000000000001,
+    "hi": 0.014635,
     "alt": {
-     "no lines": 0.0141,
-     "shots 0%": 0.0151,
-     "shots 30%": 0.0136,
-     "Opta 0%": 0.0154,
-     "Opta 20%": 0.0133,
-     "late rounds full weight": 0.0133,
-     "spread +6%": 0.0123,
-     "spread -6%": 0.0167
+     "no lines": 0.0127,
+     "shots 0%": 0.0131,
+     "shots 30%": 0.0119,
+     "Opta 0%": 0.0136,
+     "Opta 20%": 0.0115,
+     "late rounds full weight": 0.0109,
+     "spread +6%": 0.0105,
+     "spread -6%": 0.0146
     },
     "wide": false,
-    "err": 0.0041,
-    "plus": 0.0195,
-    "minus": 0.0104
+    "err": 0.0033,
+    "plus": 0.0172,
+    "minus": 0.0087
    },
    "reach_final": {
-    "p": 0.053135,
-    "lo": 0.047395,
-    "hi": 0.05881500000000001,
+    "p": 0.048465,
+    "lo": 0.043545,
+    "hi": 0.053825,
     "alt": {
-     "no lines": 0.0526,
-     "shots 0%": 0.0543,
-     "shots 30%": 0.0518,
-     "Opta 0%": 0.0558,
-     "Opta 20%": 0.0501,
-     "late rounds full weight": 0.0502,
-     "spread +6%": 0.0474,
-     "spread -6%": 0.0588
+     "no lines": 0.049,
+     "shots 0%": 0.0499,
+     "shots 30%": 0.0474,
+     "Opta 0%": 0.0513,
+     "Opta 20%": 0.0461,
+     "late rounds full weight": 0.0453,
+     "spread +6%": 0.0435,
+     "spread -6%": 0.0538
     },
     "wide": false,
-    "err": 0.0102,
-    "plus": 0.065,
-    "minus": 0.0426
+    "err": 0.0091,
+    "plus": 0.0605,
+    "minus": 0.038
    },
    "reach_sf": {
-    "p": 0.236,
-    "lo": 0.22548,
-    "hi": 0.24658000000000002,
+    "p": 0.23478,
+    "lo": 0.22445999999999997,
+    "hi": 0.24576,
     "alt": {
-     "no lines": 0.2333,
-     "shots 0%": 0.2362,
-     "shots 30%": 0.2357,
-     "Opta 0%": 0.2428,
-     "Opta 20%": 0.2296,
-     "late rounds full weight": 0.2323,
-     "spread +6%": 0.2255,
-     "spread -6%": 0.2466
+     "no lines": 0.2347,
+     "shots 0%": 0.235,
+     "shots 30%": 0.2344,
+     "Opta 0%": 0.2407,
+     "Opta 20%": 0.229,
+     "late rounds full weight": 0.2304,
+     "spread +6%": 0.2245,
+     "spread -6%": 0.2458
     },
     "wide": false,
-    "err": 0.0239,
-    "plus": 0.2623,
-    "minus": 0.2106
+    "err": 0.0232,
+    "plus": 0.2609,
+    "minus": 0.2103
    }
   },
   "Cruz Azul": {
    "champion": {
-    "p": 0.25147,
-    "lo": 0.24061000000000005,
-    "hi": 0.2661700000000001,
+    "p": 0.255465,
+    "lo": 0.24414500000000006,
+    "hi": 0.2667050000000001,
     "alt": {
-     "no lines": 0.2406,
-     "shots 0%": 0.2447,
-     "shots 30%": 0.2581,
-     "Opta 0%": 0.2452,
-     "Opta 20%": 0.2578,
-     "late rounds full weight": 0.2662,
-     "spread +6%": 0.2537,
-     "spread -6%": 0.2494
+     "no lines": 0.2441,
+     "shots 0%": 0.2479,
+     "shots 30%": 0.2624,
+     "Opta 0%": 0.2484,
+     "Opta 20%": 0.2618,
+     "late rounds full weight": 0.2667,
+     "spread +6%": 0.2556,
+     "spread -6%": 0.255
     },
     "wide": false,
-    "err": 0.038,
-    "plus": 0.2899,
-    "minus": 0.2155
+    "err": 0.0395,
+    "plus": 0.296,
+    "minus": 0.2185
    },
    "reach_final": {
-    "p": 0.49368,
-    "lo": 0.48264,
-    "hi": 0.50786,
+    "p": 0.503235,
+    "lo": 0.4935750000000001,
+    "hi": 0.5145150000000001,
     "alt": {
-     "no lines": 0.4826,
-     "shots 0%": 0.4861,
-     "shots 30%": 0.5004,
-     "Opta 0%": 0.4876,
-     "Opta 20%": 0.4993,
-     "late rounds full weight": 0.5079,
-     "spread +6%": 0.4991,
-     "spread -6%": 0.4882
+     "no lines": 0.4936,
+     "shots 0%": 0.4967,
+     "shots 30%": 0.5098,
+     "Opta 0%": 0.4973,
+     "Opta 20%": 0.5089,
+     "late rounds full weight": 0.5145,
+     "spread +6%": 0.5077,
+     "spread -6%": 0.4998
     },
     "wide": false,
-    "err": 0.0401,
-    "plus": 0.5324,
-    "minus": 0.4539
+    "err": 0.0406,
+    "plus": 0.5434,
+    "minus": 0.4636
    },
    "reach_sf": {
-    "p": 0.78069,
-    "lo": 0.77125,
-    "hi": 0.78993,
+    "p": 0.785125,
+    "lo": 0.7764449999999998,
+    "hi": 0.7941050000000001,
     "alt": {
-     "no lines": 0.7773,
-     "shots 0%": 0.7785,
-     "shots 30%": 0.7834,
-     "Opta 0%": 0.7781,
-     "Opta 20%": 0.7833,
-     "late rounds full weight": 0.7896,
-     "spread +6%": 0.7899,
-     "spread -6%": 0.7712
+     "no lines": 0.7806,
+     "shots 0%": 0.7837,
+     "shots 30%": 0.7866,
+     "Opta 0%": 0.7828,
+     "Opta 20%": 0.7869,
+     "late rounds full weight": 0.7933,
+     "spread +6%": 0.7941,
+     "spread -6%": 0.7764
     },
     "wide": false,
-    "err": 0.0287,
-    "plus": 0.8054,
-    "minus": 0.7547
+    "err": 0.0281,
+    "plus": 0.8095,
+    "minus": 0.7596
    }
   },
   "Guadalajara": {
    "champion": {
-    "p": 0.19279,
-    "lo": 0.19042999999999996,
-    "hi": 0.20276999999999998,
+    "p": 0.19474,
+    "lo": 0.19261999999999999,
+    "hi": 0.20525999999999997,
     "alt": {
-     "no lines": 0.2028,
-     "shots 0%": 0.1957,
-     "shots 30%": 0.1904,
-     "Opta 0%": 0.1947,
-     "Opta 20%": 0.1916,
-     "late rounds full weight": 0.1998,
-     "spread +6%": 0.1929,
-     "spread -6%": 0.1935
+     "no lines": 0.2053,
+     "shots 0%": 0.1972,
+     "shots 30%": 0.1926,
+     "Opta 0%": 0.196,
+     "Opta 20%": 0.1935,
+     "late rounds full weight": 0.2041,
+     "spread +6%": 0.195,
+     "spread -6%": 0.1948
     },
     "wide": false,
-    "err": 0.0253,
-    "plus": 0.2257,
-    "minus": 0.162
+    "err": 0.027,
+    "plus": 0.2303,
+    "minus": 0.1617
    },
    "reach_final": {
-    "p": 0.40277,
-    "lo": 0.39942999999999995,
-    "hi": 0.41489,
+    "p": 0.40713,
+    "lo": 0.40369,
+    "hi": 0.41838999999999993,
     "alt": {
-     "no lines": 0.4149,
-     "shots 0%": 0.4063,
-     "shots 30%": 0.3994,
-     "Opta 0%": 0.4039,
-     "Opta 20%": 0.4018,
-     "late rounds full weight": 0.4111,
-     "spread +6%": 0.4052,
-     "spread -6%": 0.4004
+     "no lines": 0.4182,
+     "shots 0%": 0.4109,
+     "shots 30%": 0.4037,
+     "Opta 0%": 0.4082,
+     "Opta 20%": 0.4059,
+     "late rounds full weight": 0.4184,
+     "spread +6%": 0.4097,
+     "spread -6%": 0.4043
     },
     "wide": false,
-    "err": 0.029,
-    "plus": 0.4401,
-    "minus": 0.3657
+    "err": 0.0291,
+    "plus": 0.4465,
+    "minus": 0.3689
    },
    "reach_sf": {
-    "p": 0.756275,
-    "lo": 0.747315,
-    "hi": 0.7652950000000001,
+    "p": 0.762475,
+    "lo": 0.753335,
+    "hi": 0.7726750000000001,
     "alt": {
-     "no lines": 0.7644,
-     "shots 0%": 0.7585,
-     "shots 30%": 0.7539,
-     "Opta 0%": 0.7559,
-     "Opta 20%": 0.7562,
-     "late rounds full weight": 0.7637,
-     "spread +6%": 0.7653,
-     "spread -6%": 0.7473
+     "no lines": 0.769,
+     "shots 0%": 0.7658,
+     "shots 30%": 0.7597,
+     "Opta 0%": 0.7628,
+     "Opta 20%": 0.7618,
+     "late rounds full weight": 0.7727,
+     "spread +6%": 0.7718,
+     "spread -6%": 0.7533
     },
     "wide": false,
-    "err": 0.0176,
-    "plus": 0.7818,
-    "minus": 0.7293
+    "err": 0.0171,
+    "plus": 0.7878,
+    "minus": 0.7359
    }
   },
   "León": {
    "champion": {
-    "p": 0.008325,
-    "lo": 0.007385000000000001,
-    "hi": 0.010005000000000002,
+    "p": 0.007235,
+    "lo": 0.005875,
+    "hi": 0.008515,
     "alt": {
-     "no lines": 0.0081,
-     "shots 0%": 0.0074,
-     "shots 30%": 0.01,
-     "Opta 0%": 0.0082,
-     "Opta 20%": 0.0087,
-     "late rounds full weight": 0.0078,
-     "spread +6%": 0.0074,
-     "spread -6%": 0.0096
+     "no lines": 0.007,
+     "shots 0%": 0.0059,
+     "shots 30%": 0.0085,
+     "Opta 0%": 0.0067,
+     "Opta 20%": 0.0075,
+     "late rounds full weight": 0.0061,
+     "spread +6%": 0.0061,
+     "spread -6%": 0.0082
     },
     "wide": false,
-    "err": 0.0021,
-    "plus": 0.0115,
-    "minus": 0.0065
+    "err": 0.002,
+    "plus": 0.0101,
+    "minus": 0.005
    },
    "reach_final": {
-    "p": 0.027265,
-    "lo": 0.024725000000000004,
-    "hi": 0.030785,
+    "p": 0.02491,
+    "lo": 0.02165,
+    "hi": 0.027989999999999998,
     "alt": {
-     "no lines": 0.0267,
-     "shots 0%": 0.0247,
-     "shots 30%": 0.0308,
-     "Opta 0%": 0.0266,
-     "Opta 20%": 0.0283,
-     "late rounds full weight": 0.0253,
-     "spread +6%": 0.025,
-     "spread -6%": 0.0298
+     "no lines": 0.0245,
+     "shots 0%": 0.0216,
+     "shots 30%": 0.028,
+     "Opta 0%": 0.024,
+     "Opta 20%": 0.0258,
+     "late rounds full weight": 0.0219,
+     "spread +6%": 0.0225,
+     "spread -6%": 0.0276
     },
     "wide": false,
-    "err": 0.0055,
-    "plus": 0.0339,
-    "minus": 0.0217
+    "err": 0.0051,
+    "plus": 0.0315,
+    "minus": 0.0188
    },
    "reach_sf": {
-    "p": 0.11227,
-    "lo": 0.10629000000000001,
-    "hi": 0.11839000000000001,
+    "p": 0.11058,
+    "lo": 0.10378,
+    "hi": 0.11657999999999998,
     "alt": {
-     "no lines": 0.1116,
-     "shots 0%": 0.1063,
-     "shots 30%": 0.1184,
-     "Opta 0%": 0.1107,
-     "Opta 20%": 0.114,
-     "late rounds full weight": 0.1074,
-     "spread +6%": 0.1074,
-     "spread -6%": 0.1171
+     "no lines": 0.1098,
+     "shots 0%": 0.1038,
+     "shots 30%": 0.1166,
+     "Opta 0%": 0.1087,
+     "Opta 20%": 0.1126,
+     "late rounds full weight": 0.104,
+     "spread +6%": 0.1053,
+     "spread -6%": 0.1155
     },
     "wide": false,
-    "err": 0.012,
-    "plus": 0.1257,
-    "minus": 0.0992
+    "err": 0.0117,
+    "plus": 0.124,
+    "minus": 0.0979
    }
   },
   "Monterrey": {
    "champion": {
-    "p": 0.031245,
-    "lo": 0.029185000000000003,
-    "hi": 0.033525,
+    "p": 0.02713,
+    "lo": 0.02505,
+    "hi": 0.029070000000000002,
     "alt": {
-     "no lines": 0.0306,
-     "shots 0%": 0.0319,
-     "shots 30%": 0.0308,
-     "Opta 0%": 0.0329,
-     "Opta 20%": 0.0299,
-     "late rounds full weight": 0.0319,
-     "spread +6%": 0.0292,
-     "spread -6%": 0.0335
+     "no lines": 0.0271,
+     "shots 0%": 0.0272,
+     "shots 30%": 0.0266,
+     "Opta 0%": 0.0285,
+     "Opta 20%": 0.0254,
+     "late rounds full weight": 0.0272,
+     "spread +6%": 0.025,
+     "spread -6%": 0.0291
     },
     "wide": false,
-    "err": 0.0066,
-    "plus": 0.0404,
-    "minus": 0.0241
+    "err": 0.0062,
+    "plus": 0.0354,
+    "minus": 0.0199
    },
    "reach_final": {
-    "p": 0.07599,
-    "lo": 0.07301000000000002,
-    "hi": 0.07979000000000003,
+    "p": 0.06954,
+    "lo": 0.06675999999999999,
+    "hi": 0.07258,
     "alt": {
-     "no lines": 0.0757,
-     "shots 0%": 0.078,
-     "shots 30%": 0.0746,
-     "Opta 0%": 0.0794,
-     "Opta 20%": 0.0733,
-     "late rounds full weight": 0.0762,
-     "spread +6%": 0.073,
-     "spread -6%": 0.0798
+     "no lines": 0.0699,
+     "shots 0%": 0.0711,
+     "shots 30%": 0.0683,
+     "Opta 0%": 0.0721,
+     "Opta 20%": 0.0671,
+     "late rounds full weight": 0.0694,
+     "spread +6%": 0.0668,
+     "spread -6%": 0.0726
     },
     "wide": false,
-    "err": 0.0118,
-    "plus": 0.0918,
-    "minus": 0.0628
+    "err": 0.0117,
+    "plus": 0.0849,
+    "minus": 0.0572
    },
    "reach_sf": {
-    "p": 0.22747,
-    "lo": 0.22263000000000002,
-    "hi": 0.23212999999999998,
+    "p": 0.22176,
+    "lo": 0.21710000000000002,
+    "hi": 0.22626000000000002,
     "alt": {
-     "no lines": 0.2264,
-     "shots 0%": 0.2301,
-     "shots 30%": 0.2245,
-     "Opta 0%": 0.2317,
-     "Opta 20%": 0.2229,
-     "late rounds full weight": 0.2273,
-     "spread +6%": 0.2226,
-     "spread -6%": 0.2321
+     "no lines": 0.2224,
+     "shots 0%": 0.2242,
+     "shots 30%": 0.2195,
+     "Opta 0%": 0.2255,
+     "Opta 20%": 0.2177,
+     "late rounds full weight": 0.2211,
+     "spread +6%": 0.2171,
+     "spread -6%": 0.2263
     },
     "wide": false,
-    "err": 0.0186,
-    "plus": 0.2499,
-    "minus": 0.2063
+    "err": 0.0183,
+    "plus": 0.244,
+    "minus": 0.2021
    }
   },
   "Pachuca": {
    "champion": {
-    "p": 0.008595,
-    "lo": 0.007715,
-    "hi": 0.009395,
+    "p": 0.007435,
+    "lo": 0.006594999999999999,
+    "hi": 0.008555,
     "alt": {
-     "no lines": 0.008,
-     "shots 0%": 0.0086,
-     "shots 30%": 0.0088,
-     "Opta 0%": 0.0082,
-     "Opta 20%": 0.009,
-     "late rounds full weight": 0.0086,
-     "spread +6%": 0.0077,
-     "spread -6%": 0.0094
+     "no lines": 0.0072,
+     "shots 0%": 0.0071,
+     "shots 30%": 0.0077,
+     "Opta 0%": 0.0071,
+     "Opta 20%": 0.0079,
+     "late rounds full weight": 0.0075,
+     "spread +6%": 0.0066,
+     "spread -6%": 0.0086
     },
     "wide": false,
-    "err": 0.0024,
-    "plus": 0.0114,
-    "minus": 0.0064
+    "err": 0.0022,
+    "plus": 0.0103,
+    "minus": 0.0054
    },
    "reach_final": {
-    "p": 0.024545,
-    "lo": 0.022945,
-    "hi": 0.026385,
+    "p": 0.022525,
+    "lo": 0.021065,
+    "hi": 0.024165000000000006,
     "alt": {
-     "no lines": 0.0235,
-     "shots 0%": 0.0248,
-     "shots 30%": 0.0247,
-     "Opta 0%": 0.0239,
-     "Opta 20%": 0.0257,
-     "late rounds full weight": 0.0248,
-     "spread +6%": 0.0229,
-     "spread -6%": 0.0264
+     "no lines": 0.0222,
+     "shots 0%": 0.0223,
+     "shots 30%": 0.0227,
+     "Opta 0%": 0.0217,
+     "Opta 20%": 0.0233,
+     "late rounds full weight": 0.0224,
+     "spread +6%": 0.0211,
+     "spread -6%": 0.0242
     },
     "wide": false,
-    "err": 0.0047,
-    "plus": 0.0301,
-    "minus": 0.0198
+    "err": 0.0045,
+    "plus": 0.028,
+    "minus": 0.0178
    },
    "reach_sf": {
-    "p": 0.09082,
-    "lo": 0.08761999999999998,
-    "hi": 0.09449999999999997,
+    "p": 0.089605,
+    "lo": 0.08672500000000002,
+    "hi": 0.09282500000000002,
     "alt": {
-     "no lines": 0.0891,
-     "shots 0%": 0.0913,
-     "shots 30%": 0.0907,
-     "Opta 0%": 0.0893,
-     "Opta 20%": 0.0925,
-     "late rounds full weight": 0.091,
-     "spread +6%": 0.0876,
-     "spread -6%": 0.0945
+     "no lines": 0.0892,
+     "shots 0%": 0.0896,
+     "shots 30%": 0.0899,
+     "Opta 0%": 0.0882,
+     "Opta 20%": 0.0912,
+     "late rounds full weight": 0.0893,
+     "spread +6%": 0.0867,
+     "spread -6%": 0.0928
     },
     "wide": false,
-    "err": 0.0094,
-    "plus": 0.101,
-    "minus": 0.0802
+    "err": 0.0092,
+    "plus": 0.1002,
+    "minus": 0.0796
    }
   },
   "Pumas": {
    "champion": {
-    "p": 0.00087,
-    "lo": 0.00081,
-    "hi": 0.00101,
+    "p": 0.00072,
+    "lo": 0.0006000000000000001,
+    "hi": 0.0007800000000000001,
     "alt": {
-     "no lines": 0.0009,
-     "shots 0%": 0.0009,
-     "shots 30%": 0.0009,
-     "Opta 0%": 0.0009,
-     "Opta 20%": 0.0009,
-     "late rounds full weight": 0.0009,
-     "spread +6%": 0.0008,
-     "spread -6%": 0.001
+     "no lines": 0.0007,
+     "shots 0%": 0.0007,
+     "shots 30%": 0.0007,
+     "Opta 0%": 0.0007,
+     "Opta 20%": 0.0007,
+     "late rounds full weight": 0.0007,
+     "spread +6%": 0.0006,
+     "spread -6%": 0.0008
     },
     "wide": false,
     "err": 0.0002
    },
    "reach_final": {
-    "p": 0.003075,
-    "lo": 0.002815,
-    "hi": 0.0033150000000000002,
+    "p": 0.00292,
+    "lo": 0.00264,
+    "hi": 0.0032000000000000006,
     "alt": {
-     "no lines": 0.0031,
-     "shots 0%": 0.0033,
-     "shots 30%": 0.0029,
-     "Opta 0%": 0.0031,
-     "Opta 20%": 0.003,
-     "late rounds full weight": 0.003,
-     "spread +6%": 0.0028,
-     "spread -6%": 0.0033
+     "no lines": 0.0029,
+     "shots 0%": 0.0032,
+     "shots 30%": 0.0026,
+     "Opta 0%": 0.0029,
+     "Opta 20%": 0.0029,
+     "late rounds full weight": 0.0028,
+     "spread +6%": 0.0027,
+     "spread -6%": 0.0031
     },
     "wide": false,
     "err": 0.0006
    },
    "reach_sf": {
-    "p": 0.01358,
-    "lo": 0.012879999999999999,
-    "hi": 0.0143,
+    "p": 0.01334,
+    "lo": 0.012659999999999998,
+    "hi": 0.01406,
     "alt": {
-     "no lines": 0.0138,
-     "shots 0%": 0.0143,
-     "shots 30%": 0.0129,
-     "Opta 0%": 0.0138,
-     "Opta 20%": 0.0134,
-     "late rounds full weight": 0.0133,
-     "spread +6%": 0.013,
-     "spread -6%": 0.0142
+     "no lines": 0.0134,
+     "shots 0%": 0.0141,
+     "shots 30%": 0.0127,
+     "Opta 0%": 0.0135,
+     "Opta 20%": 0.0131,
+     "late rounds full weight": 0.013,
+     "spread +6%": 0.0127,
+     "spread -6%": 0.0138
     },
     "wide": false,
     "err": 0.0015
@@ -482,173 +482,167 @@
   },
   "Santos Laguna": {
    "champion": {
-    "p": 0.00594,
-    "lo": 0.00458,
-    "hi": 0.0074399999999999996,
+    "p": 0.00445,
+    "lo": 0.003409999999999999,
+    "hi": 0.00539,
     "alt": {
-     "no lines": 0.0059,
-     "shots 0%": 0.0056,
-     "shots 30%": 0.0061,
-     "Opta 0%": 0.0058,
-     "Opta 20%": 0.0057,
-     "late rounds full weight": 0.0053,
-     "spread +6%": 0.0046,
-     "spread -6%": 0.0074
+     "no lines": 0.0044,
+     "shots 0%": 0.0039,
+     "shots 30%": 0.0048,
+     "Opta 0%": 0.0044,
+     "Opta 20%": 0.0044,
+     "late rounds full weight": 0.0042,
+     "spread +6%": 0.0034,
+     "spread -6%": 0.0054
     },
     "wide": false,
-    "err": 0.002,
-    "plus": 0.0087,
-    "minus": 0.0039
+    "err": 0.0016
    },
    "reach_final": {
-    "p": 0.026195,
-    "lo": 0.022555000000000002,
-    "hi": 0.030194999999999996,
+    "p": 0.022295,
+    "lo": 0.018574999999999998,
+    "hi": 0.025535,
     "alt": {
-     "no lines": 0.0263,
-     "shots 0%": 0.0255,
-     "shots 30%": 0.0268,
-     "Opta 0%": 0.0262,
-     "Opta 20%": 0.0258,
-     "late rounds full weight": 0.0245,
-     "spread +6%": 0.0226,
-     "spread -6%": 0.0302
+     "no lines": 0.0222,
+     "shots 0%": 0.0207,
+     "shots 30%": 0.0236,
+     "Opta 0%": 0.0218,
+     "Opta 20%": 0.0224,
+     "late rounds full weight": 0.0205,
+     "spread +6%": 0.0186,
+     "spread -6%": 0.0255
     },
     "wide": false,
-    "err": 0.0061,
-    "plus": 0.0338,
-    "minus": 0.0198
+    "err": 0.0053
    },
    "reach_sf": {
-    "p": 0.145875,
-    "lo": 0.13673499999999997,
-    "hi": 0.15571499999999996,
+    "p": 0.14159,
+    "lo": 0.13287,
+    "hi": 0.15072999999999998,
     "alt": {
-     "no lines": 0.1465,
-     "shots 0%": 0.143,
-     "shots 30%": 0.1486,
-     "Opta 0%": 0.1458,
-     "Opta 20%": 0.1462,
-     "late rounds full weight": 0.1428,
-     "spread +6%": 0.1367,
-     "spread -6%": 0.1557
+     "no lines": 0.1413,
+     "shots 0%": 0.1378,
+     "shots 30%": 0.1459,
+     "Opta 0%": 0.1408,
+     "Opta 20%": 0.1425,
+     "late rounds full weight": 0.1374,
+     "spread +6%": 0.1329,
+     "spread -6%": 0.1507
     },
     "wide": false,
-    "err": 0.0152,
-    "plus": 0.1651,
-    "minus": 0.128
+    "err": 0.015
    }
   },
   "Tijuana": {
    "champion": {
-    "p": 0.004055,
-    "lo": 0.0034349999999999993,
-    "hi": 0.004914999999999999,
+    "p": 0.00295,
+    "lo": 0.0023699999999999997,
+    "hi": 0.0036299999999999995,
     "alt": {
-     "no lines": 0.0038,
-     "shots 0%": 0.0042,
-     "shots 30%": 0.0039,
-     "Opta 0%": 0.0038,
-     "Opta 20%": 0.0046,
-     "late rounds full weight": 0.0043,
-     "spread +6%": 0.0034,
-     "spread -6%": 0.0049
+     "no lines": 0.0028,
+     "shots 0%": 0.003,
+     "shots 30%": 0.0029,
+     "Opta 0%": 0.0026,
+     "Opta 20%": 0.0033,
+     "late rounds full weight": 0.003,
+     "spread +6%": 0.0024,
+     "spread -6%": 0.0036
     },
     "wide": false,
-    "err": 0.0015
+    "err": 0.001
    },
    "reach_final": {
-    "p": 0.016235,
-    "lo": 0.014314999999999998,
-    "hi": 0.018494999999999994,
+    "p": 0.01325,
+    "lo": 0.010989999999999998,
+    "hi": 0.01529,
     "alt": {
-     "no lines": 0.0153,
-     "shots 0%": 0.0171,
-     "shots 30%": 0.0156,
-     "Opta 0%": 0.0152,
-     "Opta 20%": 0.0176,
-     "late rounds full weight": 0.0164,
-     "spread +6%": 0.0143,
-     "spread -6%": 0.0185
+     "no lines": 0.0127,
+     "shots 0%": 0.0138,
+     "shots 30%": 0.0126,
+     "Opta 0%": 0.0118,
+     "Opta 20%": 0.0145,
+     "late rounds full weight": 0.013,
+     "spread +6%": 0.011,
+     "spread -6%": 0.0153
     },
     "wide": false,
-    "err": 0.0044
+    "err": 0.0037
    },
    "reach_sf": {
-    "p": 0.089145,
-    "lo": 0.082625,
-    "hi": 0.09562499999999999,
+    "p": 0.084485,
+    "lo": 0.07830500000000001,
+    "hi": 0.091025,
     "alt": {
-     "no lines": 0.0864,
-     "shots 0%": 0.0919,
-     "shots 30%": 0.0865,
-     "Opta 0%": 0.086,
-     "Opta 20%": 0.0926,
-     "late rounds full weight": 0.089,
-     "spread +6%": 0.0826,
-     "spread -6%": 0.0956
+     "no lines": 0.0837,
+     "shots 0%": 0.0864,
+     "shots 30%": 0.0828,
+     "Opta 0%": 0.0811,
+     "Opta 20%": 0.0882,
+     "late rounds full weight": 0.083,
+     "spread +6%": 0.0783,
+     "spread -6%": 0.091
     },
     "wide": false,
-    "err": 0.0122
+    "err": 0.0115
    }
   },
   "Toluca": {
    "champion": {
-    "p": 0.25869,
-    "lo": 0.24273,
-    "hi": 0.27510999999999997,
+    "p": 0.261135,
+    "lo": 0.24307499999999999,
+    "hi": 0.280375,
     "alt": {
-     "no lines": 0.2689,
-     "shots 0%": 0.2751,
-     "shots 30%": 0.2427,
-     "Opta 0%": 0.2571,
-     "Opta 20%": 0.2606,
-     "late rounds full weight": 0.2462,
-     "spread +6%": 0.2642,
-     "spread -6%": 0.2527
+     "no lines": 0.2661,
+     "shots 0%": 0.2804,
+     "shots 30%": 0.2431,
+     "Opta 0%": 0.2609,
+     "Opta 20%": 0.2617,
+     "late rounds full weight": 0.2491,
+     "spread +6%": 0.2669,
+     "spread -6%": 0.255
     },
     "wide": true,
-    "err": 0.0309,
-    "plus": 0.2972,
-    "minus": 0.2243
+    "err": 0.0318,
+    "plus": 0.3008,
+    "minus": 0.2247
    },
    "reach_final": {
-    "p": 0.42974,
-    "lo": 0.41340000000000005,
-    "hi": 0.4459,
+    "p": 0.42961,
+    "lo": 0.41199,
+    "hi": 0.4481699999999999,
     "alt": {
-     "no lines": 0.4394,
-     "shots 0%": 0.4459,
-     "shots 30%": 0.4134,
-     "Opta 0%": 0.4274,
-     "Opta 20%": 0.4322,
-     "late rounds full weight": 0.4188,
-     "spread +6%": 0.4371,
-     "spread -6%": 0.4217
+     "no lines": 0.4345,
+     "shots 0%": 0.4482,
+     "shots 30%": 0.412,
+     "Opta 0%": 0.4286,
+     "Opta 20%": 0.4318,
+     "late rounds full weight": 0.4192,
+     "spread +6%": 0.4374,
+     "spread -6%": 0.4218
     },
     "wide": true,
-    "err": 0.0309,
-    "plus": 0.4692,
-    "minus": 0.3932
+    "err": 0.0311,
+    "plus": 0.4688,
+    "minus": 0.3912
    },
    "reach_sf": {
-    "p": 0.78059,
-    "lo": 0.7685900000000001,
-    "hi": 0.7922899999999999,
+    "p": 0.78186,
+    "lo": 0.76986,
+    "hi": 0.7932199999999998,
     "alt": {
-     "no lines": 0.7854,
-     "shots 0%": 0.7887,
-     "shots 30%": 0.7728,
-     "Opta 0%": 0.7763,
-     "Opta 20%": 0.785,
-     "late rounds full weight": 0.7786,
-     "spread +6%": 0.7923,
-     "spread -6%": 0.7686
+     "no lines": 0.7835,
+     "shots 0%": 0.7906,
+     "shots 30%": 0.7732,
+     "Opta 0%": 0.7788,
+     "Opta 20%": 0.7854,
+     "late rounds full weight": 0.7808,
+     "spread +6%": 0.7932,
+     "spread -6%": 0.7699
     },
     "wide": false,
-    "err": 0.022,
-    "plus": 0.8057,
-    "minus": 0.7552
+    "err": 0.0221,
+    "plus": 0.8054,
+    "minus": 0.7564
    }
   }
  }

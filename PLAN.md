@@ -21,19 +21,23 @@ over the 18 clubs.
   - 0.021 x shots off target; ratings by weighted ridge least squares (half-life 45 days), rescaled to the market's spread.
   Rating = 0.75 x market + 0.15 x proxy + 0.10 x Opta Power Rankings (latest snapshot, rescaled likewise), re-centred, plus
   the hand. A missing source gives its weight back to the market.
+- **Status (full-health ratings)**: every league line is read net of both clubs' status on match morning (out -0.13, in
+  -0.05, fade -0.07, must +0.14) and league fixtures get it added back.
+- **Absences**: an open row of the injury list costs tier value x chance out x the share not yet priced (0.55 per close).
 - **Late rounds**: closes and posted lines of the last two league rounds enter at sd 0.5 (rotation, dead rubbers).
 - **Stated sd**: the filter's posterior sd x 0.55 (it is 1.8x too wide on 4,463 one-step errors).
 
 ## 2. Match engine (`sim/engine.py`, unchanged from MLS)
 g = R_home - R_away + home edge + club delta; a fixture with a fresh Pinnacle line is priced off the line. Total: the posted
-total, else 2.85. Two Poisson scores with a shared component (0.10) and Dixon-Coles rho -0.05.
+total, else 2.85 plus both clubs' offsets from Pinnacle's totals (semi-final legs -0.3, final legs -0.4). Two Poisson scores with a shared component (0.10) and Dixon-Coles rho -0.05.
 
 ## 3. Tournament engine (`sim/season.py`, `sim/standings.py`, `sim/liguilla.py`, `sim/markets.py`)
 200,000 simulations, seed 20260. One rating draw per club per simulation (sd 0.15); real results locked; remaining league
 fixtures in date order with drift 0.01 x surprise. Table: points, goal difference, goals for, away goals for, coin.
 **Liguilla**: top 8, no play-in; 1 v 8, 2 v 7, 3 v 6, 4 v 5; two legs, lower seed hosts the first; a quarter-final or
 semi-final level on aggregate goes to the higher seed; semis re-seeded; the final level on aggregate plays extra time (a
-mini-match at a third of the goal means) then a coin. Played legs are locked to their score; a leg with a fresh Pinnacle
+mini-match at a third of the goal means) then a coin. The second leg's margin moves -0.08 goals per goal of its host's
+first-leg lead. Played legs are locked to their score; a leg with a fresh Pinnacle
 line is priced off it. Markets: champion, reach final, reach semis, Liguilla, seed 1, top 4, seed distribution, points.
 
 ## 4. Yardsticks
