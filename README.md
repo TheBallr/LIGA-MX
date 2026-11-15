@@ -5,6 +5,7 @@ Advisory) as a port of the MLS-FUTURES model. Ratings: a Kalman filter on closin
 posted Pinnacle lines, with per-club home edges and Zac's hand adjustments. 200,000 simulated tournaments (rest of the league,
 then the Liguilla bracket), fixed seed; published to a private claude.ai page.
 
+- `main` is the live branch; sessions branch from it and merge approved work back (CLAUDE.md, top).
 - `CLAUDE.md`: rules, structure as encoded, known gaps, decisions log, measurements. Read before changing anything.
 - `PLAN.md`: the method as it runs. `config.json`: every knob, its value and a dated note.
 - Page: https://claude.ai/artifact/2LU82uyW7PsndHocs7CoVX

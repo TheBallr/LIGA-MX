@@ -2,7 +2,11 @@
 
 The living document. Future sessions start here. Method: `PLAN.md`. Knobs and provenance: `config.json`. This model is a port
 of `TheBallr/MLS-FUTURES` (its CLAUDE.md is the reference for anything not covered here); built 2026-11-15 in one session.
-Branch: `claude/magical-mendel-0am2um` (the only branch with work; `main` holds the initial commit).
+**Branches (2026-11-15, Zac: "make the model live so I can work on it in other sessions").** `main` is the live branch and
+GitHub's default: a new session clones it and has the whole model. Each session works on its own `claude/...` branch cut
+from `main`. The scheduled tasks run in session_01SB1THFCBLMkmYPHNpyuQtf on `claude/magical-mendel-0am2um`: every morning
+they merge `origin/main` in first and push to both that branch and `main` at the end, so work merged into `main` reaches
+the page at the next 08:16 ET refresh and work left on a side branch does not.
 
 ## 0. How to work (same as the MLS repo; non-negotiable)
 - Zac (Sierra Advisory LLC) does not code. Everything through chat; outputs on the private page. No gambling caveats, no
@@ -10,6 +14,14 @@ Branch: `claude/magical-mendel-0am2um` (the only branch with work; `main` holds 
 - Zac makes the calls. Propose changes numbered so he can reply "do 1, 3". Never change a hand adjustment, a rating or a
   calibrated knob unprompted. Routine maintenance (fetches, runs, publishing) is done and said.
 - Commit after every piece of work; push to the branch given; every full run archived under `outputs/runs/<stamp>/`.
+- Merging (standing rule, as in the MLS repo): when a piece of work Zac has approved is finished, merge it into `main` as
+  the last step without waiting to be asked: `git fetch origin main`, merge it into the session branch (the routine pushes
+  there daily), rerun tests / run / page check if anything came in, then `git push origin HEAD:main` and push the session
+  branch. Stop and ask when both sides changed the same logic, or the work is unfinished or not approved.
+- A new session: `pip install -r requirements.txt` if pandas is missing; publish the page by passing the URL of section 7
+  as `url` (never create a second page); the hand boxes' saved edits are read with ArtifactData (section 8 prompt, step 2).
+  Run `python3 scripts/weekly.py` for a full refresh, or `run_sim.py` -> `risk.py` -> `morning.py` -> `site_data.py` ->
+  `build_site.py` -> `node scripts/check_site.js` after a model change.
 - `python3 scripts/check_secrets.py` before every push. The Pinnacle guest key in `fetch_pinnacle.py` is the public one from
   pinnacle.com's own front end. No other key is used.
 - Page wording (Zac, MLS 2026-10-23): numbers in grids, short labels, explanations only in hovers.
@@ -216,3 +228,5 @@ by viewers and writable by the owner and editors only. Republish with capabiliti
   (00:50Z and 02:50Z Nov 21; 22:40Z Nov 21; 00:50Z and 02:50Z Nov 22; 22:57Z Nov 22; 00:50Z Nov 23). Liguilla slots are
   armed by the morning routine once ESPN lists the games.
 - If this session's container is rebuilt the repo is cloned fresh: the routine's step 1 handles the branch and packages.
+- The routine's step 1 merges `origin/main`; step 6 pushes the session branch and `main`. A close capture pushes only the
+  session branch; the next morning's run carries it to `main`.
