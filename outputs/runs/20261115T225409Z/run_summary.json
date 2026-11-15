@@ -1,0 +1,27 @@
+{
+ "stamp": "20261115T225409Z",
+ "asof": "2026-11-15",
+ "n_seasons": 200000,
+ "seed": 20260,
+ "home_edge": 0.3266,
+ "fixtures_left": 9,
+ "lined": 9,
+ "liguilla_legs_played": 0,
+ "liguilla_legs_lined": 0,
+ "closes_through": "2026-11-08",
+ "knobs": {
+  "shots_weight": 0.15,
+  "opta_weight": 0.1,
+  "late_rounds": 2,
+  "late_round_sd": 0.5,
+  "rating_sd": 0.15,
+  "drift_k_sim": 0.01,
+  "dc_rho": -0.05,
+  "avg_total_goals": 2.85,
+  "shared_goals_mean": 0.1,
+  "kalman_q_day": 0.03,
+  "kalman_s": 0.25,
+  "kalman_off_shrink": 0.9,
+  "posted_line_shrink": 1.0
+ }
+}

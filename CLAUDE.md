@@ -153,6 +153,13 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   Zac's desktop folder "sports book data" could not be read: no computer folder is shared with this cloud session and
   nothing matching is in Drive. Still to look at if he shares it.
 
+- 2026-11-15 **Hands week 2026-11-10: Cruz Azul 0 -> +0.06** (Zac: "do 1"). Evidence: Pinnacle's last 4 closes +0.12 and
+  last 8 +0.11 above our price, Opta +0.76 and footballdatabase +0.77 v ours +0.64, and the Nov 22 line at Guadalajara level
+  v our +0.31 (a game that decides seeding for both). Run 20261115T225409Z: Cruz Azul 22.9 -> 25.1, Toluca 26.6 -> 25.9,
+  América 22.9 -> 22.4, Guadalajara 19.8 -> 19.3. Held: Toluca (signals conflict: market +0.88, Opta +0.91, shots +0.55,
+  footballdatabase +0.65, Pachuca v Toluca line 0.28 against us); revisit after its Nov 21 close. Tijuana +0.05 not made
+  (moves no title price by 0.1).
+
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):
   (1) Real results, three-way log-loss 2013-2026 (n 4,456): ours on match morning 1.0294, the close 1.0210, home edge only

@@ -1,11 +1,11 @@
 {
  "date": "2026-11-15",
- "built": "2026-11-15T21:28:38Z",
- "run": "20261115T212724Z",
+ "built": "2026-11-15T22:54:33Z",
+ "run": "20261115T225409Z",
  "head": [
   "Data: all checks ok",
-  "Games: 9 lined, 5 off Pinnacle by 0.15+: Tijuana v Atlante -0.50, Pachuca v Toluca -0.28, Tigres v América +0.24, Guadalajara v Cruz Azul +0.27, Querétaro v Necaxa -0.25",
-  "Title: Toluca 26.6%, Cruz Azul 22.9%, América 22.9%, Guadalajara 19.8%"
+  "Games: 9 lined, 5 off Pinnacle by 0.15+: Tijuana v Atlante -0.50, Pachuca v Toluca -0.28, Tigres v América +0.24, Guadalajara v Cruz Azul +0.21, Querétaro v Necaxa -0.25",
+  "Title: Toluca 25.9%, Cruz Azul 25.1%, América 22.4%, Guadalajara 19.3%"
  ],
  "checks": [
   {
@@ -35,7 +35,7 @@
   {
    "name": "Run",
    "ok": true,
-   "note": "run 20261115T212724Z on 200,000 simulations",
+   "note": "run 20261115T225409Z on 200,000 simulations",
    "level": "ok"
   }
  ],
@@ -152,12 +152,12 @@
    "home": "Guadalajara",
    "away": "Cruz Azul",
    "pin": 0.032,
-   "ours": 0.306,
-   "gap": 0.274,
+   "ours": 0.246,
+   "gap": 0.214,
    "total": 3.22,
    "move": 0.0,
-   "verdict": "big",
-   "why": "Pin last 4 on GDL +0.08 · Pin last 4 on CAZ +0.12",
+   "verdict": "watch",
+   "why": "Pin last 4 on GDL +0.08 · Pin last 4 on CAZ +0.12 · hand CAZ +0.06",
    "fetched_at": "2026-11-15T18:51:57Z"
   },
   {
@@ -262,7 +262,16 @@
   }
  },
  "moved": [],
- "hands": [],
+ "hands": [
+  {
+   "team": "Cruz Azul",
+   "hand": 0.06,
+   "set": "2026-11-15",
+   "n": 0,
+   "closes_say": null,
+   "verdict": "too early"
+  }
+ ],
  "unsure": [
   {
    "team": "Santos Laguna",
@@ -286,12 +295,12 @@
   },
   {
    "team": "Cruz Azul",
-   "ours": 0.617,
+   "ours": 0.677,
    "last4": 0.124,
    "last8": 0.106,
    "could_be": [
-    0.62,
-    0.74
+    0.68,
+    0.8
    ]
   },
   {
