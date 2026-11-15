@@ -49,6 +49,7 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
 ## 4. Known gaps
 - No Pinnacle close on file after Oct 2025: 361 matches (all of A2026) are rated off the market-average close. Our own
   captures start with the Nov 20-22 round, and only if a capture is run ten minutes before each kickoff (no task exists).
+- The filter's absolute noise levels (q, s) are 1.8x too large; only the reported sd is corrected (`kalman_sd_scale`).
 - Not ported from MLS: full-health factors (absences, rest, eliminated), team totals, the dead-club dock, CLV log.
 - The bracket what-if forces a picked club through its round whatever the scores; it does not condition the legs' scores.
 - The page engine (Run on the Table tab) has no draw correction, so its prices are shown as the run plus the change.
@@ -125,6 +126,33 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   Tijuana -0.33, Juárez -0.44. The call is refused under the session's Auto permission mode; if the morning routine's
   fetch_opta step fails, that is why (the page then keeps the last snapshot).
 
+- 2026-11-15 **Confidence pass** (Zac: do everything proposed, find why the top prices are uncertain, change what fixes
+  it, look for his own data). Applied (config notes carry the numbers; method_log has the rows):
+  (1) `late_rounds` 2 / `late_round_sd` 0.5: the last two league rounds' closes and posted lines count less. Ratings on the
+  morning of the first quarter-final v the 364 Liguilla closes of 26 Liguillas: 0.2321 -> 0.2131 (quarter-finals 0.2268 ->
+  0.2055); whole-history yardstick 0.2154 -> 0.2135. On real ties it cannot be told apart and leans the other way: tie
+  log-loss 0.5965 -> 0.5997 (paired difference +0.0032, se 0.0032, n 182), title pool 1.614 -> 1.636 (se 0.019, n 26). Kept
+  on the yardstick rule (section 1); revisit if the Liguilla closes of Nov 25 on disagree.
+  (2) `opta_weight` 0.10: market 75 / shots 15 / Opta 10. A week out, 1,399 closes: 0.2392 -> 0.2362, 9 of 9 tournaments.
+  Opta is no longer an outside check; footballdatabase is the only one.
+  (3) `kalman_sd_scale` 0.55: the filter's stated uncertainty was 1.8x too wide (z-scores of 4,463 one-step errors have sd
+  0.546). Stated rating sd 0.15 -> 0.085 goals. Ratings and prices unchanged by it.
+  (4) Rating-error band in `risk.py`: 40 redraws of every rating at its stated sd, each re-priced: title price +-3.1
+  Toluca, +-3.6 Cruz Azul, +-3.4 América, +-2.6 Guadalajara, +-0.7 Monterrey (1 sd). Drawer row and Range hover.
+  (5) Shot stats back to Jul 2019 (2,425 games): the shots share re-tested on 2,272 closes a week out: 0 0.2273, 5% 0.2236,
+  10% 0.2221, 15% 0.2229, 25% 0.2310. 15% kept (10% is 0.0008 better; not changed).
+  (6) `.claude/settings.json` allows `scripts/fetch_opta.py` and `scripts/weekly.py`; the morning prompt gained step 9.
+  Tested and NOT applied: a quarter-final premium for the better-placed club (+0.034, se 0.014 once the late rounds are
+  down-weighted; held out after 2021 the rmse moves 0.2280 -> 0.2272: nothing). rating_sd left at 0.15.
+  Run 20261115T212724Z: Toluca 26.6, Cruz Azul 22.9, América 22.9, Guadalajara 19.8, Monterrey 3.3 (was 25.0 / 23.9 / 22.7 /
+  20.8 / 3.5). Ranges: Toluca 25.0-28.3 (wide), Cruz Azul 21.9-24.4, América 21.6-24.1, Guadalajara 19.6-20.8.
+  Why the top four cannot be ordered: they sit within 0.21 goals of each other (Toluca +0.84; the other three 0.63-0.65)
+  with 0.085 of rating error each, and the futures backtest on the live recipe says such prices are honest (20-35% bucket
+  happened 30%, n 87) but the favourite after round 16 won only 4 of 16. More modelling does not separate them; the seeds
+  on Nov 22 will (Cruz Azul is 50% to be seed 1).
+  Zac's desktop folder "sports book data" could not be read: no computer folder is shared with this cloud session and
+  nothing matching is in Drive. Still to look at if he shares it.
+
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):
   (1) Real results, three-way log-loss 2013-2026 (n 4,456): ours on match morning 1.0294, the close 1.0210, home edge only
@@ -133,7 +161,8 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   0.59/0.58, 0.70/0.72.
   (2) The market-average close sits 0.039 goals rmse from Pinnacle's (2,106 matches with both, bias 0, slope 1.00): rating
   A2026 off average closes costs about 1% of measurement noise.
-  (3) Futures backtest, 27 tournaments priced after rounds 6 / 11 / 15 / 16 (walk-forward ratings, no lines, no shots, today's
+  (3) Futures backtest (first version; the live-recipe rerun later the same day is within 0.01 on every figure: champion
+  2.02 / 1.81 / 1.99 / 1.92, 20-35% bucket 0.251/0.299), 27 tournaments priced after rounds 6 / 11 / 15 / 16 (walk-forward ratings, no lines, no shots, today's
   rules; champion on the 16 top-8-direct tournaments): top-8 log-loss 0.423 / 0.317 / 0.203 / 0.163 v table-only 0.495 /
   0.347 / 0.213 / 0.167; champion 2.04 / 1.80 / 1.98 / 1.92 v 2.53 / 2.30 / 2.34 / 2.24. Champion calibration pooled
   (priced/happened): 0.004/0.003 (n 607), 0.033/0.025, 0.073/0.055, 0.144/0.160 (n 150), 0.252/0.291 (n 86), 0.372/0.167

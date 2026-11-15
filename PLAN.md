@@ -19,7 +19,10 @@ over the 18 clubs.
 - **Hand**: Zac's adjustments in goals, by week (Tue-Mon ET), `data/ratings/hand_log.csv`; a week carries the last saved one.
 - **Shots proxy (15%)**: no xG feed covers Liga MX, so ESPN shot stats stand in: proxy goals = 0.341 x shots on target
   - 0.021 x shots off target; ratings by weighted ridge least squares (half-life 45 days), rescaled to the market's spread.
-  Rating = 0.85 x market + 0.15 x proxy, re-centred, plus the hand.
+  Rating = 0.75 x market + 0.15 x proxy + 0.10 x Opta Power Rankings (latest snapshot, rescaled likewise), re-centred, plus
+  the hand. A missing source gives its weight back to the market.
+- **Late rounds**: closes and posted lines of the last two league rounds enter at sd 0.5 (rotation, dead rubbers).
+- **Stated sd**: the filter's posterior sd x 0.55 (it is 1.8x too wide on 4,463 one-step errors).
 
 ## 2. Match engine (`sim/engine.py`, unchanged from MLS)
 g = R_home - R_away + home edge + club delta; a fixture with a fresh Pinnacle line is priced off the line. Total: the posted
