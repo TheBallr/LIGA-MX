@@ -1,0 +1,40 @@
+# PLAN.md: the method as it runs (2026-11-15)
+
+`config.json` is the source of truth for every knob. CLAUDE.md section 5 is the decisions log.
+
+## 1. Ratings (`scripts/ratings_lib.py`, `scripts/refresh_ratings.py`, `sim/kalman.py`)
+A rating is a club's strength in goals of expected margin against an average Liga MX side on a neutral pitch, centred at zero
+over the 18 clubs.
+- **Closes**: football-data.co.uk's Mexico file, every match since July 2012, Liguilla included (4,797 lines): Pinnacle's
+  closing three-way to Oct 2025 (4,437), the market-average close since (361). Our own Pinnacle captures
+  (`data/market/closing_lines.csv`) outrank both once they exist.
+- **Target**: each line's implied expected margin (`gd_fit`): the devigged three-way (power method) read at the match's total
+  (the posted total when we captured one, else realised goals per match over the previous 306 matches), the main Asian
+  handicap where we have it.
+- **Home**: league home edge = mean implied margin of the 306 closes before the match (+0.33 now), plus the home club's delta
+  (`data/ratings/home_edges.csv`, shrunk with 50 pseudo-games).
+- **Filter**: one random-walk strength per club (0.03 goals a day, close sd 0.25); a league-wide gap of 20+ days is a
+  tournament break: strengths revert 10% to the mean, variance grows by 0.05. A new club starts at -0.25.
+- **Posted lines**: Pinnacle lines fetched within 3 days enter as measurements (sd 0.40).
+- **Hand**: Zac's adjustments in goals, by week (Tue-Mon ET), `data/ratings/hand_log.csv`; a week carries the last saved one.
+- No xG source yet (MLS runs 85/15 market/xG; American Soccer Analysis does not cover Liga MX).
+
+## 2. Match engine (`sim/engine.py`, unchanged from MLS)
+g = R_home - R_away + home edge + club delta; a fixture with a fresh Pinnacle line is priced off the line. Total: the posted
+total, else 2.85. Two Poisson scores with a shared component (0.10) and Dixon-Coles rho -0.05.
+
+## 3. Tournament engine (`sim/season.py`, `sim/standings.py`, `sim/liguilla.py`, `sim/markets.py`)
+200,000 simulations, seed 20260. One rating draw per club per simulation (sd 0.15); real results locked; remaining league
+fixtures in date order with drift 0.01 x surprise. Table: points, goal difference, goals for, coin.
+**Liguilla**: top 8, no play-in; 1 v 8, 2 v 7, 3 v 6, 4 v 5; two legs, lower seed hosts the first; a quarter-final or
+semi-final level on aggregate goes to the higher seed; semis re-seeded; the final level on aggregate plays extra time (a
+mini-match at a third of the goal means) then a coin. Played legs are locked to their score; a leg with a fresh Pinnacle
+line is priced off it. Markets: champion, reach final, reach semis, Liguilla, seed 1, top 4, seed distribution, points.
+
+## 4. Yardsticks
+- Ratings: rmse of the close's implied margin from the ratings a week out, walk-forward (`scripts/calibrate.py kalman`): 0.215.
+- Bracket: `scripts/backtest_liguilla.py` (26 Liguillas, 182 ties).
+
+## 5. Pipeline (`scripts/weekly.py`)
+fetch_history -> fetch_schedule (ESPN) -> fetch_pinnacle (guest API, league 2242) -> run_sim -> site_data -> build_site ->
+check_site, then publish `outputs/latest/site.html`. No scheduled task exists yet.
