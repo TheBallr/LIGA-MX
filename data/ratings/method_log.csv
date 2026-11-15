@@ -1,3 +1,6 @@
 time,area,change
 2026-11-15T00:00:00Z,build,"First build: Kalman ratings on closes 2012-2026 + posted Pinnacle lines, club home edges, Liguilla bracket"
 2026-11-15T19:26:27Z,ratings,Shots proxy 0 -> 15% of each rating (Zac: only do 1)
+2026-11-15T21:29:05Z,ratings,Last two league rounds' closes and lines at sd 0.5 (was 0.25 / 0.40)
+2026-11-15T21:29:05Z,ratings,"Opta Power Rankings 0 -> 10% of each rating (market 75, shots 15, Opta 10)"
+2026-11-15T21:29:05Z,display,Stated rating sd x 0.55 (filter uncertainty was 1.8x too wide); ratings unchanged

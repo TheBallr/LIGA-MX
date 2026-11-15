@@ -104,7 +104,24 @@ def measurements(cl: pd.DataFrame, kn: dict, deltas: dict | None = None) -> pd.D
     df["delta"] = df["home"].map(deltas or {}).fillna(0.0)
     df["y"] = df["gd_fit"] - df["he"] - df["delta"]
     df["sd"] = np.where(df["book"] == "avg_close", float(kn["kalman_s_avg"]), float(kn["kalman_s"]))
+    df["round"] = round_numbers(df)
+    n_late = int(kn.get("late_rounds", 0) or 0)
+    if n_late > 0:   # the last regular rounds are priced on rotation and dead rubbers: their closes say less about strength
+        total = df["tournament"].map(lambda t: 18 if t == "A2019" else 17)
+        late = df["round"].notna() & (df["round"] > total - n_late) & (df["tournament"] != "C2020")
+        df.loc[late, "sd"] = np.maximum(df.loc[late, "sd"], float(kn["late_round_sd"]))
     return df
+
+
+def round_numbers(df: pd.DataFrame) -> np.ndarray:
+    """Round of each regular-season row (1-based: one more than the games either club had played), nan for Liguilla rows.
+    Rows must be in date order within a tournament."""
+    out = np.full(len(df), np.nan); cnt = {}
+    for i, (tn, st, h, a) in enumerate(zip(df["tournament"], df["stage"], df["home"], df["away"])):
+        if st != "regular":
+            continue
+        c = cnt.setdefault(tn, {}); out[i] = max(c.get(h, 0), c.get(a, 0)) + 1; c[h] = c.get(h, 0) + 1; c[a] = c.get(a, 0) + 1
+    return out
 
 
 def kalman_knobs(kn: dict) -> dict:
@@ -166,7 +183,7 @@ def state_at(obs: pd.DataFrame, kn: dict, asof: str, posted: pd.DataFrame | None
     kf.run(o[["date", "home", "away", "y", "sd"]], until=asof)
     if posted is not None and len(posted):
         for r in posted.itertuples(index=False):
-            kf.observe(r.home, r.away, float(r.y), float(kn["kalman_s_posted"]))
+            kf.observe(r.home, r.away, float(r.y), float(getattr(r, "sd", np.nan)) if getattr(r, "sd", np.nan) == getattr(r, "sd", np.nan) else float(kn["kalman_s_posted"]))
     return kf, teams
 
 
@@ -190,7 +207,7 @@ def shots_matches(kn: dict) -> pd.DataFrame:
     """ESPN shot stats per game with the proxy's margin (xgd): a x shots off target + b x shots on target per side."""
     if not os.path.exists(SHOTS):
         return pd.DataFrame(columns=["date", "home", "away", "xgd"])
-    s = pd.read_csv(SHOTS); a, b = kn["shots_coef"]
+    s = pd.read_csv(SHOTS).sort_values("date"); a, b = kn["shots_coef"]
     s["xgd"] = (a * (s.h_shots - s.h_sot) + b * s.h_sot) - (a * (s.a_shots - s.a_sot) + b * s.a_sot)
     return s
 
@@ -211,11 +228,35 @@ def shots_fit(m: pd.DataFrame, teams: list, asof: str, hl: float, ridge: float):
     return beta - beta.mean()
 
 
+OPTA = os.path.join(ROOT, "data", "public", "opta", "snapshots.csv")
+_OPTA = {}
+
+
+def opta_at(teams: list, asof: str, max_age: float):
+    """Opta Power Rankings for `teams` from the latest snapshot at or before `asof` (None when missing, stale or incomplete)."""
+    if "d" not in _OPTA:
+        _OPTA["d"] = pd.read_csv(OPTA) if os.path.exists(OPTA) else pd.DataFrame(columns=["date", "team", "rating"])
+        _OPTA["dates"] = sorted(_OPTA["d"]["date"].unique())
+    k = int(np.searchsorted(_OPTA["dates"], asof, side="right")) - 1
+    if k < 0 or (pd.Timestamp(asof) - pd.Timestamp(_OPTA["dates"][k])).days > max_age:
+        return None
+    o = _OPTA["d"][_OPTA["d"]["date"] == _OPTA["dates"][k]].set_index("team")["rating"].reindex(teams)
+    return None if o.isna().any() else o.values.astype(float)
+
+
 def blend(market: np.ndarray, kn: dict, teams: list, asof: str):
-    """(1 - w) x market + w x the shots proxy rescaled to the market's spread, re-centred. Returns (blend, proxy or None)."""
-    w = float(kn.get("shots_weight", 0.0) or 0.0)
-    xr = shots_fit(shots_matches(kn), teams, asof, float(kn["shots_half_life"]), float(kn["shots_ridge"])) if w > 0 else None
-    if xr is None or xr.std() == 0:
-        return market.copy(), None
-    xr = xr * market.std() / xr.std(); b = (1 - w) * market + w * xr
-    return b - b.mean(), xr
+    """market x (1 - ws - wo) + shots proxy x ws + Opta x wo, each outside source rescaled to the market's spread, re-centred.
+    A source that is missing for the date gives its weight back to the market. Returns (blend, shots or None, opta or None)."""
+    ws = float(kn.get("shots_weight", 0.0) or 0.0); wo = float(kn.get("opta_weight", 0.0) or 0.0)
+    xr = shots_fit(shots_matches(kn), teams, asof, float(kn["shots_half_life"]), float(kn["shots_ridge"])) if ws > 0 else None
+    if xr is not None and xr.std() > 0:
+        xr = xr * market.std() / xr.std()
+    else:
+        xr = None; ws = 0.0
+    op = opta_at(teams, asof, float(kn.get("opta_max_age_days", 21))) if wo > 0 else None
+    if op is not None and op.std() > 0:
+        op = (op - op.mean()) / op.std() * market.std()
+    else:
+        op = None; wo = 0.0
+    b = (1 - ws - wo) * market + (ws * xr if xr is not None else 0.0) + (wo * op if op is not None else 0.0)
+    return b - b.mean(), xr, op

@@ -116,6 +116,26 @@
     "shots_ridge": {
       "value": 0.5,
       "note": "ridge toward zero in the proxy fit, in weight units (the MLS value)"
+    },
+    "late_rounds": {
+      "value": 2,
+      "note": "SET 2026-11-15 (Zac: find why the top prices are uncertain and fix it). The closes of the last two regular rounds enter the ratings at sd late_round_sd instead of 0.25: those rounds are priced on rotation and dead rubbers (close v ratings 0.222 in rounds 15-16 and 0.254 in round 17 v 0.183 mid-tournament). Ratings on the morning of the first quarter-final scored on the 364 Liguilla closes of 26 Liguillas: 0.2321 with every close at full weight, 0.2131 at 2 rounds x 0.5 (quarter-finals 0.2268 -> 0.2055; better in 16 of 26); the whole-history yardstick a week out 0.2154 -> 0.2135 and the first three rounds of the next tournament 0.2414 -> 0.2369. Grid: 1 x 0.5 0.2201, 2 x 0.4 0.2164, 2 x 0.75 0.2114, 2 x 1.0 0.2115, 2 x 3.0 (out) 0.2124, 3 x 0.5 0.2133, 4 x 0.5 0.2116. Posted lines of those rounds take the same sd. 0 = off."
+    },
+    "late_round_sd": {
+      "value": 0.5,
+      "note": "see late_rounds"
+    },
+    "opta_weight": {
+      "value": 0.1,
+      "note": "SET 2026-11-15 (Zac: make changes that tighten the top prices). 10% of each rating comes from Opta Power Rankings (the latest snapshot at or before the date, rescaled to the market's spread; ignored when older than opta_max_age_days). scripts/calib_sources.py opta, 1,399 closes Sep 2022 - Nov 2026 a week out: market alone 0.2392, +10% Opta 0.2362 (better in 9 of 9 tournaments), 20% 0.2363 (6 of 9), 30% 0.2394; on the 652 closes that also have the shots proxy: market 0.2502, shots 15% 0.2438, shots 15% + Opta 10% 0.2416, + Opta 20% 0.2425. MLS keeps Opta unweighted; here it is weighted, so footballdatabase is the only fully outside check. 0 = off."
+    },
+    "opta_max_age_days": {
+      "value": 21,
+      "note": "an Opta snapshot older than this gets no weight (the feed can be refused; the weight then goes back to the market)"
+    },
+    "kalman_sd_scale": {
+      "value": 0.55,
+      "note": "SET 2026-11-15: the filter's stated uncertainty is 1.8x too wide. One-step-ahead errors of 4,463 closes divided by the filter's own predicted sd have sd 0.546 (1.00 = honest; 0.62 since 2023); only 0.2% beyond 2 sd. The close-tracking grid pins the ratio q/s, not their level (config note on kalman_q_day), so the ratings are right and their stated sd is not. Reported rating sd = filter sd x this (0.15 -> 0.08 goals). Ratings and prices are unchanged by it."
     }
   },
   "liga_mx": {

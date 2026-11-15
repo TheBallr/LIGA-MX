@@ -61,7 +61,7 @@ def avg_close(kn):
 
 
 def futures(kn, n):
-    say("\n## 3. Futures backtest: every past tournament priced mid-stream (today's rules; ratings walk-forward, no lines, no shots)")
+    say("\n## 3. Futures backtest: every past tournament priced mid-stream (today's rules; the live recipe walk-forward: late rounds down-weighted, shots where ESPN stats exist, Opta from 2022; no posted lines)")
     cl = rl.closes(kn); dl = rl.club_deltas(True); obs = rl.measurements(cl, kn, dl); h = data.history(); rows = []
     for tn, g in h.groupby("tournament", sort=False):
         reg = g[g["stage"] == "regular"].sort_values("kickoff_utc"); clubs = sorted(set(reg["home"]) | set(reg["away"]))
@@ -77,7 +77,7 @@ def futures(kn, n):
         direct = int(tn[1:]) <= 2019 or tn == "C2026"          # top 8 straight to the quarter-finals, as now
         for R in (6, 11, 15, 16):
             cut = reg.iloc[min(R * per, len(reg) - 1)]["date"]; done = reg[reg["date"] < cut]; left = reg[reg["date"] >= cut]
-            kf, uni = rl.state_at(obs, kn, cut); r0 = kf.ratings(uni); rr = np.array([r0[uni.index(t)] for t in clubs]); rr -= rr.mean()
+            kf, uni = rl.state_at(obs, kn, cut); rr = kf.ratings(clubs); rr, *_ = rl.blend(rr, kn, clubs, cut)
             he = rl.home_edge_now(cl[cl["date"] < cut], int(kn["home_edge_window"])); pl = table_from_results(clubs, [(r.home, r.away, r.hg, r.ag) for r in done.itertuples(index=False)])
             fx = [Fixture(idx[r.home], idx[r.away], r.date, he + dl.get(r.home, 0.0), 0.0, 0.0, kn["avg_total_goals"]) for r in left.itertuples(index=False)]
             for name, rat in (("ours", rr), ("table only", np.zeros(len(clubs)))):

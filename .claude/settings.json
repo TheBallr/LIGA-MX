@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 scripts/fetch_opta.py:*)",
+      "Bash(python3 scripts/weekly.py:*)"
+    ]
+  }
+}

@@ -17,3 +17,6 @@ hand adjustment, a rating or a knob yourself; propose, numbered.
 8. Report in chat, under 200 words, from `outputs/latest/morning.json`: Data (only what is not ok) / Games off Pinnacle by
    0.15+ / Results and our gap / Moved / Hands / Act (numbered proposals only). If the Liguilla dates, pairings or a rule on
    the feed differ from CLAUDE.md section 3, say so first.
+
+9. From Nov 23 (real Pinnacle closes on file for the last round): add one line comparing our ratings with what those closes
+   implied for Toluca, Cruz Azul, América and Guadalajara (the drawer's "Pin last 4"), and say if any is 0.10+ goals away.

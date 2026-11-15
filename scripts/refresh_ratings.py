@@ -60,13 +60,18 @@ def build(asof: dt.date, kn: dict, use_posted: bool = True, now=None) -> dict:
     pm = None
     if len(posted):
         pm = posted.copy(); pm["y"] = pm["gd_fit"] - he - pm["home"].map(deltas).fillna(0.0)
+        # a posted line of the last regular rounds is as weak a reading of strength as their closes (late_rounds)
+        sch = data.load("schedule"); sch = sch[sch["stage"] == "regular"].sort_values("kickoff_utc"); sch["tournament"] = "x"
+        rn = dict(zip(zip(sch["date"], sch["home"], sch["away"]), rl.round_numbers(sch))); nl = int(kn.get("late_rounds", 0) or 0)
+        late = [rn.get((r.date, r.home, r.away), 0) > 17 - nl for r in pm.itertuples(index=False)] if nl else [False] * len(pm)
+        pm["sd"] = np.where(late, max(float(kn["kalman_s_posted"]), float(kn["late_round_sd"])), float(kn["kalman_s_posted"]))
     kf, uni = rl.state_at(obs, kn, asof.isoformat(), pm)
     T = team_list()
-    market = kf.ratings(T); sd = kf.sds(T)
-    base, shots = rl.blend(market, kn, T, asof.isoformat())
+    market = kf.ratings(T); sd = kf.sds(T) * float(kn.get("kalman_sd_scale", 1.0))
+    base, shots, opta = rl.blend(market, kn, T, asof.isoformat())
     hd = hands(asof); hand = np.array([hd.get(t, 0.0) for t in T])
     n = obs[obs["date"] < asof.isoformat()]; cnt = (n["home"].value_counts().add(n["away"].value_counts(), fill_value=0)).to_dict()
-    return {"teams": T, "market": market, "shots": shots if shots is not None else np.full(len(T), np.nan), "base": base, "hand": hand, "rating": base + hand, "sd": sd, "home_edge": he, "deltas": deltas, "posted": posted,
+    return {"teams": T, "market": market, "shots": shots if shots is not None else np.full(len(T), np.nan), "opta": opta if opta is not None else np.full(len(T), np.nan), "base": base, "hand": hand, "rating": base + hand, "sd": sd, "home_edge": he, "deltas": deltas, "posted": posted,
             "n_closes": [int(cnt.get(t, 0)) for t in T], "last_close": str(n["date"].max())}
 
 

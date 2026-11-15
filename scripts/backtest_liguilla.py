@@ -49,7 +49,9 @@ def cases(kn):
         champ = fin["hi"] if fin["agg"] > 0 else (fin["lo"] if fin["agg"] < 0 else CHAMPIONS.get(tn))
         for x in ties:
             x["hi_adv"] = (x["hi"] in nxt[x["stage"]]) if x["stage"] != "final" else (None if champ is None else champ == x["hi"])
-        out.append({"tn": tn, "start": start, "teams": uni, "r": kf.ratings(uni), "he": he, "dl": dl, "seeds": qf_teams, "ties": ties, "champ": champ})
+        live = [t for t in clubs if t in uni]; rb, *_ = rl.blend(kf.ratings(live), kn, live, start); rmap = dict(zip(live, rb))
+        r_all = kf.ratings(uni); r_all = np.array([rmap.get(t, r_all[i]) for i, t in enumerate(uni)])
+        out.append({"tn": tn, "start": start, "teams": uni, "r": r_all, "he": he, "dl": dl, "seeds": qf_teams, "ties": ties, "champ": champ})
     return out
 
 

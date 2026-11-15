@@ -1,5 +1,5 @@
 {
- "stamp": "20261115T192632Z",
+ "stamp": "20261115T212724Z",
  "asof": "2026-11-15",
  "n_seasons": 200000,
  "seed": 20260,
@@ -11,6 +11,9 @@
  "closes_through": "2026-11-08",
  "knobs": {
   "shots_weight": 0.15,
+  "opta_weight": 0.1,
+  "late_rounds": 2,
+  "late_round_sd": 0.5,
   "rating_sd": 0.15,
   "drift_k_sim": 0.01,
   "dc_rho": -0.05,
