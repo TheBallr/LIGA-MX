@@ -35,7 +35,7 @@ are compared (section 0); soft books, Kalshi and Polymarket never enter the mode
 | Liguilla | top 8 straight to the quarter-finals, no play-in | press (Fox Sports MX, Mediotiempo, Récord) |
 | Ties | 1 v 8, 2 v 7, 3 v 6, 4 v 5; two legs, the better-placed club picks its home leg (the second); QF and SF level on aggregate -> the better-placed club (no away goals, no extra time); semi-finalists re-ranked 1-4 (1 v 4, 2 v 3); final level on aggregate -> two 15-minute extra periods, then penalties | READ 2026-11-15 in the official Reglamento de Competencia 2024-25 (Art. 19-21; fmf.mx/docs/reglamentos/414.pdf). The 2026-27 PDF is listed on ligamx.net/cancha/reglamentos but its host refuses this container; press reports no change beyond the play-in |
 | Dates | QF Nov 25-29, SF Dec 2-6, final Dec 10 and 13 (press plan; a slip to late December is possible around Toluca's Intercontinental Cup) | VERIFY when the league confirms |
-| Table tiebreak | Reglamento: goal difference, goals for, away goals for, head-to-head, cociente table, fair play, draw. Model: through away goals, then a coin | same document |
+| Table tiebreak | Reglamento 2024-25: goal difference, goals for, away goals for, head-to-head, cociente table, fair play, draw. Press on 2026-27 (Balón Latino, citing Art. 25): goal difference, goals for, away goals for, fair play, cociente, draw (no head-to-head; 365Scores still lists it). Model: through away goals, then a coin, so the difference does not reach it | same document; web search 2026-11-15 |
 | FIFA windows | the league pauses (Nov 9-17) | calendar |
 
 ## 3a. Feeds (verified 2026-11-15 from this container)
@@ -105,7 +105,35 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   price. Run 20261115T192632Z: Toluca 23.7-26.4, Cruz Azul 22.4-24.3, América 21.3-24.0, Guadalajara 20.3-22.1; none wide;
   +0.10 goals on a top-four club is worth about 3.5 title points. Nothing in the model changed.
 
+- 2026-11-15 **Rules re-searched, public models surveyed, confidence checks** (Zac: make sure the rules are current, find
+  public models to sanity-check the ratings, say what else to check). Nothing in the model changed.
+  Rules: three more outlets (Balón Latino citing Art. 22, 25, 26 of the 2026-27 Reglamento; 365Scores; ClaroSports; TUDN)
+  agree with section 3: top 8, no play-in, 1 v 8 ... 4 v 5, table breaks a level tie, semis re-ranked, QF Nov 25-29, SF Dec
+  2-6, final Dec 10 and 13 (dates still press, not the league). The official 2026-27 PDF is still unread.
+  Public models: footballdatabase.com's results-based club points are readable (Mexico page, updated after Nov 8;
+  `data/public/footballdatabase_2026-11-08.csv`). Opta Power Rankings (the MLS anchor) cover Liga MX but the feed call was
+  refused by this session's permission layer; Opta's pre-season simulation (via 365Scores / Récord, "Statiskicks"): Guadalajara
+  32.9, Toluca 22.2, Cruz Azul 15.0, América 9.0. No Liga MX coverage found for ClubElo, 538 (dead), ASA.
+  Checks: `scripts/confidence.py` -> `outputs/calibration/confidence.md`, section 6.
+
 ## 6. Measurements (2026-11-15)
+- **Confidence checks** (`scripts/confidence.py`):
+  (1) Real results, three-way log-loss 2013-2026 (n 4,456): ours on match morning 1.0294, the close 1.0210, home edge only
+  1.0715: the ratings hold 83% of what the close knows beyond home advantage; Liguilla legs 1.0315 / 1.0210 / 1.0542; A2026
+  1.0876 / 1.0654 / 1.1039 (143 games). Home-win calibration priced/happened: 0.21/0.19, 0.31/0.28, 0.40/0.40, 0.50/0.52,
+  0.59/0.58, 0.70/0.72.
+  (2) The market-average close sits 0.039 goals rmse from Pinnacle's (2,106 matches with both, bias 0, slope 1.00): rating
+  A2026 off average closes costs about 1% of measurement noise.
+  (3) Futures backtest, 27 tournaments priced after rounds 6 / 11 / 15 / 16 (walk-forward ratings, no lines, no shots, today's
+  rules; champion on the 16 top-8-direct tournaments): top-8 log-loss 0.423 / 0.317 / 0.203 / 0.163 v table-only 0.495 /
+  0.347 / 0.213 / 0.167; champion 2.04 / 1.80 / 1.98 / 1.92 v 2.53 / 2.30 / 2.34 / 2.24. Champion calibration pooled
+  (priced/happened): 0.004/0.003 (n 607), 0.033/0.025, 0.073/0.055, 0.144/0.160 (n 150), 0.252/0.291 (n 86), 0.372/0.167
+  (n 6). Top 8: 0.19/0.19, 0.40/0.37, 0.61/0.65, 0.81/0.82. After round 16 our favourite averaged 27.3% and won 5 of 16.
+  (4) footballdatabase v ours: rank correlation 0.89 (market part 0.93, shots part 0.61). Rescaled to our spread, ours minus
+  theirs: Toluca +0.15, Cruz Azul -0.12, Guadalajara +0.17, América +0.13, Monterrey +0.21; Pachuca -0.31, Tijuana -0.42,
+  Juárez -0.44, Atlante +0.47 (new franchise: their points are the old club's).
+  (5) A2026 goals v the closes per game: Santos +0.65, Puebla +0.45, Tijuana +0.44, Pachuca +0.41, América +0.32 ...
+  Monterrey -0.33, Juárez -0.62, Tigres -0.76 (se about 0.40 each); the top four are within 0.32 of zero.
 - **Close tracking** (4,451 closes, 2013-07 on): 0.215 goals rmse a week out, 0.202 on match morning, slope 0.98. This
   tournament (market-average closes): 0.254 a week out. MLS for comparison: 0.243.
 - **Club home edges** held out (fitted before 2021-07, scored after): 0.2431 -> 0.2333 a week out. Tijuana +0.19 (se 0.014),
