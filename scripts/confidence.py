@@ -112,6 +112,17 @@ def outside(kn):
         say(f"| {x.team} | {x.rating:+.2f} | {x.fdb:+.2f} | {x.gap:+.2f} |")
 
 
+def opta_check():
+    p = os.path.join(ROOT, "data", "public", "opta", "snapshots.csv")
+    if not os.path.exists(p):
+        return
+    o = pd.read_csv(p); o = o[o["date"] == o["date"].max()][["team", "rating"]].rename(columns={"rating": "opta"}); r = pd.read_csv(os.path.join(ROOT, "outputs", "latest", "ratings.csv")).merge(o, on="team")
+    r["og"] = (r.opta - r.opta.mean()) / r.opta.std() * r.rating.std()
+    say(f"\n## 4b. Outside source: Opta Power Rankings ({pd.read_csv(p)['date'].max()})")
+    say(f"Rank correlation with our ratings {r.rating.rank().corr(r.opta.rank()):.2f} (market part {r.market.rank().corr(r.opta.rank()):.2f}). Ours minus Opta, rescaled to our spread:")
+    say("; ".join(f"{x.team} {x.rating - x.og:+.2f}" for x in r.sort_values("rating", ascending=False).itertuples()))
+
+
 def results_v_market(kn, w):
     say("\n## 5. This tournament: goals scored v what the closes expected (per game, from the club's side)")
     d = w[(w["tournament"] == "A2026") & w["hg"].notna()]; acc = {}
@@ -127,6 +138,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--n", type=int, default=4000); ap.add_argument("--tail", action="store_true"); a = ap.parse_args()
     kn = knobs(load_config()); cl = rl.closes(kn); w = rl.walk(rl.measurements(cl, kn, rl.club_deltas(True)), kn, lags=(0,))
     if "--tail" in sys.argv:
-        outside(kn); results_v_market(kn, w); sys.exit(0)
-    say("# Confidence checks"); results(kn, w); avg_close(kn); futures(kn, a.n); outside(kn); results_v_market(kn, w)
+        outside(kn); opta_check(); results_v_market(kn, w); sys.exit(0)
+    say("# Confidence checks"); results(kn, w); avg_close(kn); futures(kn, a.n); outside(kn); opta_check(); results_v_market(kn, w)
     open(os.path.join(ROOT, "outputs", "calibration", "confidence.md"), "w", encoding="utf-8").write("\n".join(OUT) + "\n")

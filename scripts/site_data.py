@@ -40,6 +40,16 @@ def main():
                       "rating": r["rating"], "market": r["market"], "shots": (None if r["shots"] != r["shots"] else r["shots"]), "base": round(r["rating"] - r["hand"], 4), "hand": r["hand"], "sd": r["sd"], "pl": r["played"], "pts": r["points"], "gd": r["gd"], "gf": r["gf"], "w": r["w"], "d": r["d"], "l": r["l"],
                       "xpts": M["points"][t]["mean"], "m": {k: M[k][t] for k in ("liguilla", "seed1", "top4", "reach_sf", "reach_final", "champion")}, "seeds": M["seeds"][t],
                       "prev": ({"rating": prat.get(t), "m": {k: prev["markets"][k][t] for k in ("liguilla", "seed1", "top4", "reach_sf", "reach_final", "champion")}} if prev else None)})
+    # Opta Power Rankings (outside anchor, never weighted): the latest snapshot rescaled to our ratings' spread
+    op = os.path.join(ROOT, "data", "public", "opta", "snapshots.csv"); opta = {"date": None}
+    if os.path.exists(op):
+        o = pd.read_csv(op); o = o[o["date"] == o["date"].max()].set_index("team")["rating"]
+        rr = pd.Series({t["team"]: t["rating"] for t in teams}); o = o.reindex(rr.index)
+        if o.notna().all():
+            g = (o - o.mean()) / o.std() * rr.std()
+            for t in teams:
+                t["opta"] = round(float(g[t["team"]]), 3); t["opta_raw"] = round(float(o[t["team"]]), 1)
+            opta = {"date": str(pd.read_csv(op)["date"].max()), "corr": round(float(rr.rank().corr(o.rank())), 2)}
     # games: every match of the tournament; a played game's model price is the ratings on match morning (walk-forward)
     cl = rl.closes(kn); dl = rl.club_deltas(kn["club_home_edge_enabled"]); w = rl.walk(rl.measurements(cl, kn, dl), kn, lags=(0,))
     w = w[w["tournament"] == cfg["season"]]; wk = {(r.home, r.away): r for r in w.itertuples(index=False)}
@@ -117,7 +127,7 @@ def main():
     out = {"header": {"run_at": et(summ["stamp"][:4] + "-" + summ["stamp"][4:6] + "-" + summ["stamp"][6:11] + ":" + summ["stamp"][11:13] + ":" + summ["stamp"][13:15] + "Z"), "asof": summ["asof"], "n": summ["n_seasons"],
                       "odds_at": et(last_odds), "closes_through": summ["closes_through"], "home_edge": summ["home_edge"], "season": cfg["season"], "fixtures_left": summ["fixtures_left"],
                       "pinnacle_closes": int(len(clf)), "prev_run": et(prev["stamp"][:4] + "-" + prev["stamp"][4:6] + "-" + prev["stamp"][6:11] + ":" + prev["stamp"][11:13] + ":" + prev["stamp"][13:15] + "Z") if prev else ""},
-           "teams": teams, "games": games, "bracket": br, "clubs": clubs, "risk": risk, "engine": eng, "morning": reps, "checks": chk, "knobs": summ["knobs"], "format": cfg["liga_mx"]}
+           "teams": teams, "games": games, "bracket": br, "clubs": clubs, "opta": opta, "risk": risk, "engine": eng, "morning": reps, "checks": chk, "knobs": summ["knobs"], "format": cfg["liga_mx"]}
     json.dump(out, open(os.path.join(LATEST, "site_data.json"), "w"), separators=(",", ":"), ensure_ascii=False, default=float)
     print(f"site_data: {os.path.getsize(os.path.join(LATEST, 'site_data.json')) // 1024} KB, {len(teams)} clubs, {len(games)} games, yardstick a week out {chk['all']['rmse']:.3f} (this tournament {chk['season']['rmse']:.3f})")
 

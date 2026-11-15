@@ -111,10 +111,19 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   agree with section 3: top 8, no play-in, 1 v 8 ... 4 v 5, table breaks a level tie, semis re-ranked, QF Nov 25-29, SF Dec
   2-6, final Dec 10 and 13 (dates still press, not the league). The official 2026-27 PDF is still unread.
   Public models: footballdatabase.com's results-based club points are readable (Mexico page, updated after Nov 8;
-  `data/public/footballdatabase_2026-11-08.csv`). Opta Power Rankings (the MLS anchor) cover Liga MX but the feed call was
-  refused by this session's permission layer; Opta's pre-season simulation (via 365Scores / Récord, "Statiskicks"): Guadalajara
+  `data/public/footballdatabase_2026-11-08.csv`). Opta Power Rankings (the MLS anchor) cover Liga MX (fetched later the same day, next entry); Opta's pre-season simulation (via 365Scores / Récord, "Statiskicks"): Guadalajara
   32.9, Toluca 22.2, Cruz Azul 15.0, América 9.0. No Liga MX coverage found for ClubElo, 538 (dead), ASA.
   Checks: `scripts/confidence.py` -> `outputs/calibration/confidence.md`, section 6.
+
+- 2026-11-15 **Opta Power Rankings in as the outside anchor** (Zac: "Ok try again" after switching the session's
+  permission mode; shown, never weighted, as in MLS). `scripts/fetch_opta.py` (performfeeds feed with theanalyst.com's public
+  key; Liga MX comp `2hsidwomhjsaaytdy9u5niyi4`, 2026/27 calendar `9zum4nxferygj8bb0ldcavxn8`; history from 2019/20 by
+  `--dates`) -> `data/public/opta/snapshots.csv`; a non-fatal step of `weekly.py`; an Opta column on the Table tab (rescaled
+  to goals on our spread, amber at 0.25+ from ours), the drawer header and a Model tile. Snapshot 2026-11-15: rank
+  correlation with ours 0.92; same top four in the same order (Toluca 86.2, Cruz Azul 85.3, Guadalajara 84.4, América 84.0).
+  Ours minus Opta: Toluca -0.08, Cruz Azul -0.08, Guadalajara +0.05, América +0.10, Monterrey +0.18, Atlas +0.20,
+  Tijuana -0.33, Juárez -0.44. The call is refused under the session's Auto permission mode; if the morning routine's
+  fetch_opta step fails, that is why (the page then keeps the last snapshot).
 
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):
