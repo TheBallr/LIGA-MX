@@ -237,6 +237,15 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   Run 20261115T234617Z: Toluca 25.9 (24.2-27.8, +-3.1), Cruz Azul 25.4 (24.4-26.4, +-3.8), América 22.5 (21.2-23.6,
   +-3.5), Guadalajara 19.4 (19.1-20.3, +-2.6), Monterrey 2.9.
 
+- 2026-11-15 **Hands week 2026-11-10: Tijuana 0 -> +0.10; Guadalajara's three knocks activated** (Zac: "do them (the hand,
+  three guadalajara knocks, base total)"; the base total was already 3.00 from the full review). Tijuana -0.32 -> -0.22
+  (Opta +0.01, footballdatabase +0.11; round-17 line 0.25 above us after status). Ledezma, Fernando González and Aguirre
+  (all starters, press report of knocks after the León game, unconfirmed) watch -> doubt: 3 x 0.05 x 0.5 = -0.075 on
+  Guadalajara, +0.62 -> +0.55; the rows close when each next starts a game. Run 20261115T234904Z v 20261115T234617Z:
+  Toluca 25.9 -> 26.7, Cruz Azul 25.4 -> 25.9, América 22.5 -> 23.1, Guadalajara 19.4 -> 17.0, Monterrey 2.9 -> 3.0;
+  Tijuana title 0.4 -> 0.5. Games off Pinnacle by 0.15+: 3 -> 1 (Tigres v América +0.15).
+  If the knocks prove false (all three start on Nov 22) the rows close on the next refresh and Guadalajara returns to +0.62.
+
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):
   (1) Real results, three-way log-loss 2013-2026 (n 4,456): ours on match morning 1.0294, the close 1.0210, home edge only

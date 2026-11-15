@@ -1,11 +1,11 @@
 {
  "date": "2026-11-15",
- "built": "2026-11-15T23:46:56Z",
- "run": "20261115T234617Z",
+ "built": "2026-11-15T23:49:44Z",
+ "run": "20261115T234904Z",
  "head": [
   "Data: all checks ok",
-  "Games: 9 lined, 3 off Pinnacle by 0.15+: Tijuana v Atlante -0.25, Tigres v América +0.15, Guadalajara v Cruz Azul +0.21",
-  "Title: Toluca 25.9%, Cruz Azul 25.4%, América 22.5%, Guadalajara 19.4%"
+  "Games: 9 lined, 1 off Pinnacle by 0.15+: Tigres v América +0.15",
+  "Title: Toluca 26.7%, Cruz Azul 25.9%, América 23.1%, Guadalajara 17.0%"
  ],
  "checks": [
   {
@@ -35,7 +35,7 @@
   {
    "name": "Run",
    "ok": true,
-   "note": "run 20261115T234617Z on 200,000 simulations",
+   "note": "run 20261115T234904Z on 200,000 simulations",
    "level": "ok"
   }
  ],
@@ -79,12 +79,12 @@
    "home": "Tijuana",
    "away": "Atlante",
    "pin": 0.938,
-   "ours": 0.692,
-   "gap": -0.247,
+   "ours": 0.792,
+   "gap": -0.147,
    "total": 3.02,
    "move": 0.0,
-   "verdict": "watch",
-   "why": "status +0.27 (TIJ must, ATE out) · Pin last 4 on ATE +0.09",
+   "verdict": "ok",
+   "why": "status +0.27 (TIJ must, ATE out) · hand TIJ +0.10 · Pin last 4 on ATE +0.09",
    "fetched_at": "2026-11-15T23:46:05Z",
    "maybe_us": false
   },
@@ -159,11 +159,11 @@
    "home": "Guadalajara",
    "away": "Cruz Azul",
    "pin": 0.032,
-   "ours": 0.244,
-   "gap": 0.212,
+   "ours": 0.169,
+   "gap": 0.137,
    "total": 3.22,
    "move": 0.0,
-   "verdict": "watch",
+   "verdict": "ok",
    "why": "Pin last 4 on CAZ +0.10 · hand CAZ +0.06",
    "fetched_at": "2026-11-15T23:46:05Z",
    "maybe_us": false
@@ -275,6 +275,14 @@
   {
    "team": "Cruz Azul",
    "hand": 0.06,
+   "set": "2026-11-15",
+   "n": 0,
+   "closes_say": null,
+   "verdict": "too early"
+  },
+  {
+   "team": "Tijuana",
+   "hand": 0.1,
    "set": "2026-11-15",
    "n": 0,
    "closes_say": null,
