@@ -1,0 +1,154 @@
+date,kickoff_utc,stage,home,away,status,hg,ag,winner,espn_id
+2026-07-16,2026-07-17T01:00:00Z,regular,Necaxa,Atlante,final,2,1,Necaxa,401877045
+2026-07-16,2026-07-17T03:10:00Z,regular,Tijuana,Tigres,final,3,1,Tijuana,401877044
+2026-07-17,2026-07-18T01:00:00Z,regular,Atlético San Luis,Cruz Azul,final,2,3,Cruz Azul,401877043
+2026-07-17,2026-07-18T01:00:00Z,regular,León,Atlas,final,2,3,Atlas,401877042
+2026-07-17,2026-07-18T03:00:00Z,regular,Juárez,Puebla,final,0,1,Puebla,401877041
+2026-07-18,2026-07-18T23:00:00Z,regular,Pumas,Pachuca,final,0,3,Pachuca,401877040
+2026-07-18,2026-07-19T01:05:00Z,regular,Monterrey,Santos Laguna,final,3,2,Monterrey,401877038
+2026-07-18,2026-07-19T01:07:00Z,regular,Guadalajara,Toluca,final,0,2,Toluca,401877039
+2026-07-18,2026-07-19T03:10:00Z,regular,Querétaro,América,final,0,1,América,401877037
+2026-07-21,2026-07-22T01:00:00Z,regular,Cruz Azul,Puebla,final,2,1,Cruz Azul,401877036
+2026-07-21,2026-07-22T03:05:00Z,regular,Toluca,Pumas,final,1,2,Pumas,401877035
+2026-07-24,2026-07-25T03:00:00Z,regular,Atlante,América,final,1,1,,401877033
+2026-07-24,2026-07-25T03:00:00Z,regular,Tijuana,León,final,1,0,Tijuana,401877032
+2026-07-25,2026-07-25T23:07:00Z,regular,Guadalajara,Juárez,final,1,0,Guadalajara,401877031
+2026-07-25,2026-07-26T03:00:00Z,regular,Santos Laguna,Atlas,final,0,1,Atlas,401877030
+2026-07-25,2026-07-26T03:00:00Z,regular,Tigres,Atlético San Luis,final,2,2,,401877034
+2026-07-26,2026-07-26T23:00:00Z,regular,Necaxa,Monterrey,final,2,1,Necaxa,401877029
+2026-07-26,2026-07-27T01:06:00Z,regular,Pachuca,Querétaro,final,1,2,Querétaro,401877028
+2026-07-31,2026-08-01T01:00:00Z,regular,Puebla,Guadalajara,final,1,1,,401877027
+2026-07-31,2026-08-01T03:00:00Z,regular,Atlético San Luis,Tijuana,final,0,0,,401877026
+2026-07-31,2026-08-01T03:00:00Z,regular,Juárez,Pumas,final,1,5,Pumas,401877025
+2026-08-01,2026-08-01T23:00:00Z,regular,Querétaro,Tigres,final,3,2,Querétaro,401877024
+2026-08-01,2026-08-02T01:05:00Z,regular,Atlas,Monterrey,final,0,2,Monterrey,401877022
+2026-08-01,2026-08-02T01:06:00Z,regular,León,Pachuca,final,1,0,León,401877023
+2026-08-01,2026-08-02T03:00:00Z,regular,Cruz Azul,Atlante,final,2,3,Atlante,401877021
+2026-08-02,2026-08-02T23:00:00Z,regular,América,Santos Laguna,final,3,0,América,401877020
+2026-08-02,2026-08-03T01:05:00Z,regular,Toluca,Necaxa,final,3,1,Toluca,401877019
+2026-08-15,2026-08-15T23:00:00Z,regular,Atlante,Toluca,final,0,0,,401877018
+2026-08-15,2026-08-16T01:10:00Z,regular,Monterrey,Juárez,final,6,1,Monterrey,401877017
+2026-08-15,2026-08-16T03:10:00Z,regular,Atlas,Tigres,final,2,1,Atlas,401877016
+2026-08-16,2026-08-16T18:00:00Z,regular,Pumas,Querétaro,final,0,0,,401877015
+2026-08-16,2026-08-16T23:00:00Z,regular,América,Atlético San Luis,final,3,0,América,401877014
+2026-08-16,2026-08-17T01:10:00Z,regular,Santos Laguna,Guadalajara,final,0,1,Guadalajara,401877013
+2026-08-16,2026-08-17T03:00:00Z,regular,Tijuana,Cruz Azul,final,2,1,Tijuana,401877012
+2026-08-17,2026-08-18T01:00:00Z,regular,Necaxa,León,final,1,2,León,401877011
+2026-08-17,2026-08-18T03:06:00Z,regular,Pachuca,Puebla,final,2,3,Puebla,401877010
+2026-08-21,2026-08-22T01:00:00Z,regular,León,Monterrey,final,2,0,León,401877005
+2026-08-21,2026-08-22T01:00:00Z,regular,Tigres,Atlante,final,2,0,Tigres,401877004
+2026-08-21,2026-08-22T03:10:00Z,regular,Juárez,América,final,1,2,América,401877008
+2026-08-21,2026-08-22T03:10:00Z,regular,Querétaro,Toluca,final,1,2,Toluca,401877007
+2026-08-22,2026-08-22T23:07:00Z,regular,Guadalajara,Tijuana,final,5,2,Guadalajara,401877006
+2026-08-22,2026-08-23T01:00:00Z,regular,Puebla,Santos Laguna,final,3,2,Puebla,401877009
+2026-08-22,2026-08-23T03:00:00Z,regular,Cruz Azul,Atlas,final,0,2,Atlas,401877003
+2026-08-23,2026-08-23T23:00:00Z,regular,Atlético San Luis,Pachuca,final,1,1,,401877002
+2026-08-23,2026-08-24T01:00:00Z,regular,Pumas,Necaxa,final,1,1,,401877001
+2026-08-28,2026-08-29T01:00:00Z,regular,Atlante,León,final,1,1,,401876999
+2026-08-28,2026-08-29T01:00:00Z,regular,Necaxa,Cruz Azul,final,1,3,Cruz Azul,401877000
+2026-08-28,2026-08-29T03:10:00Z,regular,Tijuana,Pumas,final,2,0,Tijuana,401876998
+2026-08-29,2026-08-29T23:00:00Z,regular,Atlas,Querétaro,final,1,3,Querétaro,401876997
+2026-08-29,2026-08-29T23:00:00Z,regular,Pachuca,Guadalajara,final,1,1,,401876996
+2026-08-29,2026-08-30T01:05:00Z,regular,América,Puebla,final,2,0,América,401876995
+2026-08-29,2026-08-30T03:10:00Z,regular,Santos Laguna,Tigres,final,0,0,,401876994
+2026-08-30,2026-08-31T00:00:00Z,regular,Toluca,Juárez,final,4,0,Toluca,401876993
+2026-08-30,2026-08-31T02:10:00Z,regular,Monterrey,Atlético San Luis,final,1,3,Atlético San Luis,401876992
+2026-09-04,2026-09-05T03:00:00Z,regular,Juárez,Pachuca,final,0,2,Pachuca,401876990
+2026-09-05,2026-09-05T23:00:00Z,regular,Atlético San Luis,Guadalajara,final,0,3,Guadalajara,401876989
+2026-09-05,2026-09-06T01:00:00Z,regular,Tigres,Necaxa,final,1,1,,401876987
+2026-09-05,2026-09-06T03:00:00Z,regular,Atlas,Atlante,final,1,1,,401876985
+2026-09-06,2026-09-06T23:00:00Z,regular,Cruz Azul,Santos Laguna,final,1,0,Cruz Azul,401876983
+2026-09-10,2026-09-11T03:05:00Z,regular,Pumas,León,final,3,1,Pumas,401876984
+2026-09-11,2026-09-12T01:00:00Z,regular,Necaxa,Puebla,final,0,1,Puebla,401876980
+2026-09-11,2026-09-12T03:00:00Z,regular,Atlante,Pachuca,final,0,3,Pachuca,401876979
+2026-09-11,2026-09-12T03:10:00Z,regular,Tijuana,Querétaro,final,0,1,Querétaro,401876978
+2026-09-12,2026-09-12T23:05:00Z,regular,Toluca,Atlas,final,5,2,Toluca,401876982
+2026-09-12,2026-09-13T01:10:00Z,regular,Monterrey,Tigres,final,0,0,,401876974
+2026-09-12,2026-09-13T03:15:00Z,regular,Cruz Azul,América,final,4,3,Cruz Azul,401876981
+2026-09-13,2026-09-14T01:00:00Z,regular,Santos Laguna,Juárez,final,2,1,Santos Laguna,401876976
+2026-09-13,2026-09-14T01:07:00Z,regular,Guadalajara,Pumas,final,3,0,Guadalajara,401876975
+2026-09-14,2026-09-15T01:00:00Z,regular,León,Atlético San Luis,final,2,0,León,401876977
+2026-09-15,2026-09-16T01:00:00Z,regular,Puebla,Toluca,final,0,1,Toluca,401876991
+2026-09-18,2026-09-19T01:00:00Z,regular,Puebla,Atlante,final,1,1,,401876973
+2026-09-18,2026-09-19T03:00:00Z,regular,Juárez,Tigres,final,2,0,Juárez,401876972
+2026-09-19,2026-09-19T23:00:00Z,regular,Atlas,Pumas,final,1,1,,401876971
+2026-09-19,2026-09-19T23:00:00Z,regular,Atlético San Luis,Necaxa,final,3,1,Atlético San Luis,401876970
+2026-09-19,2026-09-20T01:10:00Z,regular,Monterrey,Cruz Azul,final,1,0,Monterrey,401876969
+2026-09-19,2026-09-20T03:15:00Z,regular,América,Guadalajara,final,2,2,,401876968
+2026-09-20,2026-09-21T00:00:00Z,regular,Pachuca,Tijuana,final,2,2,,401876967
+2026-09-20,2026-09-21T00:00:00Z,regular,Toluca,Santos Laguna,final,2,3,Santos Laguna,401876966
+2026-09-20,2026-09-21T02:10:00Z,regular,Querétaro,León,final,1,1,,401876965
+2026-09-25,2026-09-26T01:00:00Z,regular,Atlante,Monterrey,final,4,2,Atlante,401876964
+2026-09-25,2026-09-26T03:00:00Z,regular,Tijuana,Atlas,final,2,3,Atlas,401876963
+2026-09-26,2026-09-26T22:50:00Z,regular,Cruz Azul,Toluca,final,3,3,,401876959
+2026-09-26,2026-09-26T23:07:00Z,regular,Guadalajara,Querétaro,final,0,2,Querétaro,401876962
+2026-09-26,2026-09-27T03:05:00Z,regular,Santos Laguna,Pachuca,final,1,0,Santos Laguna,401876961
+2026-09-26,2026-09-27T03:10:00Z,regular,Tigres,Puebla,final,1,0,Tigres,401876960
+2026-09-27,2026-09-27T18:00:00Z,regular,Pumas,Atlético San Luis,final,2,3,Atlético San Luis,401876958
+2026-09-27,2026-09-28T01:00:00Z,regular,León,Juárez,final,2,1,León,401876957
+2026-09-27,2026-09-28T03:10:00Z,regular,Necaxa,América,final,2,4,América,401876956
+2026-10-09,2026-10-10T01:00:00Z,regular,Puebla,León,final,1,1,,401876954
+2026-10-09,2026-10-10T03:00:00Z,regular,Tigres,Toluca,final,3,2,Tigres,401876953
+2026-10-10,2026-10-10T23:00:00Z,regular,Juárez,Tijuana,final,1,1,,401876952
+2026-10-10,2026-10-10T23:00:00Z,regular,Querétaro,Atlante,final,2,0,Querétaro,401876955
+2026-10-10,2026-10-11T01:00:00Z,regular,Atlas,Guadalajara,final,1,1,,401876951
+2026-10-10,2026-10-11T03:10:00Z,regular,América,Monterrey,final,1,1,,401876950
+2026-10-11,2026-10-11T23:00:00Z,regular,Atlético San Luis,Santos Laguna,final,1,2,Santos Laguna,401876948
+2026-10-11,2026-10-11T23:10:00Z,regular,Pachuca,Necaxa,final,3,3,,401876949
+2026-10-11,2026-10-12T01:15:00Z,regular,Pumas,Cruz Azul,final,3,3,,401876947
+2026-10-16,2026-10-17T01:00:00Z,regular,Necaxa,Atlas,final,0,2,Atlas,401876946
+2026-10-16,2026-10-17T03:00:00Z,regular,Atlante,Pumas,final,1,2,Pumas,401876945
+2026-10-16,2026-10-17T03:05:00Z,regular,Tijuana,Puebla,final,0,0,,401876944
+2026-10-17,2026-10-17T23:00:00Z,regular,Santos Laguna,Querétaro,final,5,0,Santos Laguna,401876942
+2026-10-17,2026-10-17T23:07:00Z,regular,Guadalajara,Tigres,final,1,1,,401876943
+2026-10-17,2026-10-18T01:00:00Z,regular,León,América,final,3,5,América,401876941
+2026-10-17,2026-10-18T01:00:00Z,regular,Toluca,Atlético San Luis,final,1,1,,401876940
+2026-10-17,2026-10-18T03:10:00Z,regular,Cruz Azul,Juárez,final,5,0,Cruz Azul,401876939
+2026-10-18,2026-10-19T01:00:00Z,regular,Monterrey,Pachuca,final,2,1,Monterrey,401876938
+2026-10-20,2026-10-21T00:07:00Z,regular,Guadalajara,Necaxa,final,1,0,Guadalajara,401876934
+2026-10-20,2026-10-21T01:00:00Z,regular,Atlético San Luis,Querétaro,final,2,1,Atlético San Luis,401876937
+2026-10-20,2026-10-21T01:00:00Z,regular,Juárez,Atlante,final,0,1,Atlante,401876936
+2026-10-20,2026-10-21T03:10:00Z,regular,Tigres,León,final,0,2,León,401876935
+2026-10-21,2026-10-22T01:00:00Z,regular,Atlas,América,final,2,5,América,401876932
+2026-10-21,2026-10-22T01:00:00Z,regular,Puebla,Monterrey,final,1,4,Monterrey,401876933
+2026-10-21,2026-10-22T01:00:00Z,regular,Toluca,Tijuana,final,2,2,,401876931
+2026-10-21,2026-10-22T03:10:00Z,regular,Pachuca,Cruz Azul,final,1,2,Cruz Azul,401876930
+2026-10-21,2026-10-22T03:10:00Z,regular,Santos Laguna,Pumas,final,2,0,Santos Laguna,401876929
+2026-10-23,2026-10-24T01:00:00Z,regular,Necaxa,Juárez,final,1,1,,401876928
+2026-10-23,2026-10-24T03:00:00Z,regular,Atlante,Atlético San Luis,final,0,1,Atlético San Luis,401876927
+2026-10-24,2026-10-24T23:00:00Z,regular,León,Toluca,final,1,1,,401876926
+2026-10-24,2026-10-25T01:00:00Z,regular,Monterrey,Guadalajara,final,0,1,Guadalajara,401876925
+2026-10-24,2026-10-25T03:10:00Z,regular,Pumas,Tigres,final,1,1,,401876924
+2026-10-25,2026-10-25T23:00:00Z,regular,Atlas,Puebla,final,4,3,Atlas,401876923
+2026-10-25,2026-10-26T01:00:00Z,regular,Querétaro,Cruz Azul,final,1,3,Cruz Azul,401876921
+2026-10-25,2026-10-26T01:05:00Z,regular,América,Pachuca,final,1,2,Pachuca,401876922
+2026-10-25,2026-10-26T03:10:00Z,regular,Tijuana,Santos Laguna,final,4,1,Tijuana,401876920
+2026-10-28,2026-10-29T03:00:00Z,regular,América,Tijuana,final,1,1,,401876986
+2026-10-30,2026-10-31T01:00:00Z,regular,Atlético San Luis,Atlas,final,0,1,Atlas,401876919
+2026-10-30,2026-10-31T01:00:00Z,regular,Juárez,Querétaro,final,3,1,Juárez,401876918
+2026-10-30,2026-10-31T03:00:00Z,regular,Puebla,Pumas,final,1,2,Pumas,401876917
+2026-10-31,2026-10-31T23:00:00Z,regular,Pachuca,Tigres,final,3,0,Pachuca,401876916
+2026-10-31,2026-11-01T01:05:00Z,regular,Monterrey,Tijuana,final,3,3,,401876914
+2026-10-31,2026-11-01T01:07:00Z,regular,Guadalajara,Atlante,final,4,2,Guadalajara,401876915
+2026-10-31,2026-11-01T03:10:00Z,regular,América,Toluca,final,2,2,,401876913
+2026-11-01,2026-11-01T23:00:00Z,regular,Santos Laguna,Necaxa,final,1,0,Santos Laguna,401876912
+2026-11-01,2026-11-02T01:10:00Z,regular,Cruz Azul,León,final,2,1,Cruz Azul,401876911
+2026-11-06,2026-11-07T01:00:00Z,regular,Atlético San Luis,Juárez,final,0,1,Juárez,401876910
+2026-11-06,2026-11-07T01:00:00Z,regular,Necaxa,Tijuana,final,1,0,Necaxa,401876909
+2026-11-06,2026-11-07T03:00:00Z,regular,Atlante,Santos Laguna,final,0,2,Santos Laguna,401876908
+2026-11-07,2026-11-07T23:00:00Z,regular,Atlas,Pachuca,final,1,4,Pachuca,401876907
+2026-11-07,2026-11-08T01:00:00Z,regular,Tigres,Cruz Azul,final,2,3,Cruz Azul,401876906
+2026-11-07,2026-11-08T01:00:00Z,regular,Toluca,Monterrey,final,4,0,Toluca,401876905
+2026-11-07,2026-11-08T03:10:00Z,regular,Pumas,América,final,2,2,,401876904
+2026-11-08,2026-11-09T00:00:00Z,regular,Querétaro,Puebla,final,0,2,Puebla,401876903
+2026-11-08,2026-11-09T02:10:00Z,regular,León,Guadalajara,final,1,1,,401876902
+2026-11-14,2026-11-14T23:00:00Z,regular,Querétaro,Monterrey,final,0,1,Monterrey,401876988
+2026-11-20,2026-11-21T01:00:00Z,regular,Puebla,Atlético San Luis,scheduled,,,,401877054
+2026-11-20,2026-11-21T03:00:00Z,regular,Juárez,Atlas,scheduled,,,,401877053
+2026-11-20,2026-11-21T03:00:00Z,regular,Tijuana,Atlante,scheduled,,,,401877052
+2026-11-21,2026-11-21T22:50:00Z,regular,Pachuca,Toluca,scheduled,,,,401877050
+2026-11-21,2026-11-21T23:00:00Z,regular,Santos Laguna,León,scheduled,,,,401877051
+2026-11-21,2026-11-22T01:00:00Z,regular,Pumas,Monterrey,scheduled,,,,401877049
+2026-11-21,2026-11-22T03:00:00Z,regular,Tigres,América,scheduled,,,,401877048
+2026-11-22,2026-11-22T23:07:00Z,regular,Guadalajara,Cruz Azul,scheduled,,,,401877047
+2026-11-22,2026-11-23T01:00:00Z,regular,Querétaro,Necaxa,scheduled,,,,401877046

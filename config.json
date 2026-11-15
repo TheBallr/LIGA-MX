@@ -1,0 +1,130 @@
+{
+  "season": "A2026",
+  "timezone": "America/New_York",
+  "knobs": {
+    "n_seasons": {
+      "value": 200000,
+      "note": "fixed; same seed and inputs give identical output"
+    },
+    "seed": {
+      "value": 20260,
+      "note": "fixed seed"
+    },
+    "home_edge_window": {
+      "value": 306,
+      "note": "league home edge = mean implied margin of the last 306 closes (two tournaments) before the match; no look-ahead"
+    },
+    "avg_total_goals": {
+      "value": 2.85,
+      "note": "PROVISIONAL 2026-11-15: realised goals per match over the last five tournaments (A2024-A2026) 2.86; football-data carries no totals, so no Pinnacle totals history. Re-set from the Pinnacle captures once 100 totals are on file. A fixture with a posted total uses it."
+    },
+    "shared_goals_mean": {
+      "value": 0.1,
+      "note": "CARRIED from the MLS model (Pinnacle ladders, 0.10). Not calibrated on Liga MX: no ladder history."
+    },
+    "dc_rho": {
+      "value": -0.05,
+      "note": "SET 2026-11-15 from scripts/calibrate.py draws (4463 lined matches 2013-2026, each at its close's own margin and the league's running total): result log-loss best at -0.05 (1.02246; 0 1.02305, -0.08 1.02249, -0.11 1.02279); engine draw rate 26.8% v devigged closes 26.4% v actual 27.0%. Same value as the MLS model."
+    },
+    "goal_floor": {
+      "value": 0.15,
+      "note": "minimum team goal mean"
+    },
+    "rating_sd": {
+      "value": 0.15,
+      "note": "CARRIED from the MLS model, then checked on the Liguilla backtest (see CLAUDE.md)"
+    },
+    "drift_k_sim": {
+      "value": 0.01,
+      "note": "CARRIED from the MLS model"
+    },
+    "drift_cap": {
+      "value": 0.1,
+      "note": "CARRIED from the MLS model"
+    },
+    "kalman_q_day": {
+      "value": 0.03,
+      "note": "SET 2026-11-15 (the MLS value; scripts/calibrate.py kalman, 4450 closes scored walk-forward 2013-2026): rmse a week out 0.2163 at 0.03/0.25; 0.025 0.2161, 0.02 0.2166, 0.04 0.2182; flat along q/s = 0.12 as in MLS."
+    },
+    "kalman_s": {
+      "value": 0.25,
+      "note": "measurement sd of a Pinnacle close; see kalman_q_day (the ratio is what the grid pins down)"
+    },
+    "kalman_s_avg": {
+      "value": 0.25,
+      "note": "measurement sd of a market-average close (football-data AvgC; the only close on file from Oct 2025 until our own Pinnacle captures began 2026-11-15). 0.25 / 0.3 / 0.4 tie (0.2163-0.2165)."
+    },
+    "kalman_s_posted": {
+      "value": 0.4,
+      "note": "CARRIED from the MLS model: measurement sd of a posted (not yet closed) Pinnacle line"
+    },
+    "kalman_p0": {
+      "value": 0.4,
+      "note": "prior sd of a new club"
+    },
+    "kalman_q_off": {
+      "value": 0.05,
+      "note": "SET 2026-11-15: extra sd across a tournament break; 0.05 0.2154, 0.1 0.2156, 0.2 0.2164."
+    },
+    "kalman_off_shrink": {
+      "value": 0.9,
+      "note": "SET 2026-11-15: strengths revert 10% toward the mean across a tournament break (two breaks a year; see kalman_gap_days). 0.75 0.2170, 1.0 0.2159, 0.6 0.2216."
+    },
+    "kalman_gap_days": {
+      "value": 20,
+      "note": "SET 2026-11-15: a league-wide gap of 20 days or more is a tournament break (both the winter and the summer break count; MLS uses 45 for its one off-season). Grid: gap 20 / shrink 0.9 / q_off 0.05 gives 0.2154 a week out v 0.2163 at the MLS trio (45 / 0.75 / 0.10); the surface is flat (0.2154-0.2171 across shrink 0.75-1.0)."
+    },
+    "new_club_prior": {
+      "value": -0.25,
+      "note": "CARRIED from the MLS model (expansion prior)"
+    },
+    "club_home_edge_enabled": {
+      "value": true,
+      "note": "ON 2026-11-15 from scripts/calibrate.py home: per-club home deltas (data/ratings/home_edges.csv, shrunk with k pseudo-games) fitted on closes before 2021-07 and scored on closes after: rmse of the close a week out 0.2431 without, 0.2333 with (k 50; k 25 0.2329, k 100 0.2342). Tijuana +0.19, Monterrey +0.07, Toluca +0.06; Atlas -0.07, San Luis -0.07. Deltas on file are fitted on every season (in sample for past seasons, as in the MLS model)."
+    },
+    "club_home_k": {
+      "value": 50,
+      "note": "pseudo-games shrinking each club's home delta (the MLS value)"
+    },
+    "posted_line_shrink": {
+      "value": 1.0,
+      "note": "a fixture with a fresh Pinnacle line (fetched within 3 days) is priced off Pinnacle (the MLS rule)"
+    },
+    "posted_in_fit": {
+      "value": true,
+      "note": "the current round's fresh Pinnacle lines enter the ratings as measurements (the MLS rule)"
+    },
+    "posted_fresh_days": {
+      "value": 3,
+      "note": "a posted line older than this is ignored"
+    }
+  },
+  "liga_mx": {
+    "clubs": 18,
+    "rounds": 17,
+    "liguilla_spots": 8,
+    "play_in": false,
+    "regular_season_end": "2026-11-22",
+    "liguilla": {
+      "qf": [
+        "2026-11-25",
+        "2026-11-29"
+      ],
+      "sf": [
+        "2026-12-02",
+        "2026-12-06"
+      ],
+      "final": [
+        "2026-12-10",
+        "2026-12-13"
+      ]
+    },
+    "tiebreakers": [
+      "points",
+      "gd",
+      "gf",
+      "coin"
+    ],
+    "_note": "Apertura 2026: top 8 of the general table straight to the quarter-finals (no play-in). Two-leg ties, lower seed hosts leg 1; a quarter-final or semi-final level on aggregate goes to the higher seed (no away goals, no extra time); semis re-seeded (best remaining v worst remaining); the final level on aggregate goes to extra time then penalties. Final dates are the press-reported plan (Dec 10 and 13; a slip to late December is possible around Toluca's Intercontinental Cup). VERIFY against the 2026-27 Reglamento de Competencia: the table chain beyond goals for (the model uses points, goal difference, goals for, coin)."
+  }
+}

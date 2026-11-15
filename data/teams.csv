@@ -1,0 +1,26 @@
+team,code,espn_id,active,altitude_m,city,note
+América,AME,227,1,2240,Mexico City,
+Atlante,ATE,226,1,2240,Mexico City,took Mazatlán's place for 2026-27; history rows 2012-14 are the old Cancún club
+Atlas,ATS,216,1,1566,Guadalajara,
+Atlético San Luis,ASL,15720,1,1864,San Luis Potosí,
+Cruz Azul,CAZ,218,1,2240,Mexico City,
+Guadalajara,GDL,219,1,1566,Guadalajara,Chivas
+Juárez,JUA,17851,1,1137,Ciudad Juárez,
+León,LEO,228,1,1815,León,
+Monterrey,MTY,220,1,540,Monterrey,
+Necaxa,NCX,229,1,1888,Aguascalientes,
+Pachuca,PAC,234,1,2400,Pachuca,
+Puebla,PUE,231,1,2135,Puebla,
+Pumas,UNAM,233,1,2240,Mexico City,
+Querétaro,QRO,222,1,1820,Querétaro,
+Santos Laguna,SAN,225,1,1120,Torreón,
+Tigres,UANL,232,1,540,Monterrey,
+Tijuana,TIJ,10125,1,20,Tijuana,artificial turf
+Toluca,TOL,223,1,2660,Toluca,
+Chiapas,CHI,,0,,,historical (to 2017)
+Dorados,DOR,,0,,,historical (2015-16)
+Leones Negros,UDG,,0,,,historical (2014-15)
+Lobos BUAP,LOB,,0,,,historical (2017-19)
+Mazatlán,MAZ,,0,,,historical (2020-26)
+Morelia,MOR,,0,,,historical (to 2020; Monarcas)
+Veracruz,VER,,0,,,historical (2013-19)
