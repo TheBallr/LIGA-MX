@@ -13,11 +13,13 @@ Branch: `claude/magical-mendel-0am2um` (the only branch with work; `main` holds 
 - `python3 scripts/check_secrets.py` before every push. The Pinnacle guest key in `fetch_pinnacle.py` is the public one from
   pinnacle.com's own front end. No other key is used.
 - Page wording (Zac, MLS 2026-10-23): numbers in grids, short labels, explanations only in hovers.
+- No book prices, edge view or futures-price comparison (Zac 2026-11-15: Pinnacle posts no Liga MX outright; he finds the
+  bets himself). Do not build it and do not propose it again. The page gives fair prices only.
 
 ## 1. The yardstick
 Ratings are judged on how closely they track the closing line: walk-forward, each close scored from the ratings a week out
-and on match morning (rmse of expected margin, slope). Pinnacle is the only match-line source and the only futures
-comparison; soft books, Kalshi and Polymarket never enter the model. Futures edges are Zac's, by hand, from the page.
+and on match morning (rmse of expected margin, slope). Pinnacle is the only match-line source and no futures prices
+are compared (section 0); soft books, Kalshi and Polymarket never enter the model. Futures edges are Zac's, by hand, from the page.
 
 ## 2. Rules
 - A price looking wrong is a ratings question, never a variance question. rating_sd, drift, shared goals, dc_rho and the
@@ -42,13 +44,12 @@ comparison; soft books, Kalshi and Polymarket never enter the model. Futures edg
 | football-data.co.uk | `https://football-data.co.uk/new/MEX.csv`: every match 2012-2026 incl. Liguilla; `PSC*` Pinnacle close to Oct 2025 (4,437), `AvgC*` since (361); three-way only (no handicap, no totals); UK-local dates |
 | ESPN | `site.api.espn.com/apis/site/v2/sports/soccer/mex.1/scoreboard?dates=YYYYMMDD`, one day per request; standings at `/apis/v2/sports/soccer/mex.1/standings`; crests on a.espncdn.com (saved to `data/logos/`) |
 | Pinnacle guest API | league 2242 "Mexico - Liga MX"; three-way, handicap, total; 9 fixtures posted 2026-11-15 |
-Not tested yet: an xG source (ASA has no Liga MX), an injury source, a futures-odds source.
+Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
 
 ## 4. Known gaps
 - No Pinnacle close on file after Oct 2025: 361 matches (all of A2026) are rated off the market-average close. Our own
   captures start with the Nov 20-22 round, and only if a capture is run ten minutes before each kickoff (no task exists).
-- Not ported from MLS: full-health factors (absences, rest, eliminated), team totals, the dead-club dock, book prices and
-  the edge view, CLV log.
+- Not ported from MLS: full-health factors (absences, rest, eliminated), team totals, the dead-club dock, CLV log.
 - The bracket what-if forces a picked club through its round whatever the scores; it does not condition the legs' scores.
 - The page engine (Run on the Table tab) has no draw correction, so its prices are shown as the run plus the change.
 - The page's Save has not been exercised by a real click yet; the database answers and is empty (checked 2026-11-15).
