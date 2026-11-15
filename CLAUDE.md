@@ -47,8 +47,9 @@ Not tested yet: an xG source (ASA has no Liga MX), an injury source, a futures-o
 ## 4. Known gaps
 - No Pinnacle close on file after Oct 2025: 361 matches (all of A2026) are rated off the market-average close. Our own
   captures start with the Nov 20-22 round, and only if a capture is run ten minutes before each kickoff (no task exists).
-- Not ported from MLS: full-health factors (absences, rest, eliminated), team totals, the dead-club dock, Risk checks,
-  the bracket what-if, CLV log.
+- Not ported from MLS: full-health factors (absences, rest, eliminated), team totals, the dead-club dock, book prices and
+  the edge view, CLV log.
+- The bracket what-if forces a picked club through its round whatever the scores; it does not condition the legs' scores.
 - The page engine (Run on the Table tab) has no draw correction, so its prices are shown as the run plus the change.
 - The page's Save has not been exercised by a real click yet; the database answers and is empty (checked 2026-11-15).
 - Liguilla legs are simulated as two independent matches; second-leg game state is not modelled. The backtest does not show a
@@ -92,6 +93,17 @@ Not tested yet: an xG source (ASA has no Liga MX), an injury source, a futures-o
   0.222 rounds 15-16, 0.254 round 17: the last rounds are priced on something the ratings do not hold (MLS's eliminated /
   rotation factors). Proposals in chat; nothing applied.
 
+- 2026-11-15 **Zac: "Lets do 2,3"** of the gap review: the Liguilla bracket tab and price ranges. (2) Seven matchup cards
+  (four quarter-finals, two semis, the final): each shows its likeliest tie (a menu lists the others with their share of
+  simulations), to-advance prices, and 90-minute prices for both legs (our ratings; a posted Pinnacle line or the real score
+  once they exist). Clicking a club sends it through that round: the page engine reruns 20k simulations with and without the
+  picks on one seed and lists Final / Title changes as the run plus the change. Before seeds lock the cards are projections.
+  (3) `scripts/risk.py` (in `weekly.py` after the run, about 16 s): every live price under no posted lines, shots 0% / 30%,
+  spread +-6%, and each club's own rating +-0.10, 50k simulations each on the run's seed -> `outputs/latest/risk.json`; a
+  Range column on the Table tab and a Price ranges card in the drawer; amber when 3 points wide, or 1 point and 30% of the
+  price. Run 20261115T192632Z: Toluca 23.7-26.4, Cruz Azul 22.4-24.3, América 21.3-24.0, Guadalajara 20.3-22.1; none wide;
+  +0.10 goals on a top-four club is worth about 3.5 title points. Nothing in the model changed.
+
 ## 6. Measurements (2026-11-15)
 - **Close tracking** (4,451 closes, 2013-07 on): 0.215 goals rmse a week out, 0.202 on match morning, slope 0.98. This
   tournament (market-average closes): 0.254 a week out. MLS for comparison: 0.243.
@@ -118,7 +130,7 @@ https://claude.ai/artifact/2LU82uyW7PsndHocs7CoVX (private). `site_data.py` -> `
 (a fragment; the publish tool wraps it) -> `node scripts/check_site.js`. Republish the same file path; from another session
 pass the URL as `url`. Tabs: Table (rating, hand, table, Liguilla / Seed 1 / Semis / Final / Champion with deltas v the
 previous archived run; a hand box per club with Run / Reset / Save; click a club for its drawer), Games (Pinnacle fair v ours
-by round), Liguilla (quarter-final slots, seed grid), Model (checks, method), Morning (first tab: tiles, Games v Pinnacle,
+by round), Liguilla (matchup cards with what-if picks, seed grid), Model (checks, method), Morning (first tab: tiles, Games v Pinnacle,
 Results, Today = data checks + hand review + least sure ratings, Moved). Capabilities `db` + `user`; `settings` is readable
 by viewers and writable by the owner and editors only. Republish with capabilities omitted so they carry forward.
 

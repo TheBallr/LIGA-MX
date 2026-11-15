@@ -58,18 +58,27 @@ def main():
                 g.update(pin=list(hda(float(y.g_pinn), float(y.total), f, s, rho)), g_pin=float(y.g_pinn), total=float(y.total), book="pinnacle")
         games.append(g)
     # bracket: who fills each quarter-final slot, and how each pairing goes
-    br = {"qf": [], "locked": False}
-    z = np.load(os.path.join(LATEST, "seasons.npz"), allow_pickle=True); T = [str(t) for t in z["teams"]]; seeds = z["seeds"]; stage = z["stage"]; N = len(seeds)
-    rows = np.arange(N)
-    for a, b in ((0, 7), (1, 6), (2, 5), (3, 4)):
-        hi, lo = seeds[:, a], seeds[:, b]; key = hi.astype(int) * 100 + lo; u, c = np.unique(key, return_counts=True); top = np.argsort(-c)[:4]
-        pairs = []
-        for i in top:
+    br = {"cards": {}, "slots": [], "locked": False}
+    z = np.load(os.path.join(LATEST, "seasons.npz"), allow_pickle=True); T = [str(t) for t in z["teams"]]; seeds = z["seeds"].astype(int); stage = z["stage"]; N = len(seeds)
+    sfw = z["sf"].astype(int); fin = z["final"].astype(int)
+
+    def tally(hi, lo, need):
+        key = hi * 100 + lo; u, c = np.unique(key, return_counts=True); out = []
+        for i in np.argsort(-c)[:8]:
             m = key == u[i]; h, l = int(u[i] // 100), int(u[i] % 100)
-            pairs.append({"hi": T[h], "lo": T[l], "share": float(c[i] / N), "p_hi": float((stage[m, h] >= 2).mean())})
-        slot = lambda k: sorted([{"team": T[i], "p": float(x)} for i, x in enumerate(np.bincount(seeds[:, k], minlength=len(T)) / N) if x >= 0.01], key=lambda d: -d["p"])
-        br["qf"].append({"hi_seed": a + 1, "lo_seed": b + 1, "pairs": pairs, "hi": slot(a), "lo": slot(b)})
-    br["locked"] = all(len(q["pairs"]) and q["pairs"][0]["share"] > 0.999 for q in br["qf"])
+            if c[i] / N >= 0.005 or not out:
+                out.append({"hi": T[h], "lo": T[l], "share": float(c[i] / N), "p_hi": float((stage[m, h] >= need).mean())})
+        return out
+    for k, (x, y) in enumerate(((0, 7), (1, 6), (2, 5), (3, 4))):
+        br["cards"][f"q{k}"] = tally(seeds[:, x], seeds[:, y], 2)
+        slot = lambda j: sorted([{"team": T[i], "p": float(v)} for i, v in enumerate(np.bincount(seeds[:, j], minlength=len(T)) / N) if v >= 0.01], key=lambda d: -d["p"])
+        br["slots"].append({"hi_seed": x + 1, "lo_seed": y + 1, "hi": slot(x), "lo": slot(y)})
+    br["cards"]["sa"] = tally(sfw[:, 0], sfw[:, 3], 3); br["cards"]["sb"] = tally(sfw[:, 1], sfw[:, 2], 3); br["cards"]["f"] = tally(fin[:, 0], fin[:, 1], 4)
+    br["locked"] = all(br["cards"][f"q{k}"][0]["share"] > 0.999 for k in range(4))
+    br["dates"] = cfg["liga_mx"]["liguilla"]
+    rk = os.path.join(LATEST, "risk.json"); risk = json.load(open(rk)) if os.path.exists(rk) else None
+    if risk and risk.get("stamp") != mk["stamp"]:
+        risk = None    # built for an earlier run
     # model checks: the yardstick over the last 60 days and all time
     wa = rl.walk(rl.measurements(cl, kn, dl), kn)
     chk = {"all": rl.score(wa, 7), "season": rl.score(wa[wa["tournament"] == cfg["season"]], 7, "2026-07-01"), "all0": rl.score(wa, 0)}
@@ -99,7 +108,7 @@ def main():
     eng = {"teams": inp.teams, "market": [round(float(x), 4) for x in bb["base"]], "hand": [round(float(x), 4) for x in bb["hand"]],
            "played": {k: [int(x) for x in pl_[k]] for k in ("points", "gd", "gf", "away_gf")}, "fixtures": [[f.home, f.away, round(f.adj, 4), f.s, round(f.g_pinn, 4), round(f.T, 3)] for f in inp.fixtures],
            "he": round(inp.home_edge, 4), "club": [round(float(x), 4) for x in inp.club_home], "lig_played": [list(map(int, x)) for x in inp.liguilla_played], "lig_lines": [[int(h), int(a), round(g, 4), round(t, 3)] for h, a, g, t in inp.liguilla_lines],
-           "winner": inp.final_winner, "kn": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "drift_cap", "goal_floor", "shared_goals_mean", "avg_total_goals")}, "seed": int(kn["seed"]), "week": week_of(today_et())}
+           "winner": inp.final_winner, "kn": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "drift_cap", "goal_floor", "shared_goals_mean", "avg_total_goals", "dc_rho")}, "seed": int(kn["seed"]), "week": week_of(today_et())}
     reps = []
     for f in sorted(glob.glob(os.path.join(ROOT, "outputs", "reports", "morning_*.json")))[-14:][::-1]:
         reps.append(json.load(open(f)))
@@ -108,7 +117,7 @@ def main():
     out = {"header": {"run_at": et(summ["stamp"][:4] + "-" + summ["stamp"][4:6] + "-" + summ["stamp"][6:11] + ":" + summ["stamp"][11:13] + ":" + summ["stamp"][13:15] + "Z"), "asof": summ["asof"], "n": summ["n_seasons"],
                       "odds_at": et(last_odds), "closes_through": summ["closes_through"], "home_edge": summ["home_edge"], "season": cfg["season"], "fixtures_left": summ["fixtures_left"],
                       "pinnacle_closes": int(len(clf)), "prev_run": et(prev["stamp"][:4] + "-" + prev["stamp"][4:6] + "-" + prev["stamp"][6:11] + ":" + prev["stamp"][11:13] + ":" + prev["stamp"][13:15] + "Z") if prev else ""},
-           "teams": teams, "games": games, "bracket": br, "clubs": clubs, "engine": eng, "morning": reps, "checks": chk, "knobs": summ["knobs"], "format": cfg["liga_mx"]}
+           "teams": teams, "games": games, "bracket": br, "clubs": clubs, "risk": risk, "engine": eng, "morning": reps, "checks": chk, "knobs": summ["knobs"], "format": cfg["liga_mx"]}
     json.dump(out, open(os.path.join(LATEST, "site_data.json"), "w"), separators=(",", ":"), ensure_ascii=False, default=float)
     print(f"site_data: {os.path.getsize(os.path.join(LATEST, 'site_data.json')) // 1024} KB, {len(teams)} clubs, {len(games)} games, yardstick a week out {chk['all']['rmse']:.3f} (this tournament {chk['season']['rmse']:.3f})")
 

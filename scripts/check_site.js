@@ -23,9 +23,18 @@ const { chromium } = require('playwright'); const path = require('path'); const 
       await p.fill('#hand-TOL', '0.10'); await p.dispatchEvent('#hand-TOL', 'change'); await p.click('#hRun'); await p.waitForTimeout(2500);
       if (await p.evaluate("Array.from(document.querySelectorAll('#tbl .d')).length") < 3) errs.push('table: a Run with Toluca +0.10 moved nothing');
       await p.screenshot({ path: path.join(root, 'shots', 'run.png') });
+      await p.click('[data-tab=bracket]'); await p.waitForTimeout(200);
+      if (await p.evaluate("document.querySelectorAll('#brg .mc').length") !== 7) errs.push('bracket: expected 7 matchup cards');
+      if (await p.evaluate("document.querySelectorAll('#brg .mc-g span').length") < 7 * 12) errs.push('bracket: leg prices missing');
+      await p.click('#brg .mc .mc-t:nth-of-type(2)'); await p.waitForTimeout(3000);
+      if (await p.evaluate("document.querySelectorAll('#brg .mc-t.pk').length") < 1) errs.push('bracket: the pick is not marked');
+      if (await p.evaluate("document.querySelectorAll('#brChg tbody tr').length") < 2) errs.push('bracket: a pick moved no title price');
+      await p.screenshot({ path: path.join(root, 'shots', 'bracket_pick.png'), fullPage: true });
+      await p.click('#brClear'); await p.waitForTimeout(300);
+      if (await p.evaluate("document.querySelectorAll('#brChg tbody tr').length") !== 0) errs.push('bracket: Clear left changes on the page');
     }
     await p.close();
   }
   await b.close();
-  console.log(errs.length ? 'check_site: FAILED\n' + errs.join('\n') : 'check_site: clean (5 tabs, 2 widths, Run, drawer)'); process.exit(errs.length ? 1 : 0);
+  console.log(errs.length ? 'check_site: FAILED\n' + errs.join('\n') : 'check_site: clean (5 tabs, 2 widths, Run, drawer, bracket pick)'); process.exit(errs.length ? 1 : 0);
 })();

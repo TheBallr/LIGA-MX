@@ -36,6 +36,7 @@ line is priced off it. Markets: champion, reach final, reach semis, Liguilla, se
 ## 4. Yardsticks
 - Ratings: rmse of the close's implied margin from the ratings a week out, walk-forward (`scripts/calibrate.py kalman`): 0.215.
 - Bracket: `scripts/backtest_liguilla.py` (26 Liguillas, 182 ties).
+- Price ranges: `scripts/risk.py` (each price under other assumptions, every run).
 
 ## 5. Pipeline (`scripts/weekly.py`)
 fetch_history -> fetch_schedule (ESPN) -> fetch_pinnacle (guest API, league 2242) -> close_fallback -> apply_site_settings ->
