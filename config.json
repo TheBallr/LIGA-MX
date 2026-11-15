@@ -123,8 +123,9 @@
       "points",
       "gd",
       "gf",
+      "away_gf",
       "coin"
     ],
-    "_note": "Apertura 2026: top 8 of the general table straight to the quarter-finals (no play-in). Two-leg ties, lower seed hosts leg 1; a quarter-final or semi-final level on aggregate goes to the higher seed (no away goals, no extra time); semis re-seeded (best remaining v worst remaining); the final level on aggregate goes to extra time then penalties. Final dates are the press-reported plan (Dec 10 and 13; a slip to late December is possible around Toluca's Intercontinental Cup). VERIFY against the 2026-27 Reglamento de Competencia: the table chain beyond goals for (the model uses points, goal difference, goals for, coin)."
+    "_note": "Apertura 2026: top 8 of the general table straight to the quarter-finals (no play-in; press). Bracket and tie-breaks as in the official Reglamento de Competencia 2024-25 (Art. 19-21, read 2026-11-15): 1 v 8, 2 v 7, 3 v 6, 4 v 5; two legs, the better-placed club picks its home leg (the second); a quarter-final or semi-final level on aggregate goes to the better-placed club; semi-finalists re-ranked 1-4 (1 v 4, 2 v 3); the final level on aggregate plays two 15-minute extra periods, then penalties. Table chain in the Reglamento: goal difference, goals for, away goals for, head-to-head, cociente table, fair play, draw; the model stops after away goals. The 2026-27 PDF (ligamx.net/cancha/reglamentos) could not be downloaded from this container. Final dates are the press-reported plan."
   }
 }

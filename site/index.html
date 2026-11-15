@@ -66,11 +66,34 @@ td.hm{font-weight:600;min-width:42px}td.hm.z{color:var(--muted);opacity:.45}
 .tile .k{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .tile .v{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums}
 .tile .s{font-size:11px;color:var(--muted)}
+.hand{width:54px;appearance:textfield;-moz-appearance:textfield;background:var(--card-2);color:var(--fg);border:1px solid var(--line);border-radius:3px;padding:2px 4px;font:600 12.5px var(--font);text-align:right}
+.hand::-webkit-inner-spin-button,.hand::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.hand.edited{border-color:var(--accent);color:var(--accent)}.hand.set{font-weight:800}
+.hw{display:inline-flex;align-items:stretch;gap:2px}.hstep{display:flex;flex-direction:column;gap:1px}
+.hstep button{width:18px;height:11px;padding:0;border:1px solid var(--line);border-radius:2px;background:var(--card-2);color:var(--fg);font-size:7px;line-height:1;cursor:pointer}
+.hstep button:hover{border-color:var(--accent);color:var(--accent)}
+.status{font-size:12px;font-weight:600;color:var(--muted)}
+.pill{display:inline-block;min-width:54px;padding:1px 8px;border:1px solid var(--line);border-radius:10px;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.pill.act{border-color:var(--down);color:var(--down)}.pill.watch{border-color:var(--warn);color:var(--warn)}.pill.ok{color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:14px;align-items:start}
+.cols>div{display:grid;gap:14px;min-width:0}
+td.why{text-align:left;white-space:normal;color:var(--muted);font-size:12px;min-width:150px}
+.empty{padding:10px;color:var(--muted);font-size:12px}
+tr.clk{cursor:pointer}
+.dr-bg{position:fixed;inset:0;z-index:19;background:rgba(0,0,0,.4)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(680px,100%);z-index:20;background:var(--bg);border-left:1px solid var(--line);box-shadow:-10px 0 30px rgba(0,0,0,.35);overflow-y:auto;grid-auto-rows:max-content;padding:calc(12px + env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) 40px 14px;display:grid;gap:12px;align-content:start}
+.dr-top{display:flex;align-items:center;gap:12px}.dr-top .crest{width:48px;height:48px}
+.dr-name{font-size:19px;font-weight:800;line-height:1.1}.dr-sub{font-size:12px;color:var(--muted);margin-top:3px}
+#drClose{margin-left:auto}
+.chart{padding:6px 8px 4px}.chart svg{display:block;width:100%;height:auto}
+.chart text{fill:var(--muted);font:600 10px var(--font)}
+.lg{display:flex;gap:14px;justify-content:flex-end;padding:4px 10px 0;font-size:11px;color:var(--muted)}.lg i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
 .kv td{text-align:left;white-space:normal}.kv td:first-child{font-weight:700;white-space:nowrap;width:1%}
 </style>
 <div class="top"><div class="in">
   <div class="tabs" role="tablist">
-    <button class="tab" role="tab" data-tab="table" aria-selected="true">Table</button>
+    <button class="tab" role="tab" data-tab="morning" aria-selected="true">Morning</button>
+    <button class="tab" role="tab" data-tab="table" aria-selected="false">Table</button>
     <button class="tab" role="tab" data-tab="games" aria-selected="false">Games</button>
     <button class="tab" role="tab" data-tab="bracket" aria-selected="false">Liguilla</button>
     <button class="tab" role="tab" data-tab="model" aria-selected="false">Model</button>
@@ -78,9 +101,19 @@ td.hm{font-weight:600;min-width:42px}td.hm.z{color:var(--muted);opacity:.45}
   <div class="meta"><button class="b" id="unit" title="American odds or percent">Odds: US</button><span id="stamp"></span></div>
 </div></div>
 <main>
-<section class="panel" id="tab-table">
+<section class="panel" id="tab-morning">
+  <div class="card"><div class="tiles" id="mTiles"></div></div>
+  <div class="cols"><div>
+    <div class="card"><h2 title="Every lined game. Ours: the ratings built without this round's lines. Gap: ours minus Pinnacle in goals of home margin (watch 0.15, big 0.25). Move: the line since first posted.">Games v Pinnacle <small id="mGamesSub"></small></h2><div class="scroll"><table id="mGames"></table></div></div>
+    <div class="card"><h2 title="Games played since the previous report. Gap: our match-morning price minus the close, goals of home margin.">Results <small id="mResSub"></small></h2><div class="scroll"><table id="mRes"></table></div></div>
+  </div><div>
+    <div class="card"><h2 title="Data checks, then each hand in force judged on the closes since it was set, then ratings where Pinnacle's recent closes sit away from ours.">Today <small id="mDate"></small></h2><div class="scroll"><table id="mToday"></table></div></div>
+    <div class="card"><h2 title="Rating moves of 0.03+ goals and price moves of a point or more v the previous day's run.">Moved</h2><div class="scroll"><table id="mMoved"></table></div></div>
+  </div></div>
+</section>
+<section class="panel" id="tab-table" hidden>
   <div class="card"><h2 title="Rating: goals of expected margin v an average Liga MX side on a neutral pitch. Prices are fair (no vig) from the simulated tournaments. Small numbers: change v the previous run.">Apertura 2026 <small id="tblSub"></small></h2>
-    <div class="bar"><button class="b on" id="sortR">By title price</button><button class="b" id="sortP">By table</button><button class="b on" id="dlt">Deltas on</button></div>
+    <div class="bar"><button class="b on" id="sortR">By title price</button><button class="b" id="sortP">By table</button><button class="b on" id="dlt">Deltas on</button><span style="flex:1"></span><span class="status" id="hStat"></span><button class="b" id="hRun" title="Re-price with the edited hand adjustments: 20,000 simulations in the page, shown as the run plus the change">Run</button><button class="b" id="hReset">Reset</button><button class="b on" id="hSave" title="Save this week's hand adjustments; they are applied at the next refresh">Save</button></div>
     <div class="scroll"><table id="tbl"></table></div></div>
 </section>
 <section class="panel" id="tab-games" hidden>
@@ -98,6 +131,7 @@ td.hm{font-weight:600;min-width:42px}td.hm.z{color:var(--muted);opacity:.45}
   <div class="card"><h2>How it prices</h2><div class="scroll"><table class="kv" id="how"></table></div></div>
 </section>
 </main>
+<div class="dr-bg" id="drBg" hidden></div><aside class="drawer" id="drawer" hidden></aside>
 <script>
 /*__DATA__*/
 (function(){
@@ -111,15 +145,99 @@ function dl(now,was){if(!deltas||was==null)return'';const d=100*(now-was);if(Mat
 function sg(x,n=2){return(x>=0?'+':'−')+Math.abs(x).toFixed(n)}
 function club(t){const c=T[t]||{};return`<span class="tm"><span class="crest">${c.logo?`<img src="${c.logo}" alt="">`:''}</span>${esc(t)}</span>`}
 function table(){
-  const rows=[...D.teams].sort(sort==='r'?(a,b)=>b.m.champion-a.m.champion||b.rating-a.rating:(a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf);
+  let rows=[...D.teams].sort(sort==='r'?(a,b)=>b.m.champion-a.m.champion||b.rating-a.rating:(a,b)=>b.pts-a.pts||b.gd-a.gd||b.gf-a.gf);
   const best={};['liguilla','seed1','reach_sf','reach_final','champion'].forEach(k=>best[k]=Math.max(...rows.map(r=>r.m[k])));
   const cell=(r,k)=>`<td class="odd${r.m[k]===best[k]&&r.m[k]<.9995?' fav':''}" title="${(100*r.m[k]).toFixed(1)}% · fair ${us(r.m[k])}">${pr(r.m[k])}${r.prev?dl(r.m[k],r.prev.m[k]):''}</td>`;
   let h=`<thead><tr><th>#</th><th class="l">Club</th><th title="Goals v an average side, neutral pitch">Rating</th><th title="Your hand adjustment in goals, on top of the market rating">Hand</th><th class="sep">P</th><th>W-D-L</th><th>GD</th><th>Pts</th><th title="Expected final points">xPts</th><th class="sep" title="Finishes top 8">Liguilla</th><th title="Finishes first in the table">Seed 1</th><th title="Wins its quarter-final">Semis</th><th title="Reaches the final">Final</th><th title="Wins the Apertura 2026">Champion</th></tr></thead><tbody>`;
   rows.forEach((r,i)=>{const rd=r.prev&&deltas&&Math.abs(r.rating-r.prev.rating)>=.005?`<span class="d ${r.rating>r.prev.rating?'pos':'neg'}">${sg(r.rating-r.prev.rating)}</span>`:'';
-    h+=`<tr class="${sort==='p'&&i===7?'cut':''}"><td class="mut">${i+1}</td><td class="team" style="--cc:${r.hex}">${club(r.team)}</td><td class="odd" title="market ${sg(r.market)} · sd ${r.sd.toFixed(2)}">${sg(r.rating)}${rd}</td><td class="${r.hand?'':'dim'}">${r.hand?sg(r.hand):'0.00'}</td><td class="sep">${r.pl}</td><td>${r.w}-${r.d}-${r.l}</td><td>${r.gd>0?'+':''}${r.gd}</td><td class="odd">${r.pts}</td><td>${r.xpts.toFixed(1)}</td><td class="sep odd">${pr(r.m.liguilla)}${r.prev?dl(r.m.liguilla,r.prev.m.liguilla):''}</td>${cell(r,'seed1')}${cell(r,'reach_sf')}${cell(r,'reach_final')}${cell(r,'champion')}</tr>`});
-  $('tbl').innerHTML=h+'</tbody>';
+    const pv=preview&&preview[r.team];if(pv)r={...r,rating:r.market+hv(r.team),m:pv,prev:{rating:r.rating,m:r.m}};h+=`<tr class="clk ${sort==='p'&&i===7?'cut':''}" data-club="${esc(r.team)}"><td class="mut">${i+1}</td><td class="team" style="--cc:${r.hex}">${club(r.team)}</td><td class="odd" title="market ${sg(r.market)} · sd ${r.sd.toFixed(2)}">${sg(r.rating)}${rd}</td><td>${handBox(r)}</td><td class="sep">${r.pl}</td><td>${r.w}-${r.d}-${r.l}</td><td>${r.gd>0?'+':''}${r.gd}</td><td class="odd">${r.pts}</td><td>${r.xpts.toFixed(1)}</td><td class="sep odd">${pr(r.m.liguilla)}${r.prev?dl(r.m.liguilla,r.prev.m.liguilla):''}</td>${cell(r,'seed1')}${cell(r,'reach_sf')}${cell(r,'reach_final')}${cell(r,'champion')}</tr>`});
+  $('tbl').innerHTML=h+'</tbody>';wireHands();
   $('tblSub').textContent=`${D.header.n.toLocaleString()} simulated tournaments · ${D.header.fixtures_left} league games left`;
 }
+/* hand adjustments: one box per club, this week's value; Run prices the edit in the page, Save stores it for the next refresh */
+const E=D.engine,hand={},saved={};let preview=null;D.teams.forEach(t=>{hand[t.team]=t.hand;saved[t.team]=t.hand});
+const hv=t=>+hand[t]||0;
+function handBox(r){const v=hv(r.team),ed=Math.abs(v-saved[r.team])>1e-9;return`<span class="hw"><input class="hand${ed?' edited':''}${v?' set':''}" type="number" step="0.01" id="hand-${r.code}" data-t="${esc(r.team)}" value="${v.toFixed(2)}" aria-label="Hand ${esc(r.team)}"><span class="hstep"><button data-t="${esc(r.team)}" data-d="0.01" aria-label="up">▲</button><button data-t="${esc(r.team)}" data-d="-0.01" aria-label="down">▼</button></span></span>`}
+function wireHands(){
+  $('tbl').querySelectorAll('input.hand').forEach(i=>{i.onclick=e=>e.stopPropagation();i.onchange=()=>{hand[i.dataset.t]=Math.max(-1,Math.min(1,Math.round(100*(+i.value||0))/100));preview=null;table();hstat()}});
+  $('tbl').querySelectorAll('.hstep button').forEach(b=>b.onclick=e=>{e.stopPropagation();hand[b.dataset.t]=Math.round(100*(hv(b.dataset.t)+(+b.dataset.d)))/100;preview=null;table();hstat()});
+  $('tbl').querySelectorAll('tr.clk').forEach(tr=>tr.onclick=()=>drawer(tr.dataset.club));
+}
+function edits(){return D.teams.filter(t=>Math.abs(hv(t.team)-saved[t.team])>1e-9).length}
+function hstat(m){$('hStat').textContent=m||(edits()?edits()+' edited · not saved':'week of '+E.week)}
+/* page engine: the run's fixtures and bracket on one seed; no draw correction, so prices are shown as the run plus the change */
+function rng32(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function pois(u,l){let p=Math.exp(-l),c=p,k=0;while(u>=c&&k<40){k++;p*=l/k;c+=p}return k}
+function simulate(hands,N){
+  const n=E.teams.length,kn=E.kn,R0=E.market.map((m,i)=>m+hands[i]),rnd=rng32(E.seed),cnt={liguilla:new Float64Array(n),seed1:new Float64Array(n),top4:new Float64Array(n),reach_sf:new Float64Array(n),reach_final:new Float64Array(n),champion:new Float64Array(n)};
+  const LP={},LL={};E.lig_played.forEach(x=>LP[x[0]+'_'+x[1]]=x);E.lig_lines.forEach(x=>LL[x[0]+'_'+x[1]]=x);
+  const R=new Float64Array(n),pts=new Int32Array(n),gd=new Int32Array(n),gf=new Int32Array(n),agf=new Int32Array(n),coin=new Float64Array(n),seedOf=new Int32Array(n);
+  function match(g,T,div){const mh=Math.max(T/2+g/2,kn.goal_floor)/div,ma=Math.max(T/2-g/2,kn.goal_floor)/div,c=Math.max(0,Math.min(kn.shared_goals_mean/div,Math.min(mh,ma)-kn.goal_floor/div));const x=pois(rnd(),c);return[pois(rnd(),mh-c)+x,pois(rnd(),ma-c)+x]}
+  function leg(h,a){let g=R[h]-R[a]+E.he+E.club[h],T=kn.avg_total_goals;const l=LL[h+'_'+a];if(l){g=l[2];T=l[3]}let s=match(g,T,1);const p=LP[h+'_'+a];if(p)s=[p[2],p[3]];return[s,g,T]}
+  function tie(hi,lo,fin){const a=leg(lo,hi)[0],b=leg(hi,lo),agg=(b[0][0]-b[0][1])-(a[0]-a[1]),c=rnd()<.5;let et=null;if(fin)et=match(b[1]/3,b[2]/3,3);
+    if(agg>0)return hi;if(agg<0)return lo;if(!fin)return hi;if(E.winner!=null)return E.winner===hi?hi:lo;return et[0]>et[1]?hi:et[0]<et[1]?lo:(c?hi:lo)}
+  for(let s=0;s<N;s++){
+    for(let i=0;i<n;i++){const u=rnd()||1e-12,v=rnd();R[i]=R0[i]+kn.rating_sd*Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);pts[i]=E.played.points[i];gd[i]=E.played.gd[i];gf[i]=E.played.gf[i];agf[i]=E.played.away_gf[i]}
+    for(const f of E.fixtures){const h=f[0],a=f[1],g=(1-f[3])*(R[h]-R[a]+f[2])+f[3]*f[4],x=match(g,f[5],1),m=x[0]-x[1];
+      if(m>0)pts[h]+=3;else if(m<0)pts[a]+=3;else{pts[h]++;pts[a]++}gd[h]+=m;gd[a]-=m;gf[h]+=x[0];gf[a]+=x[1];agf[a]+=x[1];
+      const d=Math.max(-kn.drift_cap,Math.min(kn.drift_cap,kn.drift_k_sim*(m-g)));R[h]+=d;R[a]-=d}
+    for(let i=0;i<n;i++)coin[i]=rnd();
+    const o=[...Array(n).keys()].sort((a,b)=>pts[b]-pts[a]||gd[b]-gd[a]||gf[b]-gf[a]||agf[b]-agf[a]||coin[b]-coin[a]);
+    o.forEach((t,k)=>seedOf[t]=k+1);cnt.seed1[o[0]]++;for(let k=0;k<4;k++)cnt.top4[o[k]]++;for(let k=0;k<8;k++)cnt.liguilla[o[k]]++;
+    const W=[tie(o[0],o[7]),tie(o[1],o[6]),tie(o[2],o[5]),tie(o[3],o[4])].sort((a,b)=>seedOf[a]-seedOf[b]);W.forEach(t=>cnt.reach_sf[t]++);
+    const f1=tie(W[0],W[3]),f2=tie(W[1],W[2]);cnt.reach_final[f1]++;cnt.reach_final[f2]++;
+    const hi=seedOf[f1]<seedOf[f2]?f1:f2,lo=hi===f1?f2:f1;cnt.champion[tie(hi,lo,true)]++}
+  const out={};E.teams.forEach((t,i)=>{out[t]={};for(const k in cnt)out[t][k]=cnt[k][i]/N});return out}
+function runPreview(){$('hStat').textContent='running…';setTimeout(()=>{const N=20000,base=simulate(E.hand,N),alt=simulate(E.teams.map(t=>hv(t)),N);preview={};
+  D.teams.forEach(t=>{preview[t.team]={};for(const k in t.m)preview[t.team][k]=Math.max(0,Math.min(1,t.m[k]+alt[t.team][k]-base[t.team][k]))});deltas=true;$('dlt').classList.add('on');$('dlt').textContent='Deltas on';table();hstat('preview · change v the run')},30)}
+let DB=null;
+async function saveHands(){if(!DB){hstat('cannot save here · send the numbers in chat');return}
+  const h={};D.teams.forEach(t=>{h[t.team]=hv(t.team)});
+  try{await DB.doc('settings/pending').set({week:E.week,hands:h,saved_at:new Date().toISOString(),applied:false});D.teams.forEach(t=>saved[t.team]=hv(t.team));table();hstat('saved · applied at the next refresh')}catch(e){hstat('save failed: '+(e&&e.code||'error'))}}
+(async()=>{try{DB=window.claude&&window.claude.use?await window.claude.use('db'):null;if(!DB)return;const s=await DB.doc('settings/pending').get();const d=s.exists&&s.data();
+  if(d&&d.applied===false&&d.week===E.week&&d.hands){let n=0;for(const t in d.hands)if(t in hand&&Math.abs(d.hands[t]-saved[t])>1e-9){hand[t]=d.hands[t];saved[t]=d.hands[t];n++}if(n){table();hstat(n+' saved · waiting for the next refresh')}}}catch(e){}})();
+/* morning */
+function morning(){
+  const M=D.morning&&D.morning[0];if(!M){$('mTiles').innerHTML='<div class="empty">No morning report yet.</div>';return}
+  const bad=M.checks.filter(c=>!c.ok),fl=M.games.filter(g=>g.verdict!=='ok'),tr=M.track['30d'];
+  const tile=(a,b,s,c)=>`<div class="tile"><div class="k">${a}</div><div class="v ${c||''}">${b}</div><div class="s">${s}</div></div>`;
+  $('mTiles').innerHTML=tile('Data',bad.length?bad.length+' to check':'OK',bad.length?esc(bad[0].name):M.checks.length+' checks',bad.length?'warn':'')+tile('Games',fl.length+' of '+M.games.length,'off Pinnacle by 0.15+',fl.length?'warn':'')+tile('Miss 30d',tr.rmse==null?'–':tr.rmse.toFixed(3),tr.n+' closes · season '+(M.track.season.rmse==null?'–':M.track.season.rmse.toFixed(3)))+tile('Hands',M.hands.length,M.hands.length?M.hands.filter(h=>h.verdict!=='keep'&&h.verdict!=='too early').length+' to review':'none in force')+tile('Moved',M.moved.filter(m=>m.kind==='Champion').length,'title prices by a point+');
+  $('mDate').textContent=M.date;$('mGamesSub').textContent=M.games.length+' lined';
+  $('mGames').innerHTML=M.games.length?`<thead><tr><th class="l">Game</th><th class="l">Kick ET</th><th class="sep">Pin</th><th>Ours</th><th>Gap</th><th title="Line move since first posted">Move</th><th></th><th class="l">Why</th></tr></thead><tbody>`+[...M.games].sort((a,b)=>Math.abs(b.gap)-Math.abs(a.gap)).map(g=>`<tr><td class="team" style="--cc:${(T[g.home]||{}).hex}">${club(g.home)} <span class="mut">v</span> ${esc(g.away)}</td><td class="l mut">${new Date(g.ko).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})}</td><td class="sep odd">${sg(g.pin)}</td><td class="odd">${sg(g.ours)}</td><td class="odd ${g.verdict==='big'?'neg':g.verdict==='watch'?'warn':''}">${sg(g.gap)}</td><td class="${Math.abs(g.move)>=.05?'':'dim'}">${sg(g.move)}</td><td>${g.verdict==='ok'?'':`<span class="pill ${g.verdict==='big'?'act':'watch'}">${g.verdict}</span>`}</td><td class="why">${esc(g.why)}</td></tr>`).join('')+'</tbody>':'<tbody><tr><td class="empty">No lined games.</td></tr></tbody>';
+  $('mResSub').textContent=M.results.length?M.results.length+' games':'';
+  $('mRes').innerHTML=M.results.length?`<thead><tr><th class="l">Game</th><th>FT</th><th class="sep">Close</th><th>Ours</th><th>Gap</th></tr></thead><tbody>`+M.results.map(r=>`<tr><td class="team" style="--cc:${(T[r.home]||{}).hex}">${club(r.home)} <span class="mut">v</span> ${esc(r.away)}</td><td class="odd">${r.hg}–${r.ag}</td><td class="sep"${r.book==='avg_close'?' title="market-average close"':''}>${sg(r.close)}</td><td>${r.ours==null?'–':sg(r.ours)}</td><td class="odd ${r.miss!=null&&Math.abs(r.miss)>=.25?'neg':r.miss!=null&&Math.abs(r.miss)>=.15?'warn':''}">${r.miss==null?'–':sg(r.miss)}</td></tr>`).join('')+'</tbody>':'<tbody><tr><td class="empty">No games since the previous report.</td></tr></tbody>';
+  let h='<thead><tr><th></th><th class="l">Item</th><th>Ours</th><th>Could be</th><th class="l">Why</th></tr></thead><tbody>';
+  M.checks.forEach(c=>{h+=`<tr><td><span class="pill ${c.level}">${c.level}</span></td><td class="l"><b>${esc(c.name)}</b></td><td></td><td></td><td class="why">${esc(c.note)}</td></tr>`});
+  M.hands.forEach(x=>{h+=`<tr><td><span class="pill ${x.verdict==='keep'||x.verdict==='too early'?'ok':'watch'}">hand</span></td><td class="team" style="--cc:${(T[x.team]||{}).hex}">${club(x.team)}</td><td class="odd">${sg(x.hand)}</td><td></td><td class="why">${x.verdict} · ${x.n} closes since set${x.closes_say==null?'':' say '+sg(x.closes_say)}</td></tr>`});
+  M.unsure.forEach(x=>{h+=`<tr><td><span class="pill ok">rating</span></td><td class="team" style="--cc:${(T[x.team]||{}).hex}">${club(x.team)}</td><td class="odd">${sg(x.ours)}</td><td>${sg(x.could_be[0])} to ${sg(x.could_be[1])}</td><td class="why">Pin last 4 ${sg(x.last4)} · last 8 ${sg(x.last8)} v us</td></tr>`});
+  $('mToday').innerHTML=h+'</tbody>';
+  $('mMoved').innerHTML=M.moved.length?`<thead><tr><th class="l">Club</th><th class="l">Item</th><th>Was</th><th>Now</th><th>Move</th></tr></thead><tbody>`+M.moved.map(m=>`<tr><td class="team" style="--cc:${(T[m.team]||{}).hex}">${club(m.team)}</td><td class="l mut">${m.kind}</td><td>${m.kind==='rating'?sg(m.was):m.was.toFixed(1)+'%'}</td><td class="odd">${m.kind==='rating'?sg(m.now):m.now.toFixed(1)+'%'}</td><td class="odd ${m.move>0?'pos':'neg'}">${m.kind==='rating'?sg(m.move):(m.move>0?'+':'')+m.move.toFixed(1)}</td></tr>`).join('')+'</tbody>':'<tbody><tr><td class="empty">Nothing moved v the previous run.</td></tr></tbody>';
+}
+/* club drawer */
+function line(series,opt){const W=640,H=190,L=44,Rt=10,Tp=10,B=22;let xs=[],ys=[];series.forEach(s=>s.pts.forEach(p=>{xs.push(p[0]);ys.push(p[1])}));if(!xs.length)return'<div class="empty">No history yet.</div>';
+  let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);if(x1===x0)x1=x0+1;const pad=(y1-y0||.1)*.12;y0-=pad;y1+=pad;
+  const X=x=>L+(x-x0)/(x1-x0)*(W-L-Rt),Y=y=>Tp+(y1-y)/(y1-y0)*(H-Tp-B);let g='';
+  for(let i=0;i<=4;i++){const v=y0+(y1-y0)*i/4;g+=`<line x1="${L}" x2="${W-Rt}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L-6}" y="${Y(v)+3}" text-anchor="end">${opt.fmt(v)}</text>`}
+  for(let i=0;i<=3;i++){const v=x0+(x1-x0)*i/3;g+=`<text x="${X(v)}" y="${H-6}" text-anchor="${i===0?'start':i===3?'end':'middle'}">${new Date(v).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'})}</text>`}
+  series.forEach(s=>{if(s.dots)g+=s.pts.map(p=>`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="3" fill="${s.color}"><title>${p[2]||''}</title></circle>`).join('');
+    else{g+=`<path d="${s.pts.map((p,i)=>(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)).join('')}" fill="none" stroke="${s.color}" stroke-width="2"/>`;const e=s.pts[s.pts.length-1];g+=`<circle cx="${X(e[0])}" cy="${Y(e[1])}" r="3.5" fill="${s.color}"/>`}});
+  return`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${opt.label}">${g}</svg>`}
+const dms=d=>Date.parse(d+'T12:00:00Z'),sms=s=>Date.parse(s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6,8)+'T'+s.slice(9,11)+':'+s.slice(11,13)+':00Z');
+function drawer(t){const c=T[t],x=D.clubs[t];if(!c||!x)return;const col=c.hex||'var(--accent)';
+  const tile=(k,l)=>`<div class="tile"><div class="k">${l}</div><div class="v">${pr(c.m[k])}</div><div class="s">${(100*c.m[k]).toFixed(1)}%${c.prev?' · '+((100*(c.m[k]-c.prev.m[k]))>=0?'+':'')+(100*(c.m[k]-c.prev.m[k])).toFixed(1)+' v prev':''}</div></div>`;
+  const rmap={};x.hist.forEach(p=>rmap[p[0]]=p[1]);
+  const imp=x.closes.map(q=>[dms(q.date),(rmap[q.date]!=null?rmap[q.date]:c.market)+q.miss,`${q.date} ${q.ha==='H'?'v':'@'} ${q.opp}: close ${sg(q.close)}, ours ${sg(q.ours)}`]);
+  const fut=x.runs.map(r=>[sms(r[0]),100*r[1].champion]);
+  const m4=x.closes.slice(-4),avg=m4.length?m4.reduce((a,q)=>a+q.miss,0)/m4.length:0;
+  $('drawer').innerHTML=`<div class="dr-top"><span class="crest">${c.logo?`<img src="${c.logo}" alt="">`:''}</span><div><div class="dr-name">${esc(t)}</div><div class="dr-sub">${c.pts} pts · ${c.w}-${c.d}-${c.l} · gd ${c.gd>0?'+':''}${c.gd} · rating <b>${sg(c.rating)}</b>${c.hand?' (hand '+sg(c.hand)+')':''} · sd ${c.sd.toFixed(2)} · home ${sg(c.delta)} · Pin last 4 ${sg(avg)} v us</div></div><button class="b" id="drClose" aria-label="Close">✕</button></div>
+  <div class="card"><div class="tiles">${tile('liguilla','Liguilla')}${tile('reach_sf','Semis')}${tile('reach_final','Final')}${tile('champion','Champion')}</div></div>
+  <div class="card"><h2 title="Line: our market rating on each match morning. Dots: what each close implied for the club (our rating plus the miss on that game).">Rating <small>this tournament</small></h2><div class="lg"><span><i style="background:${col}"></i>Ours each morning</span><span><i style="background:var(--warn)"></i>Close implied</span></div><div class="chart">${line([{pts:x.hist.map(p=>[dms(p[0]),p[1]]),color:col},{pts:imp,color:'var(--warn)',dots:true}],{fmt:v=>sg(v),label:'Rating history'})}</div></div>
+  <div class="card"><h2>Title price <small>${fut.length} run${fut.length===1?'':'s'}</small></h2><div class="chart">${line([{pts:fut,color:col}],{fmt:v=>v.toFixed(1)+'%',label:'Title price at each run'})}</div></div>
+  <div class="card"><h2 title="From the club's side: positive = the club favoured. Miss: the close minus our match-morning price.">Closes</h2><div class="scroll"><table><thead><tr><th class="l">Date</th><th class="l">Opponent</th><th>Close</th><th>Ours</th><th>Miss</th><th>FT</th></tr></thead><tbody>${[...x.closes].reverse().map(q=>`<tr><td class="l mut">${q.date.slice(5)}</td><td class="l">${q.ha==='H'?'v':'@'} ${esc(q.opp)}</td><td${q.book==='avg_close'?' title="market-average close"':''}>${sg(q.close)}</td><td>${sg(q.ours)}</td><td class="odd ${Math.abs(q.miss)>=.25?'neg':Math.abs(q.miss)>=.15?'warn':''}">${sg(q.miss)}</td><td>${q.score}</td></tr>`).join('')}</tbody></table></div></div>`;
+  $('drawer').hidden=false;$('drBg').hidden=false;$('drClose').onclick=closeDr;$('drClose').focus()}
+function closeDr(){$('drawer').hidden=true;$('drBg').hidden=true}
+$('drBg').onclick=closeDr;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDr()});
+$('hRun').onclick=runPreview;$('hSave').onclick=saveHands;$('hReset').onclick=()=>{D.teams.forEach(t=>hand[t.team]=saved[t.team]);preview=null;table();hstat()};
 /* games by round: 9 per page, newest unplayed round first */
 const G=D.games,rounds=[];for(let i=0;i<G.length;i+=9)rounds.push(G.slice(i,i+9));
 let gi=Math.max(0,rounds.findIndex(r=>r.some(g=>g.status!=='final')));if(gi<0)gi=rounds.length-1;
@@ -150,7 +268,7 @@ function model(){
   const row=(a,b)=>`<tr><td>${a}</td><td>${b}</td></tr>`;
   $('how').innerHTML='<tbody>'+row('Ratings','A Kalman filter over every closing line since 2012 (Pinnacle to Oct 2025, the market-average close since), plus the posted Pinnacle lines for the coming round. One strength per club, moving '+k.kalman_q_day+' goals a day; a break between tournaments pulls every club '+Math.round(100*(1-k.kalman_off_shrink))+'% toward the mean.')+row('Home','League home edge from the last 306 closes, plus each club’s own home delta (Tijuana +0.19, Monterrey +0.07, Toluca +0.06; Atlas −0.07).')+row('Match','Expected margin and total into two Poisson scores with a shared part ('+k.shared_goals_mean+') and a draw correction ('+k.dc_rho+'). Total '+k.avg_total_goals+' unless Pinnacle has posted one.')+row('Tournament',h.n.toLocaleString()+' simulations on a fixed seed. Each draws every club’s strength once (sd '+k.rating_sd+'), plays the remaining league games (a game with a fresh Pinnacle line at that line), ranks the table on points, goal difference, goals for.')+row('Liguilla','Top 8, no play-in. Two legs, lower seed at home first. A quarter-final or semi-final level on aggregate goes to the higher seed; semis re-seeded; the final plays extra time, then penalties as a coin.')+row('Not in yet','xG share, absences, team totals, a morning report and the hand-edit boxes of the MLS page.')+'</tbody>';
 }
-function all(){table();games();bracket();model();$('unit').textContent='Odds: '+(unit==='us'?'US':'%')}
+function all(){morning();table();games();bracket();model();$('unit').textContent='Odds: '+(unit==='us'?'US':'%')}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!=='tab-'+b.dataset.tab)});
 $('unit').onclick=()=>{unit=unit==='us'?'pct':'us';try{localStorage.setItem('lmx.unit',unit)}catch(e){}all()};
 $('sortR').onclick=()=>{sort='r';$('sortR').classList.add('on');$('sortP').classList.remove('on');table()};
@@ -159,6 +277,6 @@ $('dlt').onclick=()=>{deltas=!deltas;$('dlt').classList.toggle('on',deltas);$('d
 $('gPrev').onclick=()=>{gi--;games()};$('gNext').onclick=()=>{gi++;games()};
 $('stamp').textContent=`Run ${D.header.run_at} · lines ${D.header.odds_at.replace(/^\w+ /,'')}`;
 $('stamp').title=`closes through ${D.header.closes_through}`;
-all();
+all();hstat();
 })();
 </script>

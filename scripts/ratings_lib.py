@@ -168,3 +168,16 @@ def state_at(obs: pd.DataFrame, kn: dict, asof: str, posted: pd.DataFrame | None
         for r in posted.itertuples(index=False):
             kf.observe(r.home, r.away, float(r.y), float(kn["kalman_s_posted"]))
     return kf, teams
+
+
+def ratings_by_date(obs: pd.DataFrame, kn: dict, teams: list, since: str) -> list:
+    """[(date, centred ratings over `teams`)] on the morning of every match date from `since` (closes strictly before it)."""
+    kf = KalmanRatings(universe(obs), kalman_knobs(kn)); out = []; last = None
+    for r in obs.itertuples(index=False):
+        if r.date != last:
+            kf._advance_to(r.date)
+            if r.date >= since:
+                out.append((r.date, kf.ratings(teams).copy()))
+            last = r.date
+        kf.observe(r.home, r.away, float(r.y), float(r.sd))
+    return out

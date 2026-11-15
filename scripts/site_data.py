@@ -10,7 +10,9 @@ from sim.knobs import load_config, knobs
 from sim.engine import hda
 from sim.teams import ROOT, code_of
 from scripts import ratings_lib as rl
-from scripts.common import ET, parse_utc
+from scripts.common import ET, parse_utc, today_et
+from scripts.refresh_ratings import week_of
+import datetime as _dt
 
 LATEST = os.path.join(ROOT, "outputs", "latest")
 
@@ -71,12 +73,42 @@ def main():
     # model checks: the yardstick over the last 60 days and all time
     wa = rl.walk(rl.measurements(cl, kn, dl), kn)
     chk = {"all": rl.score(wa, 7), "season": rl.score(wa[wa["tournament"] == cfg["season"]], 7, "2026-07-01"), "all0": rl.score(wa, 0)}
+    # club drawer: the rating on every match morning of the tournament, each close from the club's side, the title price at every run
+    obs = rl.measurements(cl, kn, dl); TT = [t["team"] for t in teams]
+    hist = rl.ratings_by_date(obs, kn, TT, min(g["date"] for g in games))
+    wt = wa[wa["tournament"] == cfg["season"]]; clubs = {t: {"closes": [], "runs": []} for t in TT}
+    for i, t in enumerate(TT):
+        clubs[t]["hist"] = [[d, round(float(r[i]), 3)] for d, r in hist] + [[summ["asof"], round(float(rat.set_index("team").at[t, "market"]), 3)]]
+    for r in wt.itertuples(index=False):
+        if r.pred_0 != r.pred_0:
+            continue
+        ours = float(r.pred_0 + r.he + r.delta); e = float(r.gd_fit - ours)
+        for t, opp, sgn, ha in ((r.home, r.away, 1, "H"), (r.away, r.home, -1, "A")):
+            if t in clubs:
+                clubs[t]["closes"].append({"date": r.date, "opp": opp, "ha": ha, "close": round(sgn * float(r.gd_fit), 2), "ours": round(sgn * ours, 2), "miss": round(sgn * e, 2),
+                                           "score": (f"{int(r.hg)}-{int(r.ag)}" if ha == "H" else f"{int(r.ag)}-{int(r.hg)}") if r.hg == r.hg else "", "book": r.book})
+    for p in runs:
+        j = json.load(open(p))
+        for t in TT:
+            clubs[t]["runs"].append([j["stamp"], {k: round(j["markets"][k].get(t, 0), 4) for k in ("champion", "reach_final", "reach_sf", "liguilla")}])
+    for t in teams:
+        t["delta"] = round(dl.get(t["team"], 0.0), 3)
+    # the page engine's inputs (Run on the Table tab): the run's own fixtures, table and Liguilla state
+    from scripts.run_sim import inputs as run_inputs
+    inp, bb, pl_, _ = run_inputs(_dt.date.fromisoformat(summ["asof"]), kn, cfg)
+    eng = {"teams": inp.teams, "market": [round(float(x), 4) for x in bb["market"]], "hand": [round(float(x), 4) for x in bb["hand"]],
+           "played": {k: [int(x) for x in pl_[k]] for k in ("points", "gd", "gf", "away_gf")}, "fixtures": [[f.home, f.away, round(f.adj, 4), f.s, round(f.g_pinn, 4), round(f.T, 3)] for f in inp.fixtures],
+           "he": round(inp.home_edge, 4), "club": [round(float(x), 4) for x in inp.club_home], "lig_played": [list(map(int, x)) for x in inp.liguilla_played], "lig_lines": [[int(h), int(a), round(g, 4), round(t, 3)] for h, a, g, t in inp.liguilla_lines],
+           "winner": inp.final_winner, "kn": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "drift_cap", "goal_floor", "shared_goals_mean", "avg_total_goals")}, "seed": int(kn["seed"]), "week": week_of(today_et())}
+    reps = []
+    for f in sorted(glob.glob(os.path.join(ROOT, "outputs", "reports", "morning_*.json")))[-14:][::-1]:
+        reps.append(json.load(open(f)))
     cur = data.load("current_round_odds"); last_odds = cur["fetched_at"].max() if len(cur) else ""
     clf = data.load("closing_lines")
     out = {"header": {"run_at": et(summ["stamp"][:4] + "-" + summ["stamp"][4:6] + "-" + summ["stamp"][6:11] + ":" + summ["stamp"][11:13] + ":" + summ["stamp"][13:15] + "Z"), "asof": summ["asof"], "n": summ["n_seasons"],
                       "odds_at": et(last_odds), "closes_through": summ["closes_through"], "home_edge": summ["home_edge"], "season": cfg["season"], "fixtures_left": summ["fixtures_left"],
                       "pinnacle_closes": int(len(clf)), "prev_run": et(prev["stamp"][:4] + "-" + prev["stamp"][4:6] + "-" + prev["stamp"][6:11] + ":" + prev["stamp"][11:13] + ":" + prev["stamp"][13:15] + "Z") if prev else ""},
-           "teams": teams, "games": games, "bracket": br, "checks": chk, "knobs": summ["knobs"], "format": cfg["liga_mx"]}
+           "teams": teams, "games": games, "bracket": br, "clubs": clubs, "engine": eng, "morning": reps, "checks": chk, "knobs": summ["knobs"], "format": cfg["liga_mx"]}
     json.dump(out, open(os.path.join(LATEST, "site_data.json"), "w"), separators=(",", ":"), ensure_ascii=False, default=float)
     print(f"site_data: {os.path.getsize(os.path.join(LATEST, 'site_data.json')) // 1024} KB, {len(teams)} clubs, {len(games)} games, yardstick a week out {chk['all']['rmse']:.3f} (this tournament {chk['season']['rmse']:.3f})")
 

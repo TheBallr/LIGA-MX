@@ -1,0 +1,328 @@
+{
+ "date": "2026-11-15",
+ "built": "2026-11-15T19:12:51Z",
+ "run": "20261115T185359Z",
+ "head": [
+  "Data: all checks ok",
+  "Games: 9 lined, 5 off Pinnacle by 0.15+: Puebla v Atlético San Luis -0.22, Tijuana v Atlante -0.44, Pachuca v Toluca -0.32, Tigres v América +0.17, Guadalajara v Cruz Azul +0.32",
+  "Title: Toluca 26.4%, Cruz Azul 23.5%, América 21.3%, Guadalajara 21.2%"
+ ],
+ "checks": [
+  {
+   "name": "Morning fetches",
+   "ok": true,
+   "note": "all steps ran",
+   "level": "ok"
+  },
+  {
+   "name": "Results",
+   "ok": true,
+   "note": "every past game scored",
+   "level": "ok"
+  },
+  {
+   "name": "Pinnacle lines",
+   "ok": true,
+   "note": "0 games in the next 3 days lined within 24 h",
+   "level": "ok"
+  },
+  {
+   "name": "Pinnacle closes",
+   "ok": true,
+   "note": "0 of 0 captured since 2026-11-20",
+   "level": "ok"
+  },
+  {
+   "name": "Run",
+   "ok": true,
+   "note": "run 20261115T185359Z on 200,000 simulations",
+   "level": "ok"
+  }
+ ],
+ "games": [
+  {
+   "date": "2026-11-20",
+   "ko": "2026-11-21T01:00:00Z",
+   "stage": "regular",
+   "home": "Puebla",
+   "away": "Atlético San Luis",
+   "pin": 0.061,
+   "ours": -0.156,
+   "gap": -0.217,
+   "total": 2.97,
+   "move": 0.0,
+   "verdict": "watch",
+   "why": "Pin last 4 on PUE -0.12 · Pin last 4 on ASL +0.08",
+   "fetched_at": "2026-11-15T18:51:57Z"
+  },
+  {
+   "date": "2026-11-20",
+   "ko": "2026-11-21T03:00:00Z",
+   "stage": "regular",
+   "home": "Juárez",
+   "away": "Atlas",
+   "pin": -0.421,
+   "ours": -0.499,
+   "gap": -0.078,
+   "total": 2.96,
+   "move": 0.0,
+   "verdict": "ok",
+   "why": "Pin last 4 on JUA -0.17",
+   "fetched_at": "2026-11-15T18:51:57Z"
+  },
+  {
+   "date": "2026-11-20",
+   "ko": "2026-11-21T03:00:00Z",
+   "stage": "regular",
+   "home": "Tijuana",
+   "away": "Atlante",
+   "pin": 0.938,
+   "ours": 0.496,
+   "gap": -0.442,
+   "total": 3.02,
+   "move": 0.0,
+   "verdict": "big",
+   "why": "Pin last 4 on TIJ +0.10",
+   "fetched_at": "2026-11-15T18:51:57Z"
+  },
+  {
+   "date": "2026-11-21",
+   "ko": "2026-11-21T22:50:00Z",
+   "stage": "regular",
+   "home": "Pachuca",
+   "away": "Toluca",
+   "pin": -0.17,
+   "ours": -0.486,
+   "gap": -0.316,
+   "total": 3.42,
+   "move": 0.0,
+   "verdict": "big",
+   "why": "Pin last 4 on PAC +0.13",
+   "fetched_at": "2026-11-15T18:51:57Z"
+  },
+  {
+   "date": "2026-11-21",
+   "ko": "2026-11-21T23:00:00Z",
+   "stage": "regular",
+   "home": "Santos Laguna",
+   "away": "León",
+   "pin": 0.041,
+   "ours": 0.153,
+   "gap": 0.112,
+   "total": 3.28,
+   "move": 0.0,
+   "verdict": "ok",
+   "why": "Pin last 4 on SAN +0.09",
+   "fetched_at": "2026-11-15T18:51:57Z"
+  },
+  {
+   "date": "2026-11-21",
+   "ko": "2026-11-22T01:00:00Z",
+   "stage": "regular",
+   "home": "Pumas",
+   "away": "Monterrey",
+   "pin": 0.0,
+   "ours": 0.018,
+   "gap": 0.018,
+   "total": 3.05,
+   "move": 0.0,
+   "verdict": "ok",
+   "why": "Pin last 4 on UNAM +0.16",
+   "fetched_at": "2026-11-15T18:51:57Z"
+  },
+  {
+   "date": "2026-11-21",
+   "ko": "2026-11-22T03:00:00Z",
+   "stage": "regular",
+   "home": "Tigres",
+   "away": "América",
+   "pin": -0.417,
+   "ours": -0.252,
+   "gap": 0.165,
+   "total": 3.05,
+   "move": 0.0,
+   "verdict": "watch",
+   "why": "Pin last 4 on UANL -0.37",
+   "fetched_at": "2026-11-15T18:51:57Z"
+  },
+  {
+   "date": "2026-11-22",
+   "ko": "2026-11-22T23:07:00Z",
+   "stage": "regular",
+   "home": "Guadalajara",
+   "away": "Cruz Azul",
+   "pin": 0.032,
+   "ours": 0.353,
+   "gap": 0.321,
+   "total": 3.22,
+   "move": 0.0,
+   "verdict": "big",
+   "why": "Pin last 4 on GDL +0.09 · Pin last 4 on CAZ +0.12",
+   "fetched_at": "2026-11-15T18:51:57Z"
+  },
+  {
+   "date": "2026-11-22",
+   "ko": "2026-11-23T01:00:00Z",
+   "stage": "regular",
+   "home": "Querétaro",
+   "away": "Necaxa",
+   "pin": 0.648,
+   "ours": 0.56,
+   "gap": -0.088,
+   "total": 3.15,
+   "move": 0.0,
+   "verdict": "ok",
+   "why": "",
+   "fetched_at": "2026-11-15T18:51:57Z"
+  }
+ ],
+ "results": [
+  {
+   "date": "2026-11-07",
+   "home": "Atlas",
+   "away": "Pachuca",
+   "hg": 1,
+   "ag": 4,
+   "close": 0.017,
+   "ours": 0.221,
+   "miss": 0.203,
+   "book": "avg_close"
+  },
+  {
+   "date": "2026-11-07",
+   "home": "Pumas",
+   "away": "América",
+   "hg": 2,
+   "ag": 2,
+   "close": -0.179,
+   "ours": -0.254,
+   "miss": -0.075,
+   "book": "avg_close"
+  },
+  {
+   "date": "2026-11-07",
+   "home": "Tigres",
+   "away": "Cruz Azul",
+   "hg": 2,
+   "ag": 3,
+   "close": -0.482,
+   "ours": -0.122,
+   "miss": 0.36,
+   "book": "avg_close"
+  },
+  {
+   "date": "2026-11-07",
+   "home": "Toluca",
+   "away": "Monterrey",
+   "hg": 4,
+   "ag": 0,
+   "close": 0.83,
+   "ours": 0.981,
+   "miss": 0.151,
+   "book": "avg_close"
+  },
+  {
+   "date": "2026-11-08",
+   "home": "León",
+   "away": "Guadalajara",
+   "hg": 1,
+   "ag": 1,
+   "close": -0.6,
+   "ours": -0.331,
+   "miss": 0.269,
+   "book": "avg_close"
+  },
+  {
+   "date": "2026-11-08",
+   "home": "Querétaro",
+   "away": "Puebla",
+   "hg": 0,
+   "ag": 2,
+   "close": 0.726,
+   "ours": 0.685,
+   "miss": -0.04,
+   "book": "avg_close"
+  }
+ ],
+ "track": {
+  "7d": {
+   "n": 2,
+   "rmse": 0.192,
+   "bias": -0.114
+  },
+  "30d": {
+   "n": 46,
+   "rmse": 0.234,
+   "bias": 0.02
+  },
+  "season": {
+   "n": 143,
+   "rmse": 0.242,
+   "bias": -0.033
+  }
+ },
+ "moved": [],
+ "hands": [],
+ "unsure": [
+  {
+   "team": "Santos Laguna",
+   "ours": -0.276,
+   "last4": 0.089,
+   "last8": 0.155,
+   "could_be": [
+    -0.28,
+    -0.12
+   ]
+  },
+  {
+   "team": "Pachuca",
+   "ours": 0.082,
+   "last4": 0.134,
+   "last8": -0.037,
+   "could_be": [
+    0.04,
+    0.22
+   ]
+  },
+  {
+   "team": "Cruz Azul",
+   "ours": 0.639,
+   "last4": 0.124,
+   "last8": 0.105,
+   "could_be": [
+    0.64,
+    0.76
+   ]
+  },
+  {
+   "team": "Guadalajara",
+   "ours": 0.724,
+   "last4": 0.085,
+   "last8": -0.039,
+   "could_be": [
+    0.69,
+    0.81
+   ]
+  },
+  {
+   "team": "Atlas",
+   "ours": -0.038,
+   "last4": -0.07,
+   "last8": 0.072,
+   "could_be": [
+    -0.11,
+    0.03
+   ]
+  },
+  {
+   "team": "América",
+   "ours": 0.619,
+   "last4": -0.009,
+   "last8": 0.065,
+   "could_be": [
+    0.61,
+    0.68
+   ]
+  }
+ ]
+}
