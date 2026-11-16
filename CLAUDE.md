@@ -62,8 +62,8 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
 - No Pinnacle close on file after Oct 2025: 361 matches (all of A2026) are rated off the market-average close. Our own
   captures start with the Nov 20-22 round, and only if a capture is run ten minutes before each kickoff (no task exists).
 - The filter's absolute noise levels (q, s) are 1.8x too large; only the reported sd is corrected (`kalman_sd_scale`).
-- Not modelled: international call-ups (a one-game effect the line carries); fixture congestion and travel around Toluca's
-  Intercontinental Cup; shared-stadium ties beyond the same-city factor; suspensions; the dead-club dock; CLV log.
+- Not modelled: international call-ups (a one-game effect the line carries); fixture congestion and travel in general (Toluca's
+  Intercontinental Cup is a hand-set stage adjustment, not a measured factor); suspensions; the dead-club dock; CLV log.
 - The injury layer is unmeasured (no history) and its tiers are defaults from lineups; `watch` rows cost nothing.
 - Club total offsets rest on very few Pinnacle totals until the Liguilla lines accumulate.
 - The bracket what-if forces a picked club through its round whatever the scores; it does not condition the legs' scores.
@@ -269,6 +269,17 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   Campillo listed earlier in the tournament). Long-term ones are in the lines already; dates are unverified.
   (e) Not found: whether yellow cards are wiped before the Liguilla; any Apertura 2026 change to the foreign-player limit
   (the 9-on-the-pitch exception was Clausura 2026 only); VAR changes.
+
+- 2026-11-16 **Zac: "do all 3"** (of the final research pass). (1) Stage adjustments: `data/ratings/stage_adjustments.csv`
+  (team, stage, goals), applied to a club's rating in that Liguilla stage only (`stage_adj` in the sim, `E.sadj` on the
+  page, a line in the drawer): Toluca semi-final legs -0.08, final legs -0.05 (Qatar Dec 9; a judgment, not measured).
+  Toluca title 26.7 -> 24.8 from this alone. (2) `factor_cotenant` -0.14 for clubs sharing a stadium
+  (`liga_mx.shared_stadium`: América, Cruz Azul, Atlante), in place of the same-city -0.12. Proposed as a zero home edge
+  (-0.33); the 15 América v Cruz Azul closes of 2018-23 sit -0.144 (se 0.038) below the ratings, so the measured number
+  was used and Zac told. (3) Press injury check in the morning routine (step 2b): one search per live club, new names
+  entered by `scripts/add_injury.py` as `watch` (cost 0) and listed under Act for Zac to activate; the routine never sets
+  a status or tier. Run 20261116T011724Z: Cruz Azul 26.3 (25.3-27.5), Toluca 24.9 (23.3-26.8), América 23.6 (22.3-24.8),
+  Guadalajara 17.4, Monterrey 3.2. Yardstick a week out 0.200.
 
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):

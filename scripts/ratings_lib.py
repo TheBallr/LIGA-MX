@@ -454,7 +454,31 @@ def same_city(home: str, away: str, date: str) -> bool:
 
 def derby_factor(home, away, date, kn: dict):
     """Goals on the home margin of a same-city game (factor_derby); arrays or single values."""
-    f = float(kn.get("factor_derby", 0.0) or 0.0)
+    f = float(kn.get("factor_derby", 0.0) or 0.0); fc = float(kn.get("factor_cotenant", f) or f)
+    one = lambda h, a, d: (fc if shared_stadium(h, a, d) else f) if same_city(h, a, d) else 0.0
     if isinstance(home, str):
-        return f if same_city(home, away, date) else 0.0
-    return np.array([f if same_city(h, a, d) else 0.0 for h, a, d in zip(home, away, date)])
+        return one(home, away, date)
+    return np.array([one(h, a, d) for h, a, d in zip(home, away, date)])
+
+
+_SHARED = []
+
+
+def shared_stadium(home: str, away: str, date: str) -> bool:
+    """Both clubs play their home games in one stadium this tournament (config liga_mx.shared_stadium; from 2026-07)."""
+    if not _SHARED:
+        from sim.knobs import load_config
+        _SHARED.extend([set(g) for g in load_config()["liga_mx"].get("shared_stadium", [])] or [set()])
+    return str(date) >= "2026-07-01" and any(home in g and away in g for g in _SHARED)
+
+
+def stage_adjust(teams: list) -> dict:
+    """{'sf': (T,), 'final': (T,)}: goals on a club's rating from a Liguilla stage on (data/ratings/stage_adjustments.csv;
+    Zac's word only: things the lines cannot have priced yet, such as a trip between rounds)."""
+    out = {"qf": np.zeros(len(teams)), "sf": np.zeros(len(teams)), "final": np.zeros(len(teams))}
+    p = os.path.join(ROOT, "data", "ratings", "stage_adjustments.csv")
+    if os.path.exists(p):
+        for r in pd.read_csv(p, dtype=str, keep_default_na=False).to_dict("records"):
+            if r["team"] in teams and r["stage"] in out:
+                out[r["stage"]][teams.index(r["team"])] += float(r["goals"])
+    return out

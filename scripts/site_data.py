@@ -147,6 +147,7 @@ def main():
         if q is not None and q.mu_h == q.mu_h and q.mu_a == q.mu_a:
             g["tt"] = [round(float(q.mu_h), 2), round(float(q.mu_a), 2)]
     for t in teams:
+        t["sadj"] = {k: round(float(v[inp.teams.index(t["team"])]), 3) for k, v in inp.stage_adj.items() if v[inp.teams.index(t["team"])]}
         t["inj"] = round(float(bb["inj"][inp.teams.index(t["team"])]), 3) if "inj" in bb else 0.0
         clubs[t["team"]]["absences"] = [{k: x[k] for k in ("player", "type", "status", "expected_return", "first_seen", "tier", "closes_since", "unpriced", "cost", "source")} for x in bb.get("inj_rows", []) if x["team"] == t["team"]]
     for g in games:   # the page engine's fixture index, for the Games tab's what-if result buttons
@@ -156,7 +157,7 @@ def main():
     eng = {"teams": inp.teams, "market": [round(float(x), 4) for x in bb["base"] + bb["inj"]], "hand": [round(float(x), 4) for x in bb["hand"]],
            "played": {k: [int(x) for x in pl_[k]] for k in ("points", "gd", "gf", "away_gf")}, "fixtures": [[f.home, f.away, round(f.adj, 4), f.s, round(f.g_pinn, 4), round(f.T, 3)] for f in inp.fixtures],
            "he": round(inp.home_edge, 4), "club": [round(float(x), 4) for x in inp.club_home], "lig_played": [list(map(int, x)) for x in inp.liguilla_played], "lig_lines": [[int(h), int(a), round(g, 4), round(t, 3)] for h, a, g, t in inp.liguilla_lines],
-           "winner": inp.final_winner, "pair": [[round(float(x), 3) for x in row] for row in inp.pair_adj], "fx_names": [[inp.teams[f.home], inp.teams[f.away]] for f in inp.fixtures], "tot": {"base": bb["club_totals"]["base"], "off": [round(bb["club_totals"]["offsets"].get(t, 0.0), 4) for t in inp.teams]},
+           "winner": inp.final_winner, "sadj": {k: [round(float(x), 3) for x in v] for k, v in inp.stage_adj.items()}, "pair": [[round(float(x), 3) for x in row] for row in inp.pair_adj], "fx_names": [[inp.teams[f.home], inp.teams[f.away]] for f in inp.fixtures], "tot": {"base": bb["club_totals"]["base"], "off": [round(bb["club_totals"]["offsets"].get(t, 0.0), 4) for t in inp.teams]},
            "kn": {k: kn[k] for k in ("rating_sd", "drift_k_sim", "drift_cap", "goal_floor", "shared_goals_mean", "avg_total_goals", "dc_rho", "leg2_state", "liguilla_total_adj")}, "seed": int(kn["seed"]), "week": week_of(today_et())}
     fxi = {(a, b): i for i, (a, b) in enumerate(eng["fx_names"])}
     for g in games:

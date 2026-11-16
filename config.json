@@ -197,6 +197,10 @@
     "factor_derby": {
       "value": -0.12,
       "note": "SET 2026-11-16 (Zac: final research pass; anything else to account for). Goals on the home margin when both clubs are from the same city (Mexico City: América, Cruz Azul, Pumas, and Atlante from 2026; Guadalajara: Guadalajara, Atlas; Monterrey: Monterrey, Tigres; Puebla: Puebla, Lobos BUAP). 192 same-city closes 2013-2026: the close sits -0.118 below the ratings' price (se 0.013); Mexico City -0.116 (n 110), Monterrey -0.171 (n 38), Guadalajara -0.062 (n 40); Liguilla legs -0.113 (n 48); América v Cruz Azul while both played at the Azteca -0.144 (n 15). Netted from every such close and posted line and added to every such fixture and Liguilla leg. Altitude difference adds nothing beyond the club home edges (+0.005 per km, se 0.002)."
+    },
+    "factor_cotenant": {
+      "value": -0.14,
+      "note": "SET 2026-11-16 (Zac: do all 3). Goals on the home margin when the two clubs share a stadium (liga_mx.shared_stadium: América, Cruz Azul and Atlante at the Estadio Azteca/Banorte in 2026-27); replaces factor_derby for those pairings. Proposed as a zero home edge, but the data does not support zero: in the 15 América v Cruz Azul closes of 2018-23, when both played at the Azteca, the close sat -0.144 below the ratings' price (se 0.038), not the -0.28 a zero home edge would need. Set at the measured number."
     }
   },
   "liga_mx": {
@@ -226,6 +230,13 @@
       "away_gf",
       "coin"
     ],
-    "_note": "Apertura 2026: top 8 of the general table straight to the quarter-finals (no play-in; press). Bracket and tie-breaks as in the official Reglamento de Competencia 2024-25 (Art. 19-21, read 2026-11-15): 1 v 8, 2 v 7, 3 v 6, 4 v 5; two legs, the better-placed club picks its home leg (the second); a quarter-final or semi-final level on aggregate goes to the better-placed club; semi-finalists re-ranked 1-4 (1 v 4, 2 v 3); the final level on aggregate plays two 15-minute extra periods, then penalties. Table chain in the Reglamento: goal difference, goals for, away goals for, head-to-head, cociente table, fair play, draw; the model stops after away goals. The 2026-27 PDF (ligamx.net/cancha/reglamentos) could not be downloaded from this container. Final dates are the press-reported plan."
+    "_note": "Apertura 2026: top 8 of the general table straight to the quarter-finals (no play-in; press). Bracket and tie-breaks as in the official Reglamento de Competencia 2024-25 (Art. 19-21, read 2026-11-15): 1 v 8, 2 v 7, 3 v 6, 4 v 5; two legs, the better-placed club picks its home leg (the second); a quarter-final or semi-final level on aggregate goes to the better-placed club; semi-finalists re-ranked 1-4 (1 v 4, 2 v 3); the final level on aggregate plays two 15-minute extra periods, then penalties. Table chain in the Reglamento: goal difference, goals for, away goals for, head-to-head, cociente table, fair play, draw; the model stops after away goals. The 2026-27 PDF (ligamx.net/cancha/reglamentos) could not be downloaded from this container. Final dates are the press-reported plan.",
+    "shared_stadium": [
+      [
+        "América",
+        "Cruz Azul",
+        "Atlante"
+      ]
+    ]
   }
 }

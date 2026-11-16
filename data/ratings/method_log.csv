@@ -11,3 +11,6 @@ time,area,change
 2026-11-15T23:48:58Z,hand,Hands week 2026-11-10: Tijuana +0.00 -> +0.10
 2026-11-15T23:48:58Z,injuries,"Guadalajara: Ledezma, F. González, Aguirre watch -> doubt (starters)"
 2026-11-16T00:58:48Z,ratings,"Same-city games: home margin -0.12, netted from lines and added to fixtures and Liguilla legs"
+2026-11-16T01:17:24Z,ratings,"Toluca stage adjustment: semi-final legs -0.08, final legs -0.05 (Intercontinental Cup, Qatar Dec 9); data/ratings/stage_adjustments.csv"
+2026-11-16T01:17:24Z,ratings,"Shared stadium (América, Cruz Azul, Atlante at the Azteca): home margin -0.14 in place of the same-city -0.12 (15 closes 2018-23: -0.144, se 0.038)"
+2026-11-16T01:17:24Z,injuries,"Press injury check added to the morning routine: scripts/add_injury.py, rows enter as watch (cost 0)"

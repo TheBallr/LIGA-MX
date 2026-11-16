@@ -61,7 +61,7 @@ def inputs(asof: dt.date, kn: dict, cfg: dict, ratings: dict | None = None, now=
     n_final = int((ko["stage"] == "final").sum() if len(ko) else 0)
     final_done = len(ko) and (ko[ko["stage"] == "final"]["status"] == "final").sum() >= 2
     inp = SeasonInputs(T, b["rating"], fixtures, played, he, np.array([dl.get(t, 0.0) for t in T]), lig_played, lig_lines, winner if final_done else None,
-                       int(cfg["liga_mx"]["liguilla_spots"]), TT, np.array([[_rl.derby_factor(a, c, asof.isoformat(), kn) for c in T] for a in T]))
+                       int(cfg["liga_mx"]["liguilla_spots"]), TT, np.array([[_rl.derby_factor(a, c, asof.isoformat(), kn) for c in T] for a in T]), _rl.stage_adjust(T))
     b["club_totals"] = tt
     return inp, b, played, pd.DataFrame(preds)
 
