@@ -337,8 +337,7 @@ into session_01SB1THGhiN5RRNL95sE9xop ("Liga MX morning refresh", its own model,
   does the press injury check, runs `weekly.py`, republishes (passing the page `url`), commits, pushes its branch and
   `main`, arms the capture slots of the next 8 days into its own session and reports in that chat.
   The old task trig_01R9QrsTutyHV7p49hsLcKyw (into session_01SB1THFCBLMkmYPHNpyuQtf) is paused, not deleted.
-- **Close captures**: one-shot messages ten minutes before each kickoff slot. The seven slots of Nov 20-22 were armed by
-  hand into session_01SB1THFCBLMkmYPHNpyuQtf (00:50Z and 02:50Z Nov 21; 22:40Z Nov 21; 00:50Z and 02:50Z Nov 22; 22:57Z
-  Nov 22; 00:50Z Nov 23) and push only `claude/magical-mendel-0am2um`; the next morning's run merges that branch and
-  carries it to `main`. Liguilla slots are armed by the morning routine into the refresh session.
+- **Close captures**: one-shot messages ten minutes before each kickoff slot, all into the refresh session (the seven
+  slots of Nov 20-22 were moved there 2026-11-16, Zac: "do 1"; the old ones into session_01SB1THFCBLMkmYPHNpyuQtf are
+  paused). Each pushes `claude/liga-mx-morning` and `main`. Liguilla slots are armed by the morning routine.
 - If a session's container is rebuilt the repo is cloned fresh: the routine's step 1 handles the branch and packages.
