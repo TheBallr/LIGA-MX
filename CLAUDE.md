@@ -4,8 +4,8 @@ The living document. Future sessions start here. Method: `PLAN.md`. Knobs and pr
 of `TheBallr/MLS-FUTURES` (its CLAUDE.md is the reference for anything not covered here); built 2026-11-15 in one session.
 **Branches (2026-11-15, Zac: "make the model live so I can work on it in other sessions").** `main` is the live branch and
 GitHub's default: a new session clones it and has the whole model. Each session works on its own `claude/...` branch cut
-from `main`. The scheduled tasks run in session_01SB1THFCBLMkmYPHNpyuQtf on `claude/magical-mendel-0am2um`: every morning
-they merge `origin/main` in first and push to both that branch and `main` at the end, so work merged into `main` reaches
+from `main`. The morning refresh runs in its own session on `claude/liga-mx-morning` (section 8): every morning
+it merges `origin/main` in first and pushes to both that branch and `main` at the end, so work merged into `main` reaches
 the page at the next 08:16 ET refresh and work left on a side branch does not.
 
 ## 0. How to work (same as the MLS repo; non-negotiable)
@@ -329,13 +329,16 @@ by round with a No lines / With lines switch, a detail row per game and If resul
 Today = data checks + hand review + least sure ratings). Capabilities `db` + `user`; `settings` is readable
 by viewers and writable by the owner and editors only. Republish with capabilities omitted so they carry forward.
 
-## 8. Automations (created 2026-11-15, all firing into session_01SB1THFCBLMkmYPHNpyuQtf, which holds the repo and push access)
-- **"Liga MX morning"** (trig_01R9QrsTutyHV7p49hsLcKyw): daily 08:16 America/New_York. Prompt: `docs/morning_routine_prompt.md`
-  (keep the two in step). It reads the page's saved edits, runs `weekly.py`, republishes, commits, pushes, arms the capture
-  slots of the next 8 days (`close_schedule.py`, `data/market/capture_slots.csv`) and reports in chat.
-- **Close captures**: one-shot messages ten minutes before each kickoff slot; the seven slots of Nov 20-22 were armed by hand
-  (00:50Z and 02:50Z Nov 21; 22:40Z Nov 21; 00:50Z and 02:50Z Nov 22; 22:57Z Nov 22; 00:50Z Nov 23). Liguilla slots are
-  armed by the morning routine once ESPN lists the games.
-- If this session's container is rebuilt the repo is cloned fresh: the routine's step 1 handles the branch and packages.
-- The routine's step 1 merges `origin/main`; step 6 pushes the session branch and `main`. A close capture pushes only the
-  session branch; the next morning's run carries it to `main`.
+## 8. Automations
+Moved 2026-11-16 (Zac: put the refresh in a chat that does not run on this session's model). The morning refresh fires
+into session_01SB1THGhiN5RRNL95sE9xop ("Liga MX morning refresh", its own model, branch `claude/liga-mx-morning`).
+- **"Liga MX morning"** (trig_015NJapYdRMD9hbCaTburZPH): daily 08:16 America/New_York. Prompt: `docs/morning_routine_prompt.md`
+  (keep the two in step). It merges `origin/main` and `origin/claude/magical-mendel-0am2um`, reads the page's saved edits,
+  does the press injury check, runs `weekly.py`, republishes (passing the page `url`), commits, pushes its branch and
+  `main`, arms the capture slots of the next 8 days into its own session and reports in that chat.
+  The old task trig_01R9QrsTutyHV7p49hsLcKyw (into session_01SB1THFCBLMkmYPHNpyuQtf) is paused, not deleted.
+- **Close captures**: one-shot messages ten minutes before each kickoff slot. The seven slots of Nov 20-22 were armed by
+  hand into session_01SB1THFCBLMkmYPHNpyuQtf (00:50Z and 02:50Z Nov 21; 22:40Z Nov 21; 00:50Z and 02:50Z Nov 22; 22:57Z
+  Nov 22; 00:50Z Nov 23) and push only `claude/magical-mendel-0am2um`; the next morning's run merges that branch and
+  carries it to `main`. Liguilla slots are armed by the morning routine into the refresh session.
+- If a session's container is rebuilt the repo is cloned fresh: the routine's step 1 handles the branch and packages.
