@@ -66,6 +66,7 @@ def build(asof: dt.date, kn: dict, use_posted: bool = True, now=None) -> dict:
         fin = data.load("schedule"); fin = fin[(fin["status"] == "final") & (fin["stage"] != "regular")]
         legs1 = {(r.home, r.away): (r.date, float(r.hg), float(r.ag)) for r in fin.itertuples()}
         pm["stage"] = [stq.get((r.date, r.home, r.away), "regular") for r in pm.itertuples(index=False)]
+        pm["y"] -= rl.derby_factor(pm["home"], pm["away"], pm["date"], kn)
         pm["y"] -= rl.leg2_shift(pm.assign(hg=np.nan, ag=np.nan), kn, legs1)
         pm["y"] -= [rl.status_factor(status.get(r.home, "live"), status.get(r.away, "live"), kn) if stq.get((r.date, r.home, r.away)) == "regular" else 0.0 for r in pm.itertuples(index=False)]
         # a posted line of the last regular rounds is as weak a reading of strength as their closes (late_rounds)

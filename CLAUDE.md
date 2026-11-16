@@ -62,7 +62,8 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
 - No Pinnacle close on file after Oct 2025: 361 matches (all of A2026) are rated off the market-average close. Our own
   captures start with the Nov 20-22 round, and only if a capture is run ten minutes before each kickoff (no task exists).
 - The filter's absolute noise levels (q, s) are 1.8x too large; only the reported sd is corrected (`kalman_sd_scale`).
-- Not modelled: international call-ups (a one-game effect the line carries); the dead-club dock inside the sim; CLV log.
+- Not modelled: international call-ups (a one-game effect the line carries); fixture congestion and travel around Toluca's
+  Intercontinental Cup; shared-stadium ties beyond the same-city factor; suspensions; the dead-club dock; CLV log.
 - The injury layer is unmeasured (no history) and its tiers are defaults from lineups; `watch` rows cost nothing.
 - Club total offsets rest on very few Pinnacle totals until the Liguilla lines accumulate.
 - The bracket what-if forces a picked club through its round whatever the scores; it does not condition the legs' scores.
@@ -245,6 +246,29 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   Toluca 25.9 -> 26.7, Cruz Azul 25.4 -> 25.9, América 22.5 -> 23.1, Guadalajara 19.4 -> 17.0, Monterrey 2.9 -> 3.0;
   Tijuana title 0.4 -> 0.5. Games off Pinnacle by 0.15+: 3 -> 1 (Tigres v América +0.15).
   If the knocks prove false (all three start on Nov 22) the rows close on the next refresh and Guadalajara returns to +0.62.
+
+- 2026-11-16 **Final research pass** (Zac: anything else to account for: factors, outside news, other voices).
+  Added: `factor_derby` -0.12 on the home margin of a same-city game (192 closes: -0.118, se 0.013; Liguilla legs -0.113,
+  n 48), netted from lines and added to league fixtures and Liguilla legs (`pair_adj` in the sim, `E.pair` on the page).
+  Yardstick a week out 0.2019 -> 0.2003; Liguilla legs on match morning 0.1762 -> 0.1700. Altitude difference tested: nothing
+  beyond the club home edges (+0.005 per km, se 0.002). Run 20261116T005703Z: Toluca 26.8, Cruz Azul 25.7, América 23.0,
+  Guadalajara 17.0, Monterrey 3.1.
+  Found and NOT in the model (put to Zac):
+  (a) Toluca's Intercontinental Cup: Derby of the Americas Dec 9 in Qatar (v the Libertadores champion), then possibly Dec
+  12/13 and the final Dec 16 (FIFA; Crónica, TV Azteca, Excélsior). The Liga final is Dec 10 and 13, moved to Dec 24 and 27
+  if Toluca reaches it (TUDN, Fox Sports, TV Azteca via Mexican Times; not confirmed by the league). Toluca's semi-final
+  second leg (Dec 5-6) is 3-4 days before Qatar: rotation and travel are not priced by us; a Toluca final means an 18-day
+  gap for both finalists.
+  (b) América, Cruz Azul and Atlante all play home games at the Estadio Azteca/Banorte this tournament: an América v Cruz
+  Azul tie has no real home side; the same-city factor covers 0.12 of our 0.33 home edge, not all of it (co-tenant games
+  2018-23: -0.144, n 15).
+  (c) Press and betting guides name América the title favourite, then Cruz Azul and Chivas; we have Toluca, Cruz Azul,
+  América. Opta's pre-season run had Guadalajara 32.9.
+  (d) Injury coverage is thin: sportsgambler lists 11 rows while press names more (Cruz Azul: Amaury Morales ACL, Mateo Levy
+  meniscus, Paradela and Ditta doubts; Toluca: Marcel Ruiz ACL; Guadalajara: Romo, B. González, Castillo, Tapias, M. Gómez,
+  Campillo listed earlier in the tournament). Long-term ones are in the lines already; dates are unverified.
+  (e) Not found: whether yellow cards are wiped before the Liguilla; any Apertura 2026 change to the foreign-player limit
+  (the 9-on-the-pitch exception was Clausura 2026 only); VAR changes.
 
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):

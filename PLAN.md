@@ -23,6 +23,8 @@ over the 18 clubs.
   the hand. A missing source gives its weight back to the market.
 - **Status (full-health ratings)**: every league line is read net of both clubs' status on match morning (out -0.13, in
   -0.05, fade -0.07, must +0.14) and league fixtures get it added back.
+- **Same city**: a game between two clubs of one city carries -0.12 on the home margin (netted from lines, added to
+  fixtures and Liguilla legs).
 - **Absences**: an open row of the injury list costs tier value x chance out x the share not yet priced (0.55 per close).
 - **Late rounds**: closes and posted lines of the last two league rounds enter at sd 0.5 (rotation, dead rubbers).
 - **Stated sd**: the filter's posterior sd x 0.55 (it is 1.8x too wide on 4,463 one-step errors).

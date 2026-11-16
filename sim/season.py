@@ -33,6 +33,7 @@ class SeasonInputs:
     final_winner: int | None = None
     spots: int = 8
     totals: np.ndarray | None = None                # (T, T) unlined totals by pairing (club totals); None = avg_total_goals
+    pair_adj: np.ndarray | None = None              # (T, T) goals on the home margin by pairing (same-city games)
 
 
 def run_seasons(inp: SeasonInputs, kn: dict, n_seasons: int | None = None, seed: int | None = None, record: bool = False) -> dict:
@@ -57,7 +58,7 @@ def run_seasons(inp: SeasonInputs, kn: dict, n_seasons: int | None = None, seed:
     stage = np.zeros((N, T), dtype=np.int8)
     tb = tables(T, inp.liguilla_played, inp.liguilla_lines, inp.final_winner)
     rec = {} if record else None
-    bracket(rng, rng2, R, order[:, : inp.spots], inp.home_edge, inp.club_home, inp.totals if inp.totals is not None else kn["avg_total_goals"], kn, stage, tb, rec)
+    bracket(rng, rng2, R, order[:, : inp.spots], inp.home_edge, inp.club_home, inp.totals if inp.totals is not None else kn["avg_total_goals"], kn, stage, tb, rec, inp.pair_adj)
     out = {"points": acc["points"].astype(np.int16), "gd": acc["gd"].astype(np.int16), "pos": pos.astype(np.int8), "stage": stage,
            "teams": np.array(inp.teams)}
     if record:

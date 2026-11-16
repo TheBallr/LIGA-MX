@@ -107,7 +107,7 @@ def measurements(cl: pd.DataFrame, kn: dict, deltas: dict | None = None) -> pd.D
         if tn != "C2020":
             st = statuses(g, cut_of(tn), 18 if tn == "A2019" else 17)
             df.loc[st.index, "st_h"] = st["st_h"]; df.loc[st.index, "st_a"] = st["st_a"]
-    df["fac"] = status_factor(df["st_h"], df["st_a"], kn) + leg2_shift(df, kn)
+    df["fac"] = status_factor(df["st_h"], df["st_a"], kn) + leg2_shift(df, kn) + derby_factor(df["home"], df["away"], df["date"], kn)
     df["y"] = df["gd_fit"] - df["he"] - df["delta"] - df["fac"]
     df["sd"] = np.where(df["book"] == "avg_close", float(kn["kalman_s_avg"]), float(kn["kalman_s"]))
     df["round"] = round_numbers(df)
@@ -436,3 +436,25 @@ def injury_adjust(kn: dict, teams: list, obs: pd.DataFrame, asof: str):
         adj[ix[r["team"]]] -= cost
         rows.append(dict(r, closes_since=n, unpriced=round(left, 3), cost=round(cost, 4)))
     return adj, rows
+
+
+_CITY = {}
+
+
+def same_city(home: str, away: str, date: str) -> bool:
+    """Both clubs from one city (data/teams.csv). Atlante counts as Mexico City only from 2026-07 (Cancún before)."""
+    if not _CITY:
+        from sim.teams import load_teams
+        _CITY.update({r["team"]: r["city"] for r in load_teams() if r.get("city")})
+    a, b = _CITY.get(home), _CITY.get(away)
+    if not a or a != b:
+        return False
+    return not ("Atlante" in (home, away) and str(date) < "2026-07-01")
+
+
+def derby_factor(home, away, date, kn: dict):
+    """Goals on the home margin of a same-city game (factor_derby); arrays or single values."""
+    f = float(kn.get("factor_derby", 0.0) or 0.0)
+    if isinstance(home, str):
+        return f if same_city(home, away, date) else 0.0
+    return np.array([f if same_city(h, a, d) else 0.0 for h, a, d in zip(home, away, date)])

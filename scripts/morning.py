@@ -73,11 +73,14 @@ def main():
                 v = {k: (float(row[k]) if str(row[k]) != "" else None) for k in ("h", "d", "a", "ah_line", "ah_home", "ah_away", "total_line", "over", "under")}
                 return gd_fit_row(**v, avg_total=kn["avg_total_goals"], floor=kn["goal_floor"], shared=kn["shared_goals_mean"], rho=kn["dc_rho"])
             last = g_of(x.iloc[-1]); first = g_of(x.iloc[0])
-            fac = rl.status_factor(b0["status"].get(r.home, "live"), b0["status"].get(r.away, "live"), kn) if r.stage == "regular" else 0.0
+            dby = rl.derby_factor(r.home, r.away, r.date, kn)
+            fac = (rl.status_factor(b0["status"].get(r.home, "live"), b0["status"].get(r.away, "live"), kn) if r.stage == "regular" else 0.0) + dby
             ours = float(b0["rating"][idx[r.home]] - b0["rating"][idx[r.away]] + b0["home_edge"] + dl.get(r.home, 0.0) + fac); gap = ours - last["gd_fit"]
             why = []
-            if fac:
-                why.append(f"status {fac:+.2f} ({code_of()[r.home]} {b0['status'].get(r.home)}, {code_of()[r.away]} {b0['status'].get(r.away)})")
+            if dby:
+                why.append(f"same city {dby:+.2f}")
+            if fac - dby:
+                why.append(f"status {fac - dby:+.2f} ({code_of()[r.home]} {b0['status'].get(r.home)}, {code_of()[r.away]} {b0['status'].get(r.away)})")
             for t, sgn in ((r.home, 1), (r.away, -1)):
                 m4 = [e for *_, e in miss.get(t, [])[:4]]
                 if len(m4) == 4 and abs(np.mean(m4)) >= 0.08:

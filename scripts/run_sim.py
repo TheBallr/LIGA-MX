@@ -38,7 +38,7 @@ def inputs(asof: dt.date, kn: dict, cfg: dict, ratings: dict | None = None, now=
     tt = _rl.club_totals(kn, T); TT = np.array([[_rl.fixture_total(tt, a, c) for c in T] for a in T])
     todo = reg[~reg["status"].isin(["final", "canceled"])].sort_values(["kickoff_utc", "home"])
     for r in todo.itertuples(index=False):
-        adj = he + dl.get(r.home, 0.0) + rl_status(b["status"].get(r.home, "live"), b["status"].get(r.away, "live"), kn); g_model = b["rating"][idx[r.home]] - b["rating"][idx[r.away]] + adj
+        adj = he + dl.get(r.home, 0.0) + rl_status(b["status"].get(r.home, "live"), b["status"].get(r.away, "live"), kn) + _rl.derby_factor(r.home, r.away, r.date, kn); g_model = b["rating"][idx[r.home]] - b["rating"][idx[r.away]] + adj
         p = pl.get((r.date, r.home, r.away))
         fx = Fixture(idx[r.home], idx[r.away], r.date, adj, s if p is not None else 0.0, float(p.gd_fit) if p is not None else 0.0, float(p.T_fit) if p is not None else float(TT[idx[r.home], idx[r.away]]))
         fixtures.append(fx)
@@ -61,7 +61,7 @@ def inputs(asof: dt.date, kn: dict, cfg: dict, ratings: dict | None = None, now=
     n_final = int((ko["stage"] == "final").sum() if len(ko) else 0)
     final_done = len(ko) and (ko[ko["stage"] == "final"]["status"] == "final").sum() >= 2
     inp = SeasonInputs(T, b["rating"], fixtures, played, he, np.array([dl.get(t, 0.0) for t in T]), lig_played, lig_lines, winner if final_done else None,
-                       int(cfg["liga_mx"]["liguilla_spots"]), TT)
+                       int(cfg["liga_mx"]["liguilla_spots"]), TT, np.array([[_rl.derby_factor(a, c, asof.isoformat(), kn) for c in T] for a in T]))
     b["club_totals"] = tt
     return inp, b, played, pd.DataFrame(preds)
 
@@ -85,7 +85,7 @@ def main():
     json.dump({"stamp": stamp, "asof": asof.isoformat(), "n": N, "markets": mk}, open(os.path.join(LATEST, "markets.json"), "w"), indent=1, ensure_ascii=False)
     summ = {"stamp": stamp, "asof": asof.isoformat(), "n_seasons": N, "seed": int(kn["seed"]), "home_edge": round(b["home_edge"], 4), "fixtures_left": len(inp.fixtures),
             "lined": int(preds["lined"].sum()) if len(preds) else 0, "liguilla_legs_played": len(inp.liguilla_played), "liguilla_legs_lined": len(inp.liguilla_lines),
-            "closes_through": b["last_close"], "knobs": {k: kn[k] for k in ("injury_layer_enabled", "leg2_state", "liguilla_total_adj", "club_totals_enabled", "factors_enabled", "factor_out", "factor_in", "shots_weight", "opta_weight", "late_rounds", "late_round_sd", "rating_sd", "drift_k_sim", "dc_rho", "avg_total_goals", "shared_goals_mean", "kalman_q_day", "kalman_s", "kalman_off_shrink", "posted_line_shrink")}}
+            "closes_through": b["last_close"], "knobs": {k: kn[k] for k in ("factor_derby", "injury_layer_enabled", "leg2_state", "liguilla_total_adj", "club_totals_enabled", "factors_enabled", "factor_out", "factor_in", "shots_weight", "opta_weight", "late_rounds", "late_round_sd", "rating_sd", "drift_k_sim", "dc_rho", "avg_total_goals", "shared_goals_mean", "kalman_q_day", "kalman_s", "kalman_off_shrink", "posted_line_shrink")}}
     json.dump(summ, open(os.path.join(LATEST, "run_summary.json"), "w"), indent=1)
     np.savez_compressed(os.path.join(LATEST, "seasons.npz"), **{k: out[k] for k in ("points", "pos", "stage", "seeds", "sf", "final", "teams")})
     if not a.no_archive and not a.quick:

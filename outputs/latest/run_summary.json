@@ -1,5 +1,5 @@
 {
- "stamp": "20261115T234904Z",
+ "stamp": "20261116T005703Z",
  "asof": "2026-11-15",
  "n_seasons": 200000,
  "seed": 20260,
@@ -10,6 +10,7 @@
  "liguilla_legs_lined": 0,
  "closes_through": "2026-11-08",
  "knobs": {
+  "factor_derby": -0.12,
   "injury_layer_enabled": true,
   "leg2_state": -0.08,
   "liguilla_total_adj": {

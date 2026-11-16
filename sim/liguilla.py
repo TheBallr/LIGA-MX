@@ -22,11 +22,13 @@ def tables(n: int, played=None, lines=None, final_winner=None):
     return {"HG": HG, "AG": AG, "G": G, "TT": TT, "winner": final_winner}
 
 
-def leg(rng, rng2, R, home, away, he, club_he, T, kn, tb, g_add=None):
+def leg(rng, rng2, R, home, away, he, club_he, T, kn, tb, g_add=None, pa=None):
     """One leg per season: (home goals, away goals) int arrays. Locked scores and posted lines override the ratings' price."""
     n = np.arange(R.shape[0])
     g = R[n, home] - R[n, away] + he + (club_he[home] if club_he is not None else 0.0)
     Tg = T[home, away].astype(float) if np.ndim(T) == 2 else np.full(len(g), float(T))     # T: one number or the (n, n) table of club totals
+    if pa is not None:         # pairing effects on the home margin (same-city games)
+        g = g + pa[home, away]
     if g_add is not None:      # second-leg game state: the side ahead on aggregate eases off, the side behind chases
         g = g + g_add
     if tb is not None:
@@ -41,11 +43,11 @@ def leg(rng, rng2, R, home, away, he, club_he, T, kn, tb, g_add=None):
     return xh, xa, g, Tg
 
 
-def tie(rng, rng2, R, hi, lo, he, club_he, T, kn, tb, final=False):
+def tie(rng, rng2, R, hi, lo, he, club_he, T, kn, tb, final=False, pa=None):
     """Two legs: lo hosts leg 1, hi hosts leg 2. Returns bool hi advances (N,)."""
-    a1h, a1a, _, _ = leg(rng, rng2, R, lo, hi, he, club_he, T, kn, tb)
+    a1h, a1a, _, _ = leg(rng, rng2, R, lo, hi, he, club_he, T, kn, tb, None, pa)
     st = float(kn.get("leg2_state", 0.0) or 0.0)
-    b2h, b2a, g2, T2 = leg(rng, rng2, R, hi, lo, he, club_he, T, kn, tb, (st * (a1a - a1h)) if st else None)   # a posted second-leg line overrides it
+    b2h, b2a, g2, T2 = leg(rng, rng2, R, hi, lo, he, club_he, T, kn, tb, (st * (a1a - a1h)) if st else None, pa)   # a posted second-leg line overrides it
     agg = (b2h - b2a) - (a1h - a1a)            # aggregate margin for the higher seed
     coin = rng.random(len(agg)) < 0.5
     if final:
@@ -58,7 +60,7 @@ def tie(rng, rng2, R, hi, lo, he, club_he, T, kn, tb, final=False):
     return np.where(agg > 0, True, np.where(agg < 0, False, level))
 
 
-def bracket(rng, rng2, R, seeds, he, club_he, T, kn, stage, tb=None, record=None):
+def bracket(rng, rng2, R, seeds, he, club_he, T, kn, stage, tb=None, record=None, pa=None):
     """seeds (N, 8) team indices by seed. Fills stage (N, n_teams) in place; returns the champion (N,).
     record: optional dict filled with the pairings of each round (arrays of (hi, lo)) for the bracket view."""
     N = R.shape[0]; rows = np.arange(N)
@@ -69,18 +71,18 @@ def bracket(rng, rng2, R, seeds, he, club_he, T, kn, stage, tb=None, record=None
     qf = []
     for a, b in ((0, 7), (1, 6), (2, 5), (3, 4)):
         hi, lo = seeds[:, a], seeds[:, b]
-        w = tie(rng, rng2, R, hi, lo, he, club_he, T + adj["qf"], kn, tb)
+        w = tie(rng, rng2, R, hi, lo, he, club_he, T + adj["qf"], kn, tb, pa=pa)
         qf.append(np.where(w, hi, lo))
     W = np.stack(qf, axis=1)                                       # (N, 4) quarter-final winners
     o = np.argsort(seed_of[rows[:, None], W], axis=1, kind="stable")
     W = W[rows[:, None], o]                                        # by seed, best first
     stage[rows[:, None], W] = STAGE["sf"]
-    s1 = tie(rng, rng2, R, W[:, 0], W[:, 3], he, club_he, T + adj["sf"], kn, tb); f1 = np.where(s1, W[:, 0], W[:, 3])
-    s2 = tie(rng, rng2, R, W[:, 1], W[:, 2], he, club_he, T + adj["sf"], kn, tb); f2 = np.where(s2, W[:, 1], W[:, 2])
+    s1 = tie(rng, rng2, R, W[:, 0], W[:, 3], he, club_he, T + adj["sf"], kn, tb, pa=pa); f1 = np.where(s1, W[:, 0], W[:, 3])
+    s2 = tie(rng, rng2, R, W[:, 1], W[:, 2], he, club_he, T + adj["sf"], kn, tb, pa=pa); f2 = np.where(s2, W[:, 1], W[:, 2])
     stage[rows, f1] = STAGE["final"]; stage[rows, f2] = STAGE["final"]
     hi_first = seed_of[rows, f1] < seed_of[rows, f2]
     hi = np.where(hi_first, f1, f2); lo = np.where(hi_first, f2, f1)
-    w = tie(rng, rng2, R, hi, lo, he, club_he, T + adj["final"], kn, tb, final=True)
+    w = tie(rng, rng2, R, hi, lo, he, club_he, T + adj["final"], kn, tb, final=True, pa=pa)
     champ = np.where(w, hi, lo)
     stage[rows, champ] = STAGE["champion"]
     if record is not None:
