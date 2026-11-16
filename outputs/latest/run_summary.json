@@ -1,14 +1,14 @@
 {
- "stamp": "20261116T011724Z",
- "asof": "2026-11-15",
+ "stamp": "20261116T132505Z",
+ "asof": "2026-11-16",
  "n_seasons": 200000,
  "seed": 20260,
- "home_edge": 0.3266,
+ "home_edge": 0.3279,
  "fixtures_left": 9,
  "lined": 9,
  "liguilla_legs_played": 0,
  "liguilla_legs_lined": 0,
- "closes_through": "2026-11-08",
+ "closes_through": "2026-11-14",
  "knobs": {
   "factor_derby": -0.12,
   "injury_layer_enabled": true,

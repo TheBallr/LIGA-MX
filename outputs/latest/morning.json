@@ -1,11 +1,11 @@
 {
- "date": "2026-11-15",
- "built": "2026-11-16T01:18:06Z",
- "run": "20261116T011724Z",
+ "date": "2026-11-16",
+ "built": "2026-11-16T13:25:45Z",
+ "run": "20261116T132505Z",
  "head": [
   "Data: all checks ok",
-  "Games: 9 lined, 2 off Pinnacle by 0.15+: Tijuana v Atlante -0.16, Tigres v América +0.16",
-  "Title: Cruz Azul 26.3%, Toluca 24.9%, América 23.6%, Guadalajara 17.4%"
+  "Games: 9 lined, 2 off Pinnacle by 0.15+: Tijuana v Atlante -0.15, Tigres v América +0.16",
+  "Title: Cruz Azul 25.9%, Toluca 24.9%, América 23.6%, Guadalajara 17.7%"
  ],
  "checks": [
   {
@@ -35,7 +35,7 @@
   {
    "name": "Run",
    "ok": true,
-   "note": "run 20261116T011724Z on 200,000 simulations",
+   "note": "run 20261116T132505Z on 200,000 simulations",
    "level": "ok"
   }
  ],
@@ -47,13 +47,13 @@
    "home": "Puebla",
    "away": "Atlético San Luis",
    "pin": 0.061,
-   "ours": -0.031,
-   "gap": -0.091,
+   "ours": -0.029,
+   "gap": -0.09,
    "total": 2.97,
    "move": 0.0,
    "verdict": "ok",
    "why": "Pin last 4 on PUE -0.10",
-   "fetched_at": "2026-11-16T01:17:13Z",
+   "fetched_at": "2026-11-16T13:24:52Z",
    "maybe_us": false
   },
   {
@@ -64,12 +64,12 @@
    "away": "Atlas",
    "pin": -0.421,
    "ours": -0.501,
-   "gap": -0.08,
+   "gap": -0.081,
    "total": 2.96,
    "move": 0.0,
    "verdict": "ok",
    "why": "status -0.08 (JUA out, ATS in) · Pin last 4 on ATS -0.09",
-   "fetched_at": "2026-11-16T01:17:13Z",
+   "fetched_at": "2026-11-16T13:24:52Z",
    "maybe_us": false
   },
   {
@@ -79,13 +79,13 @@
    "home": "Tijuana",
    "away": "Atlante",
    "pin": 0.938,
-   "ours": 0.781,
-   "gap": -0.157,
+   "ours": 0.784,
+   "gap": -0.154,
    "total": 3.02,
    "move": 0.0,
    "verdict": "watch",
    "why": "status +0.27 (TIJ must, ATE out) · hand TIJ +0.10",
-   "fetched_at": "2026-11-16T01:17:13Z",
+   "fetched_at": "2026-11-16T13:24:52Z",
    "maybe_us": false
   },
   {
@@ -95,13 +95,13 @@
    "home": "Pachuca",
    "away": "Toluca",
    "pin": -0.17,
-   "ours": -0.26,
+   "ours": -0.259,
    "gap": -0.09,
    "total": 3.42,
    "move": 0.0,
    "verdict": "ok",
    "why": "status +0.19 (PAC must, TOL in) · Pin last 4 on PAC +0.13",
-   "fetched_at": "2026-11-16T01:17:13Z",
+   "fetched_at": "2026-11-16T13:24:52Z",
    "maybe_us": false
   },
   {
@@ -111,13 +111,13 @@
    "home": "Santos Laguna",
    "away": "León",
    "pin": 0.041,
-   "ours": 0.044,
-   "gap": 0.003,
+   "ours": 0.045,
+   "gap": 0.004,
    "total": 3.28,
    "move": 0.0,
    "verdict": "ok",
    "why": "",
-   "fetched_at": "2026-11-16T01:17:13Z",
+   "fetched_at": "2026-11-16T13:24:52Z",
    "maybe_us": false
   },
   {
@@ -127,13 +127,13 @@
    "home": "Pumas",
    "away": "Monterrey",
    "pin": 0.0,
-   "ours": -0.059,
-   "gap": -0.059,
+   "ours": -0.068,
+   "gap": -0.068,
    "total": 3.05,
    "move": 0.0,
    "verdict": "ok",
    "why": "status -0.07 (UNAM fade+must, MTY must) · Pin last 4 on UNAM +0.18",
-   "fetched_at": "2026-11-16T01:17:13Z",
+   "fetched_at": "2026-11-16T13:24:52Z",
    "maybe_us": false
   },
   {
@@ -144,12 +144,12 @@
    "away": "América",
    "pin": -0.417,
    "ours": -0.256,
-   "gap": 0.16,
+   "gap": 0.161,
    "total": 3.05,
    "move": 0.0,
    "verdict": "watch",
    "why": "status -0.08 (UANL out, AME in) · Pin last 4 on UANL -0.34",
-   "fetched_at": "2026-11-16T01:17:13Z",
+   "fetched_at": "2026-11-16T13:24:52Z",
    "maybe_us": false
   },
   {
@@ -158,14 +158,14 @@
    "stage": "regular",
    "home": "Guadalajara",
    "away": "Cruz Azul",
-   "pin": 0.032,
-   "ours": 0.169,
-   "gap": 0.137,
+   "pin": 0.107,
+   "ours": 0.172,
+   "gap": 0.064,
    "total": 3.22,
-   "move": 0.0,
+   "move": 0.075,
    "verdict": "ok",
-   "why": "Pin last 4 on GDL +0.10 · Pin last 4 on CAZ +0.11 · hand CAZ +0.06",
-   "fetched_at": "2026-11-16T01:17:13Z",
+   "why": "Pin last 4 on GDL +0.10 · Pin last 4 on CAZ +0.11 · hand CAZ +0.06 · line +0.08 since posted, toward us",
+   "fetched_at": "2026-11-16T13:24:52Z",
    "maybe_us": false
   },
   {
@@ -174,103 +174,64 @@
    "stage": "regular",
    "home": "Querétaro",
    "away": "Necaxa",
-   "pin": 0.648,
-   "ours": 0.567,
-   "gap": -0.081,
-   "total": 3.15,
-   "move": 0.0,
+   "pin": 0.572,
+   "ours": 0.558,
+   "gap": -0.014,
+   "total": 3.14,
+   "move": -0.076,
    "verdict": "ok",
-   "why": "status +0.20 (QRO fade+must, NCX out)",
-   "fetched_at": "2026-11-16T01:17:13Z",
+   "why": "status +0.20 (QRO fade+must, NCX out) · Pin last 4 on QRO -0.09 · line -0.08 since posted, toward us",
+   "fetched_at": "2026-11-16T13:24:52Z",
    "maybe_us": false
   }
  ],
- "results": [
-  {
-   "date": "2026-11-07",
-   "home": "Atlas",
-   "away": "Pachuca",
-   "hg": 1,
-   "ag": 4,
-   "close": 0.017,
-   "ours": 0.23,
-   "miss": 0.213,
-   "book": "avg_close"
-  },
-  {
-   "date": "2026-11-07",
-   "home": "Pumas",
-   "away": "América",
-   "hg": 2,
-   "ag": 2,
-   "close": -0.179,
-   "ours": -0.325,
-   "miss": -0.146,
-   "book": "avg_close"
-  },
-  {
-   "date": "2026-11-07",
-   "home": "Tigres",
-   "away": "Cruz Azul",
-   "hg": 2,
-   "ag": 3,
-   "close": -0.482,
-   "ours": -0.208,
-   "miss": 0.274,
-   "book": "avg_close"
-  },
-  {
-   "date": "2026-11-07",
-   "home": "Toluca",
-   "away": "Monterrey",
-   "hg": 4,
-   "ag": 0,
-   "close": 0.83,
-   "ours": 0.974,
-   "miss": 0.145,
-   "book": "avg_close"
-  },
-  {
-   "date": "2026-11-08",
-   "home": "León",
-   "away": "Guadalajara",
-   "hg": 1,
-   "ag": 1,
-   "close": -0.6,
-   "ours": -0.271,
-   "miss": 0.328,
-   "book": "avg_close"
-  },
-  {
-   "date": "2026-11-08",
-   "home": "Querétaro",
-   "away": "Puebla",
-   "hg": 0,
-   "ag": 2,
-   "close": 0.726,
-   "ours": 0.729,
-   "miss": 0.004,
-   "book": "avg_close"
-  }
- ],
+ "results": [],
  "track": {
   "7d": {
-   "n": 2,
-   "rmse": 0.232,
-   "bias": -0.166
+   "n": 1,
+   "rmse": 0.144,
+   "bias": -0.144
   },
   "30d": {
-   "n": 46,
-   "rmse": 0.227,
-   "bias": 0.027
+   "n": 44,
+   "rmse": 0.224,
+   "bias": 0.028
   },
   "season": {
-   "n": 143,
-   "rmse": 0.238,
+   "n": 144,
+   "rmse": 0.237,
    "bias": -0.022
   }
  },
- "moved": [],
+ "moved": [
+  {
+   "kind": "injury",
+   "team": "América",
+   "player": "Erick Sánchez",
+   "note": "new · watch · suspended for round 17 only (v Tigres), back for the Liguilla; Azteca Jalisco, seen 2026-11-16 · starter",
+   "move": -0.0
+  },
+  {
+   "kind": "line",
+   "team": "Guadalajara",
+   "away": "Cruz Azul",
+   "date": "2026-11-22",
+   "was": 0.032,
+   "now": 0.107,
+   "move": 0.075,
+   "note": "ours +0.17 · toward us"
+  },
+  {
+   "kind": "line",
+   "team": "Querétaro",
+   "away": "Necaxa",
+   "date": "2026-11-22",
+   "was": 0.648,
+   "now": 0.572,
+   "move": -0.076,
+   "note": "ours +0.56 · toward us"
+  }
+ ],
  "hands": [
   {
    "team": "Cruz Azul",
@@ -292,7 +253,7 @@
  "unsure": [
   {
    "team": "Pachuca",
-   "ours": 0.081,
+   "ours": 0.082,
    "last4": 0.132,
    "last8": -0.039,
    "could_be": [
@@ -312,7 +273,7 @@
   },
   {
    "team": "Cruz Azul",
-   "ours": 0.662,
+   "ours": 0.661,
    "last4": 0.109,
    "last8": 0.078,
    "could_be": [
@@ -322,7 +283,7 @@
   },
   {
    "team": "Guadalajara",
-   "ours": 0.565,
+   "ours": 0.566,
    "last4": 0.104,
    "last8": -0.046,
    "could_be": [
@@ -342,12 +303,12 @@
   },
   {
    "team": "América",
-   "ours": 0.629,
+   "ours": 0.63,
    "last4": -0.023,
    "last8": 0.076,
    "could_be": [
     0.61,
-    0.7
+    0.71
    ]
   }
  ]
