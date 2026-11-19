@@ -281,6 +281,12 @@ Not tested yet: a true xG source (ASA has no Liga MX), an injury source.
   a status or tier. Run 20261116T011724Z: Cruz Azul 26.3 (25.3-27.5), Toluca 24.9 (23.3-26.8), América 23.6 (22.3-24.8),
   Guadalajara 17.4, Monterrey 3.2. Yardstick a week out 0.200.
 
+- 2026-11-19 **Ricardo Chávez (Monterrey) watch -> out** (Zac: "do 1" of the morning report). Starter, suspended for round
+  17 only (v Pumas, fifth yellow; ABC Noticias, Nov 14). Cost 0.05 on Monterrey's rating (+0.32 -> +0.27). Round 17 is priced
+  off Pinnacle's posted line, so the cost bites in the Liguilla only, until the lineups show him starting again (the row then
+  closes). Run 20261119T183212Z v 20261119T132154Z: Monterrey title 3.29 -> 2.86; Cruz Azul 25.6 -> 25.7, Toluca 24.8 -> 24.9,
+  América 23.7 -> 23.8, Guadalajara 18.0 -> 18.1.
+
 ## 6. Measurements (2026-11-15)
 - **Confidence checks** (`scripts/confidence.py`):
   (1) Real results, three-way log-loss 2013-2026 (n 4,456): ours on match morning 1.0294, the close 1.0210, home edge only

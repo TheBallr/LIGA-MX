@@ -1,11 +1,11 @@
 {
  "date": "2026-11-19",
- "built": "2026-11-19T13:22:43Z",
- "run": "20261119T132154Z",
+ "built": "2026-11-19T18:33:05Z",
+ "run": "20261119T183212Z",
  "head": [
   "Data: all checks ok",
-  "Games: 9 lined, 2 off Pinnacle by 0.15+: Tijuana v Atlante -0.21, Tigres v América +0.17",
-  "Title: Cruz Azul 25.6%, Toluca 24.8%, América 23.7%, Guadalajara 18.0%"
+  "Games: 9 lined, 2 off Pinnacle by 0.15+: Tijuana v Atlante -0.24, Tigres v América +0.17",
+  "Title: Cruz Azul 25.7%, Toluca 24.9%, América 23.8%, Guadalajara 18.1%"
  ],
  "checks": [
   {
@@ -35,7 +35,7 @@
   {
    "name": "Run",
    "ok": true,
-   "note": "run 20261119T132154Z on 200,000 simulations",
+   "note": "run 20261119T183212Z on 200,000 simulations",
    "level": "ok"
   }
  ],
@@ -46,14 +46,14 @@
    "stage": "regular",
    "home": "Puebla",
    "away": "Atlético San Luis",
-   "pin": 0.061,
+   "pin": 0.073,
    "ours": -0.029,
-   "gap": -0.09,
-   "total": 2.97,
-   "move": 0.0,
+   "gap": -0.102,
+   "total": 3.0,
+   "move": 0.012,
    "verdict": "ok",
    "why": "Pin last 4 on PUE -0.10",
-   "fetched_at": "2026-11-19T13:21:42Z",
+   "fetched_at": "2026-11-19T18:31:58Z",
    "maybe_us": false
   },
   {
@@ -62,14 +62,14 @@
    "stage": "regular",
    "home": "Juárez",
    "away": "Atlas",
-   "pin": -0.421,
+   "pin": -0.417,
    "ours": -0.501,
-   "gap": -0.081,
+   "gap": -0.084,
    "total": 2.96,
-   "move": 0.0,
+   "move": 0.004,
    "verdict": "ok",
    "why": "status -0.08 (JUA out, ATS in) · Pin last 4 on ATS -0.09",
-   "fetched_at": "2026-11-19T13:21:42Z",
+   "fetched_at": "2026-11-19T18:31:58Z",
    "maybe_us": false
   },
   {
@@ -78,14 +78,14 @@
    "stage": "regular",
    "home": "Tijuana",
    "away": "Atlante",
-   "pin": 0.994,
+   "pin": 1.02,
    "ours": 0.784,
-   "gap": -0.21,
-   "total": 3.05,
-   "move": 0.056,
+   "gap": -0.236,
+   "total": 3.07,
+   "move": 0.082,
    "verdict": "watch",
-   "why": "status +0.27 (TIJ must, ATE out) · hand TIJ +0.10 · line +0.06 since posted, away from us",
-   "fetched_at": "2026-11-19T13:21:42Z",
+   "why": "status +0.27 (TIJ must, ATE out) · hand TIJ +0.10 · line +0.08 since posted, away from us",
+   "fetched_at": "2026-11-19T18:31:58Z",
    "maybe_us": false
   },
   {
@@ -101,7 +101,7 @@
    "move": 0.005,
    "verdict": "ok",
    "why": "status +0.19 (PAC must, TOL in) · Pin last 4 on PAC +0.13",
-   "fetched_at": "2026-11-19T13:21:42Z",
+   "fetched_at": "2026-11-19T18:31:58Z",
    "maybe_us": false
   },
   {
@@ -117,7 +117,7 @@
    "move": 0.036,
    "verdict": "ok",
    "why": "",
-   "fetched_at": "2026-11-19T13:21:42Z",
+   "fetched_at": "2026-11-19T18:31:58Z",
    "maybe_us": false
   },
   {
@@ -127,13 +127,13 @@
    "home": "Pumas",
    "away": "Monterrey",
    "pin": 0.0,
-   "ours": -0.068,
-   "gap": -0.068,
+   "ours": -0.018,
+   "gap": -0.018,
    "total": 3.05,
    "move": 0.0,
    "verdict": "ok",
    "why": "status -0.07 (UNAM fade+must, MTY must) · Pin last 4 on UNAM +0.18",
-   "fetched_at": "2026-11-19T13:21:42Z",
+   "fetched_at": "2026-11-19T18:31:58Z",
    "maybe_us": false
   },
   {
@@ -149,7 +149,7 @@
    "move": -0.009,
    "verdict": "watch",
    "why": "status -0.08 (UANL out, AME in) · Pin last 4 on UANL -0.34",
-   "fetched_at": "2026-11-19T13:21:42Z",
+   "fetched_at": "2026-11-19T18:31:58Z",
    "maybe_us": false
   },
   {
@@ -165,7 +165,7 @@
    "move": 0.175,
    "verdict": "ok",
    "why": "Pin last 4 on GDL +0.10 · Pin last 4 on CAZ +0.11 · hand CAZ +0.06 · line +0.18 since posted, away from us",
-   "fetched_at": "2026-11-19T13:21:42Z",
+   "fetched_at": "2026-11-19T18:31:58Z",
    "maybe_us": false
   },
   {
@@ -181,7 +181,7 @@
    "move": -0.2,
    "verdict": "ok",
    "why": "status +0.20 (QRO fade+must, NCX out) · Pin last 4 on QRO -0.09 · line -0.20 since posted, away from us",
-   "fetched_at": "2026-11-19T13:21:42Z",
+   "fetched_at": "2026-11-19T18:31:58Z",
    "maybe_us": false
   }
  ],
@@ -208,8 +208,32 @@
    "kind": "injury",
    "team": "Monterrey",
    "player": "Ricardo Chávez",
-   "note": "new · watch · suspended round 17 only (v Pumas), fifth yellow; ABC Noticias, 2026-11-14 · starter",
-   "move": -0.0
+   "note": "new · out · suspended round 17 only (v Pumas), fifth yellow; ABC Noticias, 2026-11-14 · starter",
+   "move": -0.05
+  },
+  {
+   "kind": "line",
+   "team": "Tijuana",
+   "away": "Atlante",
+   "date": "2026-11-20",
+   "was": 0.947,
+   "now": 1.02,
+   "move": 0.073,
+   "note": "ours +0.78 · away from us"
+  },
+  {
+   "kind": "Liguilla",
+   "team": "Tijuana",
+   "was": 54.1,
+   "now": 55.3,
+   "move": 1.2
+  },
+  {
+   "kind": "rating",
+   "team": "Monterrey",
+   "was": 0.319,
+   "now": 0.269,
+   "move": -0.05
   }
  ],
  "hands": [
