@@ -3,84 +3,84 @@
   "step": "fetch_history",
   "code": 0,
   "last": "fetch_history: 4799 matches, 29 tournaments, 4437 Pinnacle closes, 362 average closes; through 2026-11-14 Quer\u00e9taro v Monterrey",
-  "at": "2026-11-19T18:31:53Z"
+  "at": "2026-11-20T13:20:44Z"
  },
  {
   "step": "fetch_schedule",
   "code": 0,
   "last": "fetch_schedule: 153 matches on file (144 final, 9 to play; stages {'regular': 153})",
-  "at": "2026-11-19T18:31:57Z"
+  "at": "2026-11-20T13:20:49Z"
  },
  {
   "step": "fetch_pinnacle",
   "code": 0,
   "last": "fetch_pinnacle: 9 posted Liga MX fixtures captured",
-  "at": "2026-11-19T18:31:59Z"
+  "at": "2026-11-20T13:20:50Z"
  },
  {
   "step": "fetch_shots",
   "code": 0,
   "last": "fetch_shots: 0 new games, 2425 on file (2019-07-19 to 2026-11-14)",
-  "at": "2026-11-19T18:32:00Z"
+  "at": "2026-11-20T13:20:51Z"
  },
  {
   "step": "fetch_injuries",
   "code": 0,
-  "last": "fetch_injuries: 16 open rows (0 new, 0 back or off the list)",
-  "at": "2026-11-19T18:32:02Z"
+  "last": "fetch_injuries: 19 open rows (0 new, 0 back or off the list)",
+  "at": "2026-11-20T13:20:53Z"
  },
  {
   "step": "fetch_opta",
   "code": 0,
-  "last": "fetch_opta: 18 rows, 109 snapshots on file; latest 2026-11-19 (18 clubs)",
-  "at": "2026-11-19T18:32:04Z"
+  "last": "fetch_opta: 18 rows, 110 snapshots on file; latest 2026-11-20 (18 clubs)",
+  "at": "2026-11-20T13:20:54Z"
  },
  {
   "step": "close_fallback",
   "code": 0,
   "last": "close_fallback: 0 missed closes filled with the last posted line",
-  "at": "2026-11-19T18:32:05Z"
+  "at": "2026-11-20T13:20:55Z"
  },
  {
   "step": "apply_site_settings",
   "code": 0,
   "last": "apply_site_settings: no saved page edits on file",
-  "at": "2026-11-19T18:32:05Z"
+  "at": "2026-11-20T13:20:55Z"
  },
  {
   "step": "run_sim",
   "code": 0,
-  "last": "run_sim: 20261119T183212Z asof 2026-11-19, 200000 seasons, 9 fixtures left (9 priced off Pinnacle), home edge +0.328",
-  "at": "2026-11-19T18:32:14Z"
+  "last": "run_sim: 20261120T132107Z asof 2026-11-20, 200000 seasons, 9 fixtures left (9 priced off Pinnacle), home edge +0.328",
+  "at": "2026-11-20T13:21:08Z"
  },
  {
   "step": "risk",
   "code": 0,
-  "last": "risk: title ranges Cruz Azul 24.8-26.7, Toluca 23.2-26.7, Am\u00e9rica 22.6-25.0, Guadalajara 17.8-19.1; wide: Toluca",
-  "at": "2026-11-19T18:33:05Z"
+  "last": "risk: title ranges Cruz Azul 25.0-26.8, Toluca 23.0-26.5, Am\u00e9rica 22.6-25.0, Guadalajara 17.8-19.0; wide: Toluca",
+  "at": "2026-11-20T13:22:05Z"
  },
  {
   "step": "morning",
   "code": 0,
-  "last": "morning: Title: Cruz Azul 25.7%, Toluca 24.9%, Am\u00e9rica 23.8%, Guadalajara 18.1%",
-  "at": "2026-11-19T18:33:13Z"
+  "last": "morning: Title: Cruz Azul 25.8%, Toluca 24.7%, Am\u00e9rica 23.9%, Guadalajara 18.1%",
+  "at": "2026-11-20T13:22:17Z"
  },
  {
   "step": "site_data",
   "code": 0,
-  "last": "site_data: 355 KB, 18 clubs, 153 games, yardstick a week out 0.200 (this tournament 0.245)",
-  "at": "2026-11-19T18:33:35Z"
+  "last": "site_data: 362 KB, 18 clubs, 153 games, yardstick a week out 0.200 (this tournament 0.245)",
+  "at": "2026-11-20T13:22:46Z"
  },
  {
   "step": "build_site",
   "code": 0,
-  "last": "build_site: outputs/latest/site.html (415 KB)",
-  "at": "2026-11-19T18:33:35Z"
+  "last": "build_site: outputs/latest/site.html (423 KB)",
+  "at": "2026-11-20T13:22:46Z"
  },
  {
   "step": "check_site",
   "code": 0,
   "last": "check_site: clean (4 tabs, 2 widths, Run, drawer, columns, game detail, If, bracket pick)",
-  "at": "2026-11-19T18:33:55Z"
+  "at": "2026-11-20T13:23:07Z"
  }
 ]
