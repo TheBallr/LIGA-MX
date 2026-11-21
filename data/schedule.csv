@@ -143,9 +143,9 @@ date,kickoff_utc,stage,home,away,status,hg,ag,winner,espn_id
 2026-11-08,2026-11-09T00:00:00Z,regular,Querétaro,Puebla,final,0,2,Puebla,401876903
 2026-11-08,2026-11-09T02:10:00Z,regular,León,Guadalajara,final,1,1,,401876902
 2026-11-14,2026-11-14T23:00:00Z,regular,Querétaro,Monterrey,final,0,1,Monterrey,401876988
-2026-11-20,2026-11-21T01:00:00Z,regular,Puebla,Atlético San Luis,live,,,,401877054
-2026-11-20,2026-11-21T03:00:00Z,regular,Juárez,Atlas,scheduled,,,,401877053
-2026-11-20,2026-11-21T03:10:00Z,regular,Tijuana,Atlante,scheduled,,,,401877052
+2026-11-20,2026-11-21T01:00:00Z,regular,Puebla,Atlético San Luis,final,1,1,,401877054
+2026-11-20,2026-11-21T03:00:00Z,regular,Juárez,Atlas,final,3,3,,401877053
+2026-11-20,2026-11-21T03:10:00Z,regular,Tijuana,Atlante,final,1,0,Tijuana,401877052
 2026-11-21,2026-11-21T22:50:00Z,regular,Pachuca,Toluca,scheduled,,,,401877050
 2026-11-21,2026-11-21T23:00:00Z,regular,Santos Laguna,León,scheduled,,,,401877051
 2026-11-21,2026-11-22T01:00:00Z,regular,Pumas,Monterrey,scheduled,,,,401877049
